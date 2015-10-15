@@ -1,0 +1,30 @@
+{
+  "name": "praxigento/mobi_mod_mage2_bonus_base",
+  "description": "Magento v2 integration code for Praxigento_BonusBase module used in MOBI apps.",
+  "type": "magento2-module",
+  "homepage": "https://github.com/praxigento/mobi_mod_mage2_bonus_base",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alex Gusev",
+      "email": "flancer64@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Praxigento\\Bonus\\Base\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.3",
+    "praxigento/mobi_mod_common_bonus_base": "dev-master"
+  },
+  "extra": {
+    "map": [
+      [
+        "src",
+        "Praxigento/BonusBase"
+      ]
+    ]
+  }
+}
