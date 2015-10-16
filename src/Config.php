@@ -7,5 +7,5 @@
 namespace Praxigento\Bonus\Base;
 
 class Config {
-
+    const MODULE = 'Praxigento_BonusBase';
 }
