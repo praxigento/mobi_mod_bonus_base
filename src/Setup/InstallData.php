@@ -3,11 +3,11 @@
  * Create DB schema.
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Setup;
+namespace Praxigento\BonusBase\Setup;
 
 class InstallData extends \Praxigento\Core\Setup\Data\Base {
 
     public function __construct() {
-        parent::__construct('Praxigento\Bonus\Base\Lib\Setup\Data');
+        parent::__construct('Praxigento\BonusBase\Lib\Setup\Data');
     }
 }

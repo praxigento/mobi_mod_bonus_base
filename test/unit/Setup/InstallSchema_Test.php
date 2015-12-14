@@ -3,7 +3,7 @@
  * Empty class to get stub for tests
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Setup;
+namespace Praxigento\BonusBase\Setup;
 
 use Praxigento\Core\Lib\Context;
 

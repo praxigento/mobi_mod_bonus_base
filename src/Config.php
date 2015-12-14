@@ -4,7 +4,7 @@
  *
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base;
+namespace Praxigento\BonusBase;
 
 class Config {
     const MODULE = 'Praxigento_BonusBase';

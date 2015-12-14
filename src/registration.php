@@ -5,6 +5,6 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 use Magento\Framework\Component\ComponentRegistrar as Registrar;
-use Praxigento\Bonus\Base\Config as Config;
+use Praxigento\BonusBase\Config as Config;
 
 Registrar::register(Registrar::MODULE, Config::MODULE, __DIR__);
