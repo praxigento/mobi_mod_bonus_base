@@ -8,6 +8,6 @@ namespace Praxigento\BonusBase\Setup;
 class InstallData extends \Praxigento\Core\Setup\Data\Base {
 
     public function __construct() {
-        parent::__construct('Praxigento\BonusBase\Lib\Setup\Data');
+        parent::__construct('Praxigento\Bonus\Base\Lib\Setup\Data');
     }
 }

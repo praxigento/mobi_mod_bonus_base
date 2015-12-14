@@ -11,6 +11,6 @@ class InstallSchema extends \Praxigento\Core\Setup\Schema\Base {
      * InstallSchema constructor.
      */
     public function __construct() {
-        parent::__construct('\Praxigento\BonusBase\Lib\Setup\Schema');
+        parent::__construct('\Praxigento\Bonus\Base\Lib\Setup\Schema');
     }
 }
