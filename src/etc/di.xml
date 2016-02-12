@@ -4,6 +4,8 @@
 
     <preference for="Praxigento\Bonus\Base\Lib\Service\IPeriod"
                 type="Praxigento\Bonus\Base\Lib\Service\Period\Call"/>
+    <preference for="Praxigento\Bonus\Base\Lib\Service\IRank"
+                type="Praxigento\Bonus\Base\Lib\Service\Rank\Call"/>
     <preference for="Praxigento\Bonus\Base\Lib\Service\ITypeCalc"
                 type="Praxigento\Bonus\Base\Lib\Service\Type\Calc\Call"/>
 
