@@ -19,7 +19,6 @@
     }
   },
   "require": {
-    "php": ">=5.3",
     "praxigento/mobi_mod_common_bonus_base": "dev-master",
     "praxigento/mobi_mod_mage2_downline": "dev-master",
     "praxigento/mobi_mod_mage2_pv": "dev-master",
