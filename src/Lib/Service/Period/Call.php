@@ -4,7 +4,7 @@
  */
 namespace Praxigento\Bonus\Base\Lib\Service\Period;
 
-use Praxigento\Bonus\Base\Lib\Config as Cfg;
+use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Bonus\Base\Lib\Entity\Calculation;
 use Praxigento\Bonus\Base\Lib\Entity\Period;
 use Praxigento\Bonus\Base\Lib\Repo\IModule as RepoModule;

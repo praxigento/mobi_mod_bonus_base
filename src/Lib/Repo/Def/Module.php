@@ -8,7 +8,7 @@ use Flancer32\Lib\DataObject;
 use Praxigento\Accounting\Lib\Entity\Account;
 use Praxigento\Accounting\Lib\Entity\Transaction;
 use Praxigento\Accounting\Lib\Entity\Type\Asset as TypeAsset;
-use Praxigento\Bonus\Base\Lib\Config as Cfg;
+use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Bonus\Base\Lib\Entity\Calculation;
 use Praxigento\Bonus\Base\Lib\Entity\Cfg\Generation as CfgGeneration;
 use Praxigento\Bonus\Base\Lib\Entity\Compress;
