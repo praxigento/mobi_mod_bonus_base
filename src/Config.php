@@ -6,6 +6,9 @@
  */
 namespace Praxigento\BonusBase;
 
+use Praxigento\Pv\Config as PvCfg;
+use Praxigento\Wallet\Config as WalletCfg;
+
 class Config extends \Praxigento\Core\Config
 {
     const CALC_STATE_COMPLETE = 'complete';
