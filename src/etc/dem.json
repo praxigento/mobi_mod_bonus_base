@@ -1,0 +1,501 @@
+{
+  "dBEAR": {
+    "package": {
+      "Praxigento": {
+        "alias": "prxgt",
+        "comment": "Root namespace for Praxigento modules",
+        "package": {
+          "Bonus": {
+            "alias": "bon",
+            "comment": "Package for bonus related structures",
+            "package": {
+              "Base": {
+                "alias": "base",
+                "comment": "Base bonus related structures",
+                "package": {
+                  "Config": {
+                    "alias": "cfg",
+                    "comment": "Package for configurations in bonus base.",
+                    "entity": {
+                      "Generation": {
+                        "alias": "gen",
+                        "comment": "Configuration for ranks by generations in downline tree.",
+                        "attribute": {
+                          "CalculationTypeId": {
+                            "alias": "calc_type_id",
+                            "comment": "Reference to the type of the calculation.",
+                            "nullable": false,
+                            "type": {"integer": {"unsigned": true}}
+                          },
+                          "RankId": {
+                            "alias": "rank_id",
+                            "comment": "Rank Reference.",
+                            "nullable": false,
+                            "type": {"integer": {"unsigned": true}}
+                          },
+                          "Generation": {
+                            "alias": "generation",
+                            "comment": "# of the generation in the downline tree (flat or compressed).",
+                            "nullable": false,
+                            "default": 0,
+                            "type": {"integer": {"unsigned": true}}
+                          },
+                          "Percent": {
+                            "alias": "percent",
+                            "comment": "Percent to apply to calculate override bonus.",
+                            "nullable": false,
+                            "default": 0,
+                            "type": {"numeric": {"precision": 12, "scale": 4}}
+                          }
+                        },
+                        "index": {
+                          "primary": {"type": "primary", "aliases": ["calc_type_id", "rank_id", "generation"]}
+                        },
+                        "relation": {
+                          "toCalculationType": {
+                            "own": {"aliases": ["calc_type_id"]},
+                            "reference": {
+                              "entity": {"completeAlias": "prxgt_bon_base_type_calc"},
+                              "aliases": ["id"]
+                            },
+                            "action": {"delete": "restrict", "update": "restrict"}
+                          },
+                          "toRank": {
+                            "own": {"aliases": ["rank_id"]},
+                            "reference": {
+                              "entity": {"completeAlias": "prxgt_bon_base_rank"},
+                              "aliases": ["id"]
+                            },
+                            "action": {"delete": "restrict", "update": "restrict"}
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "Log": {
+                    "alias": "log",
+                    "comment": "Package for logs in bonus base.",
+                    "entity": {
+                      "Customer": {
+                        "alias": "cust",
+                        "comment": "Registry to link transaction with correspondent downline customers.",
+                        "attribute": {
+                          "TransactionId": {
+                            "alias": "trans_id",
+                            "comment": "Transaction Reference.",
+                            "nullable": false,
+                            "type": {"integer": {"unsigned": true}}
+                          },
+                          "OperationId": {
+                            "alias": "customer_id",
+                            "comment": "Customer Reference.",
+                            "nullable": false,
+                            "type": {"integer": {"unsigned": true}}
+                          }
+                        },
+                        "index": {
+                          "primary": {"type": "primary", "aliases": ["trans_id", "sale_order_id"]}
+                        },
+                        "relation": {
+                          "toTransaction": {
+                            "own": {"aliases": ["trans_id"]},
+                            "reference": {
+                              "entity": {"completeAlias": "prxgt_acc_transaction"},
+                              "aliases": ["id"]
+                            },
+                            "action": {"delete": "restrict", "update": "restrict"}
+                          },
+                          "toCustomer": {
+                            "own": {"aliases": ["customer_id"]},
+                            "reference": {
+                              "entity": {"completeAlias": "prxgt_dwnl_customer"},
+                              "aliases": ["customer_id"]
+                            },
+                            "action": {"delete": "restrict", "update": "restrict"}
+                          }
+                        }
+                      },
+                      "Operation": {
+                        "alias": "oper",
+                        "comment": "Registry for operations that are processed in the calculation.",
+                        "attribute": {
+                          "CalculationId": {
+                            "alias": "calc_id",
+                            "comment": "Calculation ID.",
+                            "nullable": false,
+                            "type": {"integer": {"unsigned": true}}
+                          },
+                          "OperationId": {
+                            "alias": "oper_id",
+                            "comment": "Operation ID.",
+                            "nullable": false,
+                            "type": {"integer": {"unsigned": true}}
+                          }
+                        },
+                        "index": {
+                          "primary": {"type": "primary", "aliases": ["calc_id", "oper_id"]}
+                        },
+                        "relation": {
+                          "toCalculation": {
+                            "own": {"aliases": ["calc_id"]},
+                            "reference": {
+                              "entity": {"completeAlias": "prxgt_bon_base_calc"},
+                              "aliases": ["id"]
+                            },
+                            "action": {"delete": "restrict", "update": "restrict"}
+                          },
+                          "toOperation": {
+                            "own": {"aliases": ["oper_id"]},
+                            "reference": {
+                              "entity": {"completeAlias": "prxgt_acc_operation"},
+                              "aliases": ["id"]
+                            },
+                            "action": {"delete": "restrict", "update": "restrict"}
+                          }
+                        }
+                      },
+                      "Rank": {
+                        "alias": "rank",
+                        "comment": "Registry to link transaction with correspondent rank.",
+                        "attribute": {
+                          "TransactionRef": {
+                            "alias": "trans_ref",
+                            "comment": "Transaction Reference.",
+                            "nullable": false,
+                            "type": {"integer": {"unsigned": true}}
+                          },
+                          "RankRef": {
+                            "alias": "rank_ref",
+                            "comment": "Rank Reference.",
+                            "nullable": false,
+                            "type": {"integer": {"unsigned": true}}
+                          }
+                        },
+                        "index": {
+                          "primary": {"type": "primary", "aliases": ["trans_ref", "rank_ref"]}
+                        },
+                        "relation": {
+                          "toTransaction": {
+                            "own": {"aliases": ["trans_ref"]},
+                            "reference": {
+                              "entity": {"completeAlias": "prxgt_acc_transaction"},
+                              "aliases": ["id"]
+                            },
+                            "action": {"delete": "restrict", "update": "restrict"}
+                          },
+                          "toRank": {
+                            "own": {"aliases": ["rank_ref"]},
+                            "reference": {
+                              "entity": {"completeAlias": "prxgt_bon_base_rank"},
+                              "aliases": ["id"]
+                            },
+                            "action": {"delete": "restrict", "update": "restrict"}
+                          }
+                        }
+                      },
+                      "SaleOrder": {
+                        "alias": "sale",
+                        "comment": "Registry to link transaction with correspondent sale orders.",
+                        "attribute": {
+                          "TransactionId": {
+                            "alias": "trans_id",
+                            "comment": "Transaction Reference.",
+                            "nullable": false,
+                            "type": {"integer": {"unsigned": true}}
+                          },
+                          "OperationId": {
+                            "alias": "sale_order_id",
+                            "comment": "Sale Order Reference.",
+                            "nullable": false,
+                            "type": {"integer": {"unsigned": true}}
+                          }
+                        },
+                        "index": {
+                          "primary": {"type": "primary", "aliases": ["trans_id", "sale_order_id"]}
+                        },
+                        "relation": {
+                          "toTransaction": {
+                            "own": {"aliases": ["trans_id"]},
+                            "reference": {
+                              "entity": {"completeAlias": "prxgt_acc_transaction"},
+                              "aliases": ["id"]
+                            },
+                            "action": {"delete": "restrict", "update": "restrict"}
+                          },
+                          "toSaleOrder": {
+                            "own": {"aliases": ["sale_order_id"]},
+                            "reference": {
+                              "entity": {"completeAlias": "prxgt_pv_sale"},
+                              "aliases": ["sale_id"]
+                            },
+                            "action": {"delete": "restrict", "update": "restrict"}
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "Type": {
+                    "alias": "type",
+                    "comment": "Package for bonus base types.",
+                    "entity": {
+                      "Calculation": {
+                        "alias": "calc",
+                        "comment": "Calculation types registry.",
+                        "attribute": {
+                          "Id": {
+                            "alias": "id",
+                            "comment": "Instance ID.",
+                            "nullable": false,
+                            "type": {"integer": {"unsigned": true, "autoincrement": true}}
+                          },
+                          "Code": {
+                            "alias": "code",
+                            "comment": "Code of the calculation (BON_PERSONAL, PV_WRITE_OF, ...).",
+                            "nullable": false,
+                            "type": {"text": {"length": 32}}
+                          },
+                          "Note": {
+                            "alias": "note",
+                            "comment": "Description of the calculation (Personal Volume bonus, ...).",
+                            "nullable": false,
+                            "type": {"text": {}}
+                          }
+                        },
+                        "index": {
+                          "primary": {"type": "primary", "aliases": ["id"]},
+                          "uniqueCode": {"type": "unique", "aliases": ["code"]}
+                        }
+                      }
+                    }
+                  }
+                },
+                "entity": {
+                  "Calculation": {
+                    "alias": "calc",
+                    "comment": "Calculations log.",
+                    "attribute": {
+                      "Id": {
+                        "alias": "id",
+                        "comment": "Instance ID.",
+                        "nullable": false,
+                        "type": {"integer": {"unsigned": true, "autoincrement": true}}
+                      },
+                      "PeriodId": {
+                        "alias": "period_id",
+                        "comment": "ID of the corresponded period.",
+                        "nullable": false,
+                        "type": {"integer": {"unsigned": true}}
+                      },
+                      "DateStarted": {
+                        "alias": "date_started",
+                        "comment": "UTC timestamp for calculation start.",
+                        "nullable": false,
+                        "type": {"datetime": {}}
+                      },
+                      "DatestampStartEnd": {
+                        "alias": "date_ended",
+                        "comment": "UTC timestamp for calculation end.",
+                        "nullable": true,
+                        "type": {"datetime": {}}
+                      },
+                      "State": {
+                        "alias": "state",
+                        "comment": "Calculation state (processing | complete | reverted).",
+                        "nullable": false,
+                        "type": {"text": {}}
+                      }
+                    },
+                    "index": {
+                      "primary": {"type": "primary", "aliases": ["id"]}
+                    },
+                    "relation": {
+                      "toPeriod": {
+                        "own": {"aliases": ["period_id"]},
+                        "reference": {
+                          "entity": {"completeAlias": "prxgt_bon_base_period"},
+                          "aliases": ["id"]
+                        },
+                        "action": {"delete": "restrict", "update": "restrict"}
+                      }
+                    }
+                  },
+                  "Compression": {
+                    "alias": "compress",
+                    "comment": "Compressed Downline Tree for compression calculation.",
+                    "attribute": {
+                      "Id": {
+                        "alias": "id",
+                        "comment": "Compression entry ID.",
+                        "nullable": false,
+                        "type": {"integer": {"unsigned": true, "autoincrement": true}}
+                      },
+                      "CalculationId": {
+                        "alias": "calc_id",
+                        "comment": "Reference to the related calculation (type 'HYBRID_COMPRESS_FOR_OI' is expected).",
+                        "nullable": false,
+                        "type": {"integer": {"unsigned": true}}
+                      },
+                      "CustomerId": {
+                        "alias": "customer_id",
+                        "comment": "Reference to the customer itself.",
+                        "nullable": false,
+                        "type": {"integer": {"unsigned": true}}
+                      },
+                      "ParentId": {
+                        "alias": "parent_id",
+                        "comment": "Reference to the customer's parent.",
+                        "nullable": false,
+                        "type": {"integer": {"unsigned": true}}
+                      }
+                    },
+                    "index": {
+                      "primary": {"type": "primary", "aliases": ["id"]},
+                      "uniqueCustomerPerCalculation": {"type": "unique", "aliases": ["calc_id", "customer_id"]}
+                    },
+                    "relation": {
+                      "toCalculation": {
+                        "own": {"aliases": ["calc_id"]},
+                        "reference": {
+                          "entity": {"completeAlias": "prxgt_bon_base_calc"},
+                          "aliases": ["id"]
+                        },
+                        "action": {"delete": "restrict", "update": "restrict"}
+                      },
+                      "toDownlineCustomer": {
+                        "own": {"aliases": ["customer_id"]},
+                        "reference": {
+                          "entity": {"completeAlias": "prxgt_dwnl_customer"},
+                          "aliases": ["customer_id"]
+                        },
+                        "action": {"delete": "restrict", "update": "restrict"}
+                      },
+                      "toDownlineCustomerAsParent": {
+                        "own": {"aliases": ["parent_id"]},
+                        "reference": {
+                          "entity": {"completeAlias": "prxgt_dwnl_customer"},
+                          "aliases": ["customer_id"]
+                        },
+                        "action": {"delete": "restrict", "update": "restrict"}
+                      }
+                    }
+                  },
+                  "Level": {
+                    "alias": "level",
+                    "comment": "Percents per levels to calculate bonus value (10% if PV >=100).",
+                    "attribute": {
+                      "CalculationTypeId": {
+                        "alias": "calc_type_id",
+                        "comment": "Reference to the type of the calculation.",
+                        "nullable": false,
+                        "type": {"integer": {"unsigned": true}}
+                      },
+                      "Level": {
+                        "alias": "level",
+                        "comment": "Low level of the value per period to apply (included).",
+                        "nullable": false,
+                        "type": {"numeric": {"precision": 12, "scale": 4}}
+                      },
+                      "Percent": {
+                        "alias": "percent",
+                        "comment": "Percent applied to the value collected per period to compute result.",
+                        "nullable": false,
+                        "default": 0,
+                        "type": {"numeric": {"precision": 12, "scale": 4}}
+                      }
+                    },
+                    "index": {
+                      "primary": {"type": "primary", "aliases": ["calc_type_id", "level"]}
+                    },
+                    "relation": {
+                      "toCalculationType": {
+                        "own": {"aliases": ["calc_type_id"]},
+                        "reference": {
+                          "entity": {"completeAlias": "prxgt_bon_base_type_calc"},
+                          "aliases": ["id"]
+                        },
+                        "action": {"delete": "restrict", "update": "restrict"}
+                      }
+                    }
+                  },
+                  "Period": {
+                    "alias": "period",
+                    "comment": "Bonus periods registry.",
+                    "attribute": {
+                      "Id": {
+                        "alias": "id",
+                        "comment": "Instance ID.",
+                        "nullable": false,
+                        "type": {"integer": {"unsigned": true, "autoincrement": true}}
+                      },
+                      "CalculationTypeId": {
+                        "alias": "calc_type_id",
+                        "comment": "ID of the corresponded calculation type.",
+                        "nullable": false,
+                        "type": {"integer": {"unsigned": true}}
+                      },
+                      "DatestampStart": {
+                        "alias": "dstamp_begin",
+                        "comment": "Datestamp for begin of the period (included, format: YYYYMMDD).",
+                        "nullable": false,
+                        "type": {"text": {"length": 8}}
+                      },
+                      "DatestampStartEnd": {
+                        "alias": "dstamp_end",
+                        "comment": "Datestamp for end of the period (included, format: YYYYMMDD).",
+                        "nullable": false,
+                        "type": {"text": {"length": 8}}
+                      }
+                    },
+                    "index": {
+                      "primary": {"type": "primary", "aliases": ["id"]},
+                      "uniqueCode": {"type": "unique", "aliases": ["calc_type_id", "dstamp_begin", "dstamp_end"]}
+                    },
+                    "relation": {
+                      "toTypeCalc": {
+                        "own": {"aliases": ["calc_type_id"]},
+                        "reference": {
+                          "entity": {"completeAlias": "prxgt_bon_base_type_calc"},
+                          "aliases": ["id"]
+                        },
+                        "action": {"delete": "restrict", "update": "restrict"}
+                      }
+                    }
+                  },
+                  "Rank": {
+                    "alias": "rank",
+                    "comment": "Ranks for the distributors.",
+                    "attribute": {
+                      "Id": {
+                        "alias": "id",
+                        "comment": "Rank ID.",
+                        "nullable": false,
+                        "type": {"integer": {"unsigned": true, "autoincrement": true}}
+                      },
+                      "Code": {
+                        "alias": "code",
+                        "comment": "Rank code (MANAGER, ...).",
+                        "nullable": false,
+                        "type": {"text": {"length": 32}}
+                      },
+                      "Note": {
+                        "alias": "note",
+                        "comment": "Rank description (Manager, ...).",
+                        "nullable": false,
+                        "type": {"text": {}}
+                      }
+                    },
+                    "index": {
+                      "primary": {"type": "primary", "aliases": ["id"]},
+                      "uniqueCode": {"type": "unique", "aliases": ["code"]}
+                    },
+                    "relation": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
