@@ -1,6 +1,6 @@
 {
   "name": "praxigento/mobi_mod_mage2_bonus_base",
-  "description": "MOBI: Magento 2 integration code for Praxigento_BonusBase module.",
+  "description": "MOBI: Praxigento_BonusBase module.",
   "type": "magento2-module",
   "homepage": "https://github.com/praxigento/mobi_mod_mage2_bonus_base",
   "license": "MIT",
@@ -15,11 +15,11 @@
       "src/registration.php"
     ],
     "psr-4": {
-      "Praxigento\\BonusBase\\": "src/"
+      "Praxigento\\BonusBase\\": "src/",
+      "Praxigento\\Bonus\\Base\\": "src/"
     }
   },
   "require": {
-    "praxigento/mobi_mod_common_bonus_base": "dev-master",
     "praxigento/mobi_mod_mage2_downline": "dev-master",
     "praxigento/mobi_mod_mage2_pv": "dev-master",
     "praxigento/mobi_mod_mage2_wallet": "dev-master"
