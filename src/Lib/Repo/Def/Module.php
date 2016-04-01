@@ -19,7 +19,7 @@ use Praxigento\Bonus\Base\Lib\Entity\Rank;
 use Praxigento\Bonus\Base\Lib\Entity\Type\Calc as TypeCalc;
 use Praxigento\Bonus\Base\Lib\Repo\IModule;
 use Praxigento\Core\Lib\Entity\Type\Base as TypeBase;
-use Praxigento\Core\Lib\Repo\Base;
+use Praxigento\Core\Lib\Repo\Def\Base;
 use Praxigento\Downline\Lib\Entity\Snap;
 
 class Module extends Base implements IModule {
@@ -39,7 +39,7 @@ class Module extends Base implements IModule {
             LogSales::ATTR_TRANS_ID       => $transId,
             LogSales::ATTR_SALES_ORDER_ID => $saleOrderId
         ];
-        $this->_repoBasic->addEntity(LogSales::ENTITY_NAME, $bind);
+        $this->_resourceConnection->addEntity(LogSales::ENTITY_NAME, $bind);
     }
 
     public function addPeriod($calcTypeId, $dsBegin, $dsEnd) {
@@ -52,7 +52,7 @@ class Module extends Base implements IModule {
                 Period::ATTR_DSTAMP_BEGIN => $dsBegin,
                 Period::ATTR_DSTAMP_END   => $dsEnd
             ];
-            $periodId = $this->_repoBasic->addEntity(Period::ENTITY_NAME, $periodData);
+            $periodId = $this->_resourceConnection->addEntity(Period::ENTITY_NAME, $periodData);
             $periodData[Period::ATTR_ID] = $periodId;
             $result->setData(IModule::A_PERIOD, $periodData);
             /* add related calculation */
@@ -63,7 +63,7 @@ class Module extends Base implements IModule {
                 Calculation::ATTR_DATE_ENDED   => null,
                 Calculation::ATTR_STATE        => Cfg::CALC_STATE_STARTED
             ];
-            $calcId = $this->_repoBasic->addEntity(Calculation::ENTITY_NAME, $calcData);
+            $calcId = $this->_resourceConnection->addEntity(Calculation::ENTITY_NAME, $calcData);
             $this->_getConn()->commit();
             $calcData[Calculation::ATTR_ID] = $calcId;
             $result->setData(IModule::A_CALC, $calcData);
@@ -127,14 +127,14 @@ class Module extends Base implements IModule {
      */
     public function getCompressedTree($calcId) {
         $where = Compress::ATTR_CALC_ID . '=' . (int)$calcId;
-        $result = $this->_repoBasic->getEntities(Compress::ENTITY_NAME, null, $where);
+        $result = $this->_resourceConnection->getEntities(Compress::ENTITY_NAME, null, $where);
         return $result;
     }
 
     public function getConfigGenerationsPercents($calcTypeId) {
         $result = [ ];
         $where = CfgGeneration::ATTR_CALC_TYPE_ID . '=' . (int)$calcTypeId;
-        $rows = $this->_repoBasic->getEntities(CfgGeneration::ENTITY_NAME, null, $where);
+        $rows = $this->_resourceConnection->getEntities(CfgGeneration::ENTITY_NAME, null, $where);
         foreach($rows as $row) {
             $rankId = $row[CfgGeneration::ATTR_RANK_ID];
             $gen = $row[CfgGeneration::ATTR_GENERATION];
@@ -180,7 +180,7 @@ class Module extends Base implements IModule {
         $wherePeriod = Period::ATTR_CALC_TYPE_ID . '=' . (int)$calcTypeId;
         $orderPeriod = [ Period::ATTR_DSTAMP_BEGIN . ' DESC' ];
         /* get one only period with the biggest begin date stamp */
-        $periodData = $this->_repoBasic->getEntities(Period::ENTITY_NAME, null, $wherePeriod, $orderPeriod, 1);
+        $periodData = $this->_resourceConnection->getEntities(Period::ENTITY_NAME, null, $wherePeriod, $orderPeriod, 1);
         if(is_array($periodData) && (count($periodData) > 0)) {
             /* get first (and only) item from result set */
             $periodData = reset($periodData);
@@ -191,7 +191,7 @@ class Module extends Base implements IModule {
                     $where = Calculation::ATTR_PERIOD_ID . '=' . $periodData[Period::ATTR_ID];
                     $limit = ($shouldGetLatestCalc) ? 1 : null;
                     $order = [ Calculation::ATTR_ID . ' ASC' ];
-                    $calcData = $this->_repoBasic->getEntities(Calculation::ENTITY_NAME, null, $where, $order, $limit);
+                    $calcData = $this->_resourceConnection->getEntities(Calculation::ENTITY_NAME, null, $where, $order, $limit);
                     if(is_array($calcData) && (count($calcData) > 0)) {
                         if($shouldGetLatestCalc) {
                             $calcData = reset($calcData);
@@ -244,7 +244,7 @@ class Module extends Base implements IModule {
             LogRank::ATTR_TRANS_REF => $transRef,
             LogRank::ATTR_RANK_REF  => $rankRef
         ];
-        $this->_repoBasic->addEntity(LogRank::ENTITY_NAME, $bind);
+        $this->_resourceConnection->addEntity(LogRank::ENTITY_NAME, $bind);
     }
 
     /**
@@ -263,7 +263,7 @@ class Module extends Base implements IModule {
                     Compress::ATTR_CUSTOMER_ID => $item[Snap::ATTR_CUSTOMER_ID],
                     Compress::ATTR_PARENT_ID   => $item[Snap::ATTR_PARENT_ID]
                 ];
-                $this->_repoBasic->addEntity(Compress::ENTITY_NAME, $bind);
+                $this->_resourceConnection->addEntity(Compress::ENTITY_NAME, $bind);
             }
             $this->_getConn()->commit();
             $isCommited = true;
@@ -281,7 +281,7 @@ class Module extends Base implements IModule {
             Calculation::ATTR_STATE      => Cfg::CALC_STATE_COMPLETE
         ];
         $where = Calculation::ATTR_ID . '=' . $calcId;
-        $result = $this->_repoBasic->updateEntity(Calculation::ENTITY_NAME, $bind, $where);
+        $result = $this->_resourceConnection->updateEntity(Calculation::ENTITY_NAME, $bind, $where);
         return $result;
     }
 }
