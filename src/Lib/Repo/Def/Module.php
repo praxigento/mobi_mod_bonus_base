@@ -7,7 +7,7 @@ namespace Praxigento\Bonus\Base\Lib\Repo\Def;
 use Flancer32\Lib\DataObject;
 use Praxigento\Accounting\Lib\Entity\Account;
 use Praxigento\Accounting\Lib\Entity\Transaction;
-use Praxigento\Accounting\Lib\Entity\Type\Asset as TypeAsset;
+use Praxigento\Accounting\Data\Entity\Type\Asset as TypeAsset;
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Bonus\Base\Lib\Entity\Calculation;
 use Praxigento\Bonus\Base\Lib\Entity\Cfg\Generation as CfgGeneration;
@@ -18,8 +18,8 @@ use Praxigento\Bonus\Base\Lib\Entity\Period;
 use Praxigento\Bonus\Base\Lib\Entity\Rank;
 use Praxigento\Bonus\Base\Lib\Entity\Type\Calc as TypeCalc;
 use Praxigento\Bonus\Base\Lib\Repo\IModule;
-use Praxigento\Core\Lib\Entity\Type\Base as TypeBase;
-use Praxigento\Core\Lib\Repo\Def\Base;
+use Praxigento\Core\Data\Entity\Type\Base as TypeBase;
+use Praxigento\Core\Repo\Def\Base;
 use Praxigento\Downline\Lib\Entity\Snap;
 
 class Module extends Base implements IModule {

@@ -8,7 +8,7 @@ namespace Praxigento\Bonus\Base\Lib\Repo\Def;
 use Praxigento\Bonus\Base\Lib\Entity\Calculation;
 use Praxigento\Bonus\Base\Lib\Entity\Cfg\Generation as CfgGeneration;
 use Praxigento\Bonus\Base\Lib\Entity\Period;
-use Praxigento\Core\Lib\Entity\Type\Base as TypeBase;
+use Praxigento\Core\Data\Entity\Type\Base as TypeBase;
 use Praxigento\Downline\Lib\Entity\Snap;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
