@@ -27,7 +27,7 @@ class Module extends Base implements IModule {
     protected $_toolDate;
 
     public function __construct(
-        \Praxigento\Core\Lib\Repo\IBasic $repoBasic,
+        \Praxigento\Core\Repo\IBasic $repoBasic,
         \Praxigento\Core\Lib\Tool\Date $toolDate
     ) {
         parent::__construct($repoBasic);
