@@ -5,8 +5,8 @@
 namespace Praxigento\Bonus\Base\Lib\Repo\Def;
 
 use Flancer32\Lib\DataObject;
-use Praxigento\Accounting\Lib\Entity\Account;
-use Praxigento\Accounting\Lib\Entity\Transaction;
+use Praxigento\Accounting\Data\Entity\Account;
+use Praxigento\Accounting\Data\Entity\Transaction;
 use Praxigento\Accounting\Data\Entity\Type\Asset as TypeAsset;
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Bonus\Base\Lib\Entity\Calculation;
@@ -161,7 +161,7 @@ class Module extends Base implements IModule {
         $on = $asAcc . '.' . Account::ATTR_ID . '=' . $asTrans . '.' . Transaction::ATTR_DEBIT_ACC_ID;
         $query->joinLeft([ $asAcc => $tblAcc ], $on, null);
         // LEFT JOIN prxgt_acc_type_asset pata ON paa.asset_type_id = pata.id
-        $on = $asAcc . '.' . Account::ATTR_ASSET_TYPE__ID . '=' . $asType . '.' . TypeAsset::ATTR_ID;
+        $on = $asAcc . '.' . Account::ATTR_ASSET_TYPE_ID . '=' . $asType . '.' . TypeAsset::ATTR_ID;
         $query->joinLeft([ $asType => $tblType ], $on, null);
         // WHERE
         $where = $asType . '.' . TypeAsset::ATTR_CODE . '=' . $this->_getConn()->quote(Cfg::CODE_TYPE_ASSET_PV);
