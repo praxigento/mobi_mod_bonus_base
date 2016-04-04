@@ -7,7 +7,8 @@ namespace Praxigento\Bonus\Base\Lib\Repo;
 
 use Flancer32\Lib\DataObject;
 
-interface IModule extends \Praxigento\Core\Lib\Repo\IModule {
+interface IModule
+{
 
     const A_CALC = 'calc';
     const A_PERIOD = 'period';
@@ -23,7 +24,7 @@ interface IModule extends \Praxigento\Core\Lib\Repo\IModule {
     /**
      * Create new period record and related calculation record.
      *
-     * @param int    $calcTypeId
+     * @param int $calcTypeId
      * @param string $dsBegin 'YYYYMMDD'
      * @param string $dsEnd 'YYYYMMDD'
      *
@@ -34,10 +35,10 @@ interface IModule extends \Praxigento\Core\Lib\Repo\IModule {
     /**
      * Get calculations (or the last one) by Calculation Type ID and period's bounds (from & to).
      *
-     * @param int    $calcTypeId
+     * @param int $calcTypeId
      * @param string $dsBegin 'YYYYMMDD'
      * @param string $dsEnd 'YYYYMMDD'
-     * @param bool   $shouldGetLatestCalc
+     * @param bool $shouldGetLatestCalc
      *
      * @return array [[Calculation/*], ...] or [Calculation/*]
      */
@@ -65,7 +66,7 @@ interface IModule extends \Praxigento\Core\Lib\Repo\IModule {
     /**
      * Get the latest period and related calculation(s).
      *
-     * @param int  $calcTypeId
+     * @param int $calcTypeId
      * @param bool $shouldGetLatestCalc
      * @param bool $shouldGetAllCalcs
      *
@@ -96,7 +97,7 @@ interface IModule extends \Praxigento\Core\Lib\Repo\IModule {
     public function logRank($transRef, $rankRef);
 
     /**
-     * @param int   $calcId
+     * @param int $calcId
      * @param array $tree [[Snap::ATTR_CUSTOMER_ID, Snap::ATTR_PARENT_ID], ...]
      */
     public function saveCompressedTree($calcId, $tree);

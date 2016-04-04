@@ -3,6 +3,8 @@
         xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
 
     <!-- Repos -->
+    <preference for="Praxigento\BonusBase\Repo\Entity\Type\ICalc"
+                type="Praxigento\BonusBase\Repo\Entity\Type\Def\Calc"/>
     <preference for="Praxigento\Bonus\Base\Lib\Repo\IModule"
                 type="Praxigento\Bonus\Base\Lib\Repo\Def\Module"/>
 
