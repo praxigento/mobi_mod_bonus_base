@@ -5,8 +5,8 @@
 namespace Praxigento\Bonus\Base\Lib\Service\Compress;
 
 use Flancer32\Lib\DataObject;
-use Praxigento\Downline\Lib\Entity\Customer;
-use Praxigento\Downline\Lib\Entity\Snap;
+use Praxigento\Downline\Data\Entity\Customer;
+use Praxigento\Downline\Data\Entity\Snap;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 

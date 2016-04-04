@@ -6,7 +6,7 @@ namespace Praxigento\Bonus\Base\Lib\Service\Compress;
 
 use Praxigento\Bonus\Base\Lib\Tool\IQualifyUser;
 use Praxigento\Core\Lib\Context;
-use Praxigento\Downline\Lib\Entity\Customer;
+use Praxigento\Downline\Data\Entity\Customer;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 

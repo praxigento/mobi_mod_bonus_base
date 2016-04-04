@@ -20,7 +20,7 @@ use Praxigento\Bonus\Base\Lib\Entity\Type\Calc as TypeCalc;
 use Praxigento\Bonus\Base\Lib\Repo\IModule;
 use Praxigento\Core\Data\Entity\Type\Base as TypeBase;
 use Praxigento\Core\Repo\Def\Base;
-use Praxigento\Downline\Lib\Entity\Snap;
+use Praxigento\Downline\Data\Entity\Snap;
 
 class Module extends Base implements IModule {
     /** @var \Praxigento\Core\Lib\Tool\Date */

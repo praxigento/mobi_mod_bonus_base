@@ -7,8 +7,8 @@ namespace Praxigento\Bonus\Base\Lib\Service\Compress;
 
 use Praxigento\Bonus\Base\Lib\Service\ICompress;
 use Praxigento\Core\Lib\Service\Base\NeoCall as BaseNeoCall;
-use Praxigento\Downline\Lib\Entity\Customer;
-use Praxigento\Downline\Lib\Entity\Snap;
+use Praxigento\Downline\Data\Entity\Customer;
+use Praxigento\Downline\Data\Entity\Snap;
 use Praxigento\Downline\Lib\Service\Map\Request\ById as DownlineMapByIdRequest;
 use Praxigento\Downline\Lib\Service\Map\Request\TreeByDepth as DownlineMapTreeByDepthRequest;
 use Praxigento\Downline\Lib\Service\Map\Request\TreeByTeams as DownlineMapTreeByTeamsRequest;
