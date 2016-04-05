@@ -28,13 +28,17 @@ class Module extends Base implements IModule
     protected $_toolDate;
     /** @var \Praxigento\Core\Repo\IBasic */
     protected $_repoBasic;
+    /** @var  \Praxigento\Core\Repo\ITransactionManager */
+    protected $_manTrans;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
+        \Praxigento\Core\Repo\ITransactionManager $manTrans,
         \Praxigento\Core\Repo\IBasic $repoBasic,
         \Praxigento\Core\Lib\Tool\Date $toolDate
     ) {
         parent::__construct($resource);
+        $this->_manTrans = $manTrans;
         $this->_repoBasic = $repoBasic;
         $this->_toolDate = $toolDate;
     }
@@ -45,13 +49,13 @@ class Module extends Base implements IModule
             LogSales::ATTR_TRANS_ID => $transId,
             LogSales::ATTR_SALES_ORDER_ID => $saleOrderId
         ];
-        $this->_resource->addEntity(LogSales::ENTITY_NAME, $bind);
+        $this->_repoBasic->addEntity(LogSales::ENTITY_NAME, $bind);
     }
 
     public function addPeriod($calcTypeId, $dsBegin, $dsEnd)
     {
         $result = new DataObject();
-        $this->_getConn()->beginTransaction();
+        $trans = $this->_manTrans->transactionBegin();
         try {
             /* add new period */
             $periodData = [
@@ -59,7 +63,7 @@ class Module extends Base implements IModule
                 Period::ATTR_DSTAMP_BEGIN => $dsBegin,
                 Period::ATTR_DSTAMP_END => $dsEnd
             ];
-            $periodId = $this->_resource->addEntity(Period::ENTITY_NAME, $periodData);
+            $periodId = $this->_repoBasic->addEntity(Period::ENTITY_NAME, $periodData);
             $periodData[Period::ATTR_ID] = $periodId;
             $result->setData(IModule::A_PERIOD, $periodData);
             /* add related calculation */
@@ -70,14 +74,12 @@ class Module extends Base implements IModule
                 Calculation::ATTR_DATE_ENDED => null,
                 Calculation::ATTR_STATE => Cfg::CALC_STATE_STARTED
             ];
-            $calcId = $this->_resource->addEntity(Calculation::ENTITY_NAME, $calcData);
-            $this->_getConn()->commit();
+            $calcId = $this->_repoBasic->addEntity(Calculation::ENTITY_NAME, $calcData);
+            $this->_manTrans->transactionCommit($trans);
             $calcData[Calculation::ATTR_ID] = $calcId;
             $result->setData(IModule::A_CALC, $calcData);
         } finally {
-            if (is_null($result->getData(IModule::A_CALC))) {
-                $this->_getConn()->rollBack();
-            }
+            $this->_manTrans->transactionClose($trans);
         }
         return $result;
     }
@@ -99,11 +101,11 @@ class Module extends Base implements IModule
      */
     public function getCalcsForPeriod($calcTypeId, $dsBegin, $dsEnd, $shouldGetLatestCalc = false)
     {
-        $conn = $this->_getConn();
+        $conn = $this->_conn;
         $asPeriod = 'pbbp';
         $asCalc = 'pbbc';
-        $tblPeriod = $this->_getTableName(Period::ENTITY_NAME);
-        $tblCalc = $this->_getTableName(Calculation::ENTITY_NAME);
+        $tblPeriod = $this->_conn->getTableName(Period::ENTITY_NAME);
+        $tblCalc = $this->_conn->getTableName(Calculation::ENTITY_NAME);
         // SELECT FROM prxgt_bon_base_period pbbp
         $query = $conn->select();
         $query->from([$asPeriod => $tblPeriod], []);
@@ -136,7 +138,7 @@ class Module extends Base implements IModule
     public function getCompressedTree($calcId)
     {
         $where = Compress::ATTR_CALC_ID . '=' . (int)$calcId;
-        $result = $this->_resource->getEntities(Compress::ENTITY_NAME, null, $where);
+        $result = $this->_repoBasic->getEntities(Compress::ENTITY_NAME, null, $where);
         return $result;
     }
 
@@ -144,7 +146,7 @@ class Module extends Base implements IModule
     {
         $result = [];
         $where = CfgGeneration::ATTR_CALC_TYPE_ID . '=' . (int)$calcTypeId;
-        $rows = $this->_resource->getEntities(CfgGeneration::ENTITY_NAME, null, $where);
+        $rows = $this->_repoBasic->getEntities(CfgGeneration::ENTITY_NAME, null, $where);
         foreach ($rows as $row) {
             $rankId = $row[CfgGeneration::ATTR_RANK_ID];
             $gen = $row[CfgGeneration::ATTR_GENERATION];
@@ -162,11 +164,11 @@ class Module extends Base implements IModule
         $asAcc = 'paa';
         $asTrans = 'pat';
         $asType = 'pata';
-        $tblAcc = $this->_getTableName(Account::ENTITY_NAME);
-        $tblTrans = $this->_getTableName(Transaction::ENTITY_NAME);
-        $tblType = $this->_getTableName(TypeAsset::ENTITY_NAME);
+        $tblAcc = $this->_conn->getTableName(Account::ENTITY_NAME);
+        $tblTrans = $this->_conn->getTableName(Transaction::ENTITY_NAME);
+        $tblType = $this->_conn->getTableName(TypeAsset::ENTITY_NAME);
         // SELECT FROM prxgt_acc_transaction pat
-        $query = $this->_getConn()->select();
+        $query = $this->_conn->select();
         $query->from([$asTrans => $tblTrans], [Transaction::ATTR_DATE_APPLIED]);
         // LEFT JOIN prxgt_acc_account paa ON paa.id = pat.debit_acc_id
         $on = $asAcc . '.' . Account::ATTR_ID . '=' . $asTrans . '.' . Transaction::ATTR_DEBIT_ACC_ID;
@@ -175,13 +177,13 @@ class Module extends Base implements IModule
         $on = $asAcc . '.' . Account::ATTR_ASSET_TYPE_ID . '=' . $asType . '.' . TypeAsset::ATTR_ID;
         $query->joinLeft([$asType => $tblType], $on, null);
         // WHERE
-        $where = $asType . '.' . TypeAsset::ATTR_CODE . '=' . $this->_getConn()->quote(Cfg::CODE_TYPE_ASSET_PV);
+        $where = $asType . '.' . TypeAsset::ATTR_CODE . '=' . $this->_conn->quote(Cfg::CODE_TYPE_ASSET_PV);
         $query->where($where);
         // ORDER & LIMIT
         $query->order($asTrans . '.' . Transaction::ATTR_DATE_APPLIED . ' ASC');
         $query->limit(1);
         // $sql = (string)$query;
-        $result = $this->_getConn()->fetchOne($query);
+        $result = $this->_conn->fetchOne($query);
         return $result;
     }
 
@@ -219,38 +221,38 @@ class Module extends Base implements IModule
 
     public function getRankIdByCode($calcTypeCode)
     {
-        $tbl = $this->_getTableName(Rank::ENTITY_NAME);
-        $query = $this->_getConn()->select();
+        $tbl = $this->_conn->getTableName(Rank::ENTITY_NAME);
+        $query = $this->_conn->select();
         $query->from($tbl);
         $query->where(TypeBase::ATTR_CODE . '=:code');
         // $sql = (string)$query;
-        $data = $this->_getConn()->fetchRow($query, ['code' => $calcTypeCode]);
+        $data = $this->_conn->fetchRow($query, ['code' => $calcTypeCode]);
         $result = isset($data[TypeBase::ATTR_ID]) ? $data[TypeBase::ATTR_ID] : null;
         return $result;
     }
 
     public function getTypeAssetIdByCode($assetTypeCode)
     {
-        $tbl = $this->_getTableName(TypeAsset::ENTITY_NAME);
+        $tbl = $this->_conn->getTableName(TypeAsset::ENTITY_NAME);
         /** @var  $query \Zend_Db_Select */
-        $query = $this->_getConn()->select();
+        $query = $this->_conn->select();
         $query->from($tbl);
         $query->where(TypeBase::ATTR_CODE . '=:code');
         // $sql = (string)$query;
-        $data = $this->_getConn()->fetchRow($query, ['code' => $assetTypeCode]);
+        $data = $this->_conn->fetchRow($query, ['code' => $assetTypeCode]);
         $result = isset($data[TypeBase::ATTR_ID]) ? $data[TypeBase::ATTR_ID] : null;
         return $result;
     }
 
     public function getTypeCalcIdByCode($calcTypeCode)
     {
-        $tbl = $this->_getTableName(TypeCalc::ENTITY_NAME);
+        $tbl = $this->_conn->getTableName(TypeCalc::ENTITY_NAME);
         /** @var  $query \Zend_Db_Select */
-        $query = $this->_getConn()->select();
+        $query = $this->_conn->select();
         $query->from($tbl);
         $query->where(TypeBase::ATTR_CODE . '=:code');
         // $sql = (string)$query;
-        $data = $this->_getConn()->fetchRow($query, ['code' => $calcTypeCode]);
+        $data = $this->_conn->fetchRow($query, ['code' => $calcTypeCode]);
         $result = isset($data[TypeBase::ATTR_ID]) ? $data[TypeBase::ATTR_ID] : null;
         return $result;
     }
@@ -261,7 +263,7 @@ class Module extends Base implements IModule
             LogRank::ATTR_TRANS_REF => $transRef,
             LogRank::ATTR_RANK_REF => $rankRef
         ];
-        $this->_resource->addEntity(LogRank::ENTITY_NAME, $bind);
+        $this->_repoBasic->addEntity(LogRank::ENTITY_NAME, $bind);
     }
 
     /**
@@ -272,8 +274,7 @@ class Module extends Base implements IModule
      */
     public function saveCompressedTree($calcId, $tree)
     {
-        $this->_getConn()->beginTransaction();
-        $isCommited = false;
+        $trans = $this->_manTrans->transactionBegin();
         try {
             foreach ($tree as $item) {
                 $bind = [
@@ -281,14 +282,11 @@ class Module extends Base implements IModule
                     Compress::ATTR_CUSTOMER_ID => $item[Snap::ATTR_CUSTOMER_ID],
                     Compress::ATTR_PARENT_ID => $item[Snap::ATTR_PARENT_ID]
                 ];
-                $this->_resource->addEntity(Compress::ENTITY_NAME, $bind);
+                $this->_repoBasic->addEntity(Compress::ENTITY_NAME, $bind);
             }
-            $this->_getConn()->commit();
-            $isCommited = true;
+            $this->_manTrans->transactionCommit($trans);
         } finally {
-            if (!$isCommited) {
-                $this->_getConn()->rollBack();
-            }
+            $this->_manTrans->transactionClose($trans);
         }
     }
 
@@ -300,7 +298,7 @@ class Module extends Base implements IModule
             Calculation::ATTR_STATE => Cfg::CALC_STATE_COMPLETE
         ];
         $where = Calculation::ATTR_ID . '=' . $calcId;
-        $result = $this->_resource->updateEntity(Calculation::ENTITY_NAME, $bind, $where);
+        $result = $this->_repoBasic->updateEntity(Calculation::ENTITY_NAME, $bind, $where);
         return $result;
     }
 }
