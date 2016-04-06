@@ -18,7 +18,7 @@ use Praxigento\Bonus\Base\Lib\Entity\Type\Calc as TypeCalc;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
-class Schema_UnitTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
+class Schema_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
 
     public function test_install() {
         /** === Test Data === */
