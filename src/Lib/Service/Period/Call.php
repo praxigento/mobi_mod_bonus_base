@@ -15,10 +15,6 @@ use Praxigento\Core\Tool\IPeriod as ToolPeriod;
 
 class Call extends BaseCall implements IPeriod
 {
-    /**
-     * @var \Praxigento\Bonus\Base\Lib\Service\ITypeCalc
-     */
-    protected $_callTypeCalc;
     /** @var \Psr\Log\LoggerInterface */
     protected $_logger;
     /** @var RepoModule */
@@ -28,12 +24,10 @@ class Call extends BaseCall implements IPeriod
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
-        \Praxigento\Bonus\Base\Lib\Service\ITypeCalc $callTypeCalc,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
         RepoModule $repoMod
     ) {
         $this->_logger = $logger;
-        $this->_callTypeCalc = $callTypeCalc;
         $this->_toolPeriod = $toolPeriod;
         $this->_repoMod = $repoMod;
     }

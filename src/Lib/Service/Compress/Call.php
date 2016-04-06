@@ -30,13 +30,13 @@ class Call extends BaseCall implements ICompress
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Bonus\Base\Lib\Repo\IModule $repoMod,
-        \Praxigento\Downline\Lib\Service\IMap $callDownlineMap,
+        \Praxigento\Downline\Lib\Service\IMap $repoDownlineMap,
         \Praxigento\Downline\Lib\Service\ISnap $callDownlineSnap,
         \Praxigento\Downline\Lib\Tool\ITree $toolDownlineTree
     ) {
         $this->_logger = $logger;
         $this->_repoMod = $repoMod;
-        $this->_callDownlineMap = $callDownlineMap;
+        $this->_callDownlineMap = $repoDownlineMap;
         $this->_callDownlineSnap = $callDownlineSnap;
         $this->_toolDownlineTree = $toolDownlineTree;
     }
