@@ -24,7 +24,7 @@ use Praxigento\Downline\Data\Entity\Snap;
 
 class Module extends Base implements IModule
 {
-    /** @var \Praxigento\Core\Lib\Tool\Date */
+    /** @var \Praxigento\Core\Tool\IDate */
     protected $_toolDate;
     /** @var \Praxigento\Core\Repo\IBasic */
     protected $_repoBasic;
@@ -35,7 +35,7 @@ class Module extends Base implements IModule
         \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\Core\Repo\ITransactionManager $manTrans,
         \Praxigento\Core\Repo\IBasic $repoBasic,
-        \Praxigento\Core\Lib\Tool\Date $toolDate
+        \Praxigento\Core\Tool\IDate $toolDate
     ) {
         parent::__construct($resource);
         $this->_manTrans = $manTrans;

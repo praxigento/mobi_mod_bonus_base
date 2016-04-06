@@ -11,7 +11,7 @@ use Praxigento\Bonus\Base\Lib\Repo\IModule as RepoModule;
 use Praxigento\Bonus\Base\Lib\Repo\IModule;
 use Praxigento\Bonus\Base\Lib\Service\IPeriod;
 use Praxigento\Core\Lib\Service\Base\NeoCall as NeoCall;
-use Praxigento\Core\Lib\Tool\Period as ToolPeriod;
+use Praxigento\Core\Tool\IPeriod as ToolPeriod;
 
 class Call extends NeoCall implements IPeriod {
     /**
@@ -22,13 +22,13 @@ class Call extends NeoCall implements IPeriod {
     protected $_logger;
     /** @var RepoModule */
     protected $_repoMod;
-    /** @var  \Praxigento\Core\Lib\Tool\Period */
+    /** @var  \Praxigento\Core\Tool\IPeriod */
     protected $_toolPeriod;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Bonus\Base\Lib\Service\ITypeCalc $callTypeCalc,
-        \Praxigento\Core\Lib\Tool\Period $toolPeriod,
+        \Praxigento\Core\Tool\IPeriod $toolPeriod,
         RepoModule $repoMod
     ) {
         $this->_logger = $logger;

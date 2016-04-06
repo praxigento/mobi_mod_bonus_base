@@ -9,7 +9,7 @@ use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Bonus\Base\Lib\Entity\Calculation;
 use Praxigento\Bonus\Base\Lib\Entity\Period;
 use Praxigento\Bonus\Base\Lib\Repo\IModule;
-use Praxigento\Core\Lib\Tool\Period as ToolPeriod;
+use Praxigento\Core\Tool\IPeriod as ToolPeriod;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
@@ -39,7 +39,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->mRepoMod = $this->_mock(\Praxigento\Bonus\Base\Lib\Repo\IModule::class);
         $this->mLogger = $this->_mockLogger();
         $this->mCallTypeCalc = $this->_mock(\Praxigento\Bonus\Base\Lib\Service\ITypeCalc::class);
-        $this->mToolPeriod = $this->_mock(\Praxigento\Core\Lib\Tool\Period::class);
+        $this->mToolPeriod = $this->_mock(\Praxigento\Core\Tool\IPeriod::class);
         $this->call = new Call(
             $this->mLogger,
             $this->mCallTypeCalc,

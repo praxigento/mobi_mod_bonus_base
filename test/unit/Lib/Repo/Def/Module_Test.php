@@ -30,7 +30,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->mConn = $this->_mockDba();
         $this->mDba = $this->_mockRsrcConnOld($this->mConn);
         $this->mRepoBasic = $this->_mockRepoBasic($this->mDba);
-        $this->mToolDate = $this->_mock(\Praxigento\Core\Lib\Tool\Date::class);
+        $this->mToolDate = $this->_mock(\Praxigento\Core\Tool\IDate::class);
         $this->repo = new Module(
             $this->mRepoBasic,
             $this->mToolDate

@@ -15,9 +15,9 @@ class Box_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
     protected function setUp() {
         parent::setUp();
         $mConvert = $this->_mock(\Praxigento\Core\Lib\Tool\Convert::class);
-        $mDate = $this->_mock(\Praxigento\Core\Lib\Tool\Date::class);
-        $mFormat = $this->_mock(\Praxigento\Core\Lib\Tool\Format::class);
-        $mPeriod = $this->_mock(\Praxigento\Core\Lib\Tool\Period::class);
+        $mDate = $this->_mock(\Praxigento\Core\Tool\IDate::class);
+        $mFormat = $this->_mock(\Praxigento\Core\Tool\IFormat::class);
+        $mPeriod = $this->_mock(\Praxigento\Core\Tool\IPeriod::class);
         $this->mTree = $this->_mock(\Praxigento\Downline\Lib\Tool\ITree::class);
         $this->obj = new Box(
             $mConvert,
