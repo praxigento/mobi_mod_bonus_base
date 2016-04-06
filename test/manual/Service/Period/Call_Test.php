@@ -4,14 +4,14 @@
  */
 namespace Praxigento\Bonus\Base\Lib\Service\Period;
 
-use Praxigento\Core\Lib\Context;
+
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
 class Call_ManualTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
 
     public function test_getForDependentCalc() {
-        $obm = Context::instance()->getObjectManager();
+        $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $call \Praxigento\Bonus\Base\Lib\Service\Period\Call */
         $call = $obm->get('Praxigento\Bonus\Base\Lib\Service\Period\Call');
         $req = new Request\GetForDependentCalc();
@@ -22,7 +22,7 @@ class Call_ManualTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
     }
 
     public function test_getLatest() {
-        $obm = Context::instance()->getObjectManager();
+        $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $call \Praxigento\Bonus\Base\Lib\Service\Period\Call */
         $call = $obm->get('Praxigento\Bonus\Base\Lib\Service\Period\Call');
         $req = new Request\GetLatest();
@@ -35,7 +35,7 @@ class Call_ManualTest extends \Praxigento\Core\Lib\Test\BaseTestCase {
     }
 
     public function test_getLatestForPvBasedCalc() {
-        $obm = Context::instance()->getObjectManager();
+        $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $dba \Praxigento\Core\Lib\Context\IDbAdapter */
         $dba = $obm->get(\Praxigento\Core\Lib\Context\IDbAdapter::class);
         $dba->getDefaultConnection()->beginTransaction();
