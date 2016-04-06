@@ -11,6 +11,6 @@ namespace Praxigento\Bonus\Base\Lib\Service\Period\Response;
  * @method array getPeriodData()
  * @method void setPeriodData(array $data)
  */
-class GetLatest extends \Praxigento\Core\Lib\Service\Base\Response {
+class GetLatest extends \Praxigento\Core\Service\Base\Response {
 
 }

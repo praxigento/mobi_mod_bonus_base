@@ -10,5 +10,5 @@ namespace Praxigento\Bonus\Base\Lib\Service\Period\Response;
  * @method array getPeriodData()
  * @method void setPeriodData(array $data)
  */
-class RegisterPeriod extends \Praxigento\Core\Lib\Service\Base\Response {
+class RegisterPeriod extends \Praxigento\Core\Service\Base\Response {
 }

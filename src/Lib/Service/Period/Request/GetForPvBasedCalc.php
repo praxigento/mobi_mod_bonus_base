@@ -8,6 +8,6 @@ namespace Praxigento\Bonus\Base\Lib\Service\Period\Request;
  * @method string getCalcTypeCode()
  * @method void setCalcTypeCode(string $data)
  */
-class GetForPvBasedCalc extends \Praxigento\Core\Lib\Service\Base\Request {
+class GetForPvBasedCalc extends \Praxigento\Core\Service\Base\Request {
 
 }

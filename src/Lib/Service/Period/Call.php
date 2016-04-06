@@ -4,16 +4,17 @@
  */
 namespace Praxigento\Bonus\Base\Lib\Service\Period;
 
-use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Bonus\Base\Lib\Entity\Calculation;
 use Praxigento\Bonus\Base\Lib\Entity\Period;
-use Praxigento\Bonus\Base\Lib\Repo\IModule as RepoModule;
 use Praxigento\Bonus\Base\Lib\Repo\IModule;
+use Praxigento\Bonus\Base\Lib\Repo\IModule as RepoModule;
 use Praxigento\Bonus\Base\Lib\Service\IPeriod;
-use Praxigento\Core\Lib\Service\Base\NeoCall as NeoCall;
+use Praxigento\BonusBase\Config as Cfg;
+use Praxigento\Core\Service\Base\Call as BaseCall;
 use Praxigento\Core\Tool\IPeriod as ToolPeriod;
 
-class Call extends NeoCall implements IPeriod {
+class Call extends BaseCall implements IPeriod
+{
     /**
      * @var \Praxigento\Bonus\Base\Lib\Service\ITypeCalc
      */
@@ -42,7 +43,8 @@ class Call extends NeoCall implements IPeriod {
      *
      * @return Response\GetForDependentCalc
      */
-    public function getForDependentCalc(Request\GetForDependentCalc $request) {
+    public function getForDependentCalc(Request\GetForDependentCalc $request)
+    {
         $result = new Response\GetForDependentCalc();
         $dependentCalcTypeCode = $request->getDependentCalcTypeCode();
         $baseCalcTypeCode = $request->getBaseCalcTypeCode();
@@ -54,7 +56,7 @@ class Call extends NeoCall implements IPeriod {
         /* get the last base period data */
         $latestPeriodData = $this->_repoMod->getLatestPeriod($baseCalcTypeId);
         $basePeriodData = $latestPeriodData->getData(IModule::A_PERIOD);
-        if(is_null($basePeriodData)) {
+        if (is_null($basePeriodData)) {
             $this->_logger->warning("There is no period for '$baseCalcTypeCode' calculation  yet. '$dependentCalcTypeCode' could not be calculated.");
         } else {
             $result->setBasePeriodData($basePeriodData);
@@ -62,7 +64,7 @@ class Call extends NeoCall implements IPeriod {
             $result->setBaseCalcData($baseCalcData);
             $baseDsBegin = $basePeriodData[Period::ATTR_DSTAMP_BEGIN];
             $baseDsEnd = $basePeriodData[Period::ATTR_DSTAMP_END];
-            if(
+            if (
                 is_array($baseCalcData) &&
                 isset($baseCalcData[Calculation::ATTR_STATE]) &&
                 ($baseCalcData[Calculation::ATTR_STATE] == Cfg::CALC_STATE_COMPLETE)
@@ -71,7 +73,7 @@ class Call extends NeoCall implements IPeriod {
                 $respDependentPeriod = $this->_repoMod->getLatestPeriod($dependentCalcTypeId);
                 $dependPeriodData = $respDependentPeriod->getData(IModule::A_PERIOD);
                 $dependentCalcData = $respDependentPeriod->getData(IModule::A_CALC);
-                if(is_null($dependPeriodData)) {
+                if (is_null($dependPeriodData)) {
                     /* there is no dependent period */
                     $this->_logger->warning("There is no period data for calculation '$dependentCalcTypeCode'. New period and related calculation will be created.");
                     $dependPeriodData = $this->_repoMod->addPeriod($dependentCalcTypeId, $baseDsBegin, $baseDsEnd);
@@ -82,13 +84,13 @@ class Call extends NeoCall implements IPeriod {
                     /* there is dependent period */
                     $dependentDsBegin = $dependPeriodData[Period::ATTR_DSTAMP_BEGIN];
                     $dependentDsEnd = $dependPeriodData[Period::ATTR_DSTAMP_END];
-                    if(
+                    if (
                         ($dependentDsBegin == $baseDsBegin) &&
                         ($dependentDsEnd == $baseDsEnd)
                     ) {
                         /* dependent period has the same begin/end as related base period */
                         $this->_logger->info("There is base '$baseCalcTypeCode' period for dependent '$dependentCalcTypeCode' period ($dependentDsBegin-$dependentDsEnd).");
-                        if(
+                        if (
                             is_array($dependentCalcData) &&
                             isset($dependentCalcData[Calculation::ATTR_STATE]) &&
                             ($dependentCalcData[Calculation::ATTR_STATE] == Cfg::CALC_STATE_COMPLETE)
@@ -120,7 +122,8 @@ class Call extends NeoCall implements IPeriod {
         return $result;
     }
 
-    public function getForPvBasedCalc(Request\GetForPvBasedCalc $request) {
+    public function getForPvBasedCalc(Request\GetForPvBasedCalc $request)
+    {
         $result = new Response\GetForPvBasedCalc();
         $calcTypeCode = $request->getCalcTypeCode();
         $this->_logger->info("'Get latest period for PV based calc' operation is started in bonus base module (type code '$calcTypeCode').");
@@ -128,10 +131,10 @@ class Call extends NeoCall implements IPeriod {
         $calcTypeId = $this->_repoMod->getTypeCalcIdByCode($calcTypeCode);
         $data = $this->_repoMod->getLatestPeriod($calcTypeId);
         $periodData = $data->getData(IModule::A_PERIOD);
-        if(is_null($periodData)) {
+        if (is_null($periodData)) {
             /* we should lookup for first PV transaction and calculate first period range */
             $ts = $this->_repoMod->getFirstDateForPvTransactions();
-            if($ts === false) {
+            if ($ts === false) {
                 $this->_logger->warning("There is no PV transactions yet. Nothing to do.");
                 $result->setErrorCode(Response\GetForPvBasedCalc::ERR_HAS_NO_PV_TRANSACTIONS_YET);
             } else {
@@ -149,11 +152,11 @@ class Call extends NeoCall implements IPeriod {
             $periodId = $periodData[Period::ATTR_ID];
             $this->_logger->info("There is registered period #$periodId for '$calcTypeCode' calculation.");
             $calcData = $data->getData(IModule::A_CALC);
-            if(!is_array($calcData)) {
+            if (!is_array($calcData)) {
                 $this->_logger->error("There is no calculation data for existing period ($calcTypeCode).");
                 $result->setErrorCode(Response\GetForPvBasedCalc::ERR_NO_CALC_FOR_EXISTING_PERIOD);
             } else {
-                if(
+                if (
                     is_array($calcData) &&
                     isset($calcData[Calculation::ATTR_STATE]) &&
                     ($calcData[Calculation::ATTR_STATE] == Cfg::CALC_STATE_COMPLETE)
@@ -167,7 +170,7 @@ class Call extends NeoCall implements IPeriod {
                     /* check "right" bound according to now */
                     $periodNow = $this->_toolPeriod->getPeriodCurrent(time(), ToolPeriod::TYPE_MONTH);
                     $dsNowEnd = $this->_toolPeriod->getPeriodLastDate($periodNow);
-                    if($dsNextEnd < $dsNowEnd) {
+                    if ($dsNextEnd < $dsNowEnd) {
                         /* registry new period */
                         $newPeriodData = $this->_repoMod->addPeriod($calcTypeId, $dsNextBegin, $dsNextEnd);
                         $result->setPeriodData($newPeriodData->getData(RepoModule::A_PERIOD));
@@ -191,7 +194,8 @@ class Call extends NeoCall implements IPeriod {
     /**
      * @param Request\GetLatest $request
      */
-    public function getLatest(Request\GetLatest $request) {
+    public function getLatest(Request\GetLatest $request)
+    {
         $result = new Response\GetLatest();
         $calcTypeId = $request->getCalcTypeId();
         $calcTypeCode = $request->getCalcTypeCode();
@@ -199,7 +203,7 @@ class Call extends NeoCall implements IPeriod {
         $shouldGetLatestCalc = $request->getShouldGetLatestCalc();
         $msgParams = is_null($calcTypeId) ? "type code '$calcTypeCode'" : "type ID #$calcTypeId";
         $this->_logger->info("'Get latest calculation period' operation is started with $msgParams in bonus base module.");
-        if(is_null($calcTypeId)) {
+        if (is_null($calcTypeId)) {
             /* get calculation type ID by type code */
             $calcTypeId = $this->_repoMod->getTypeCalcIdByCode($calcTypeCode);
             $this->_logger->info("There is only calculation type code ($calcTypeCode) in request, calculation type id = $calcTypeId.");
@@ -212,7 +216,8 @@ class Call extends NeoCall implements IPeriod {
         return $result;
     }
 
-    public function registerPeriod(Request\RegisterPeriod $request) {
+    public function registerPeriod(Request\RegisterPeriod $request)
+    {
         $result = new Response\RegisterPeriod();
         $calcTypeId = $request->getCalcTypeId();
         $calcTypeCode = $request->getCalcTypeCode();
@@ -220,7 +225,7 @@ class Call extends NeoCall implements IPeriod {
         $dsEnd = $request->getDateStampEnd();
         $msgParams = is_null($calcTypeId) ? "type code '$calcTypeCode'" : "type ID #$calcTypeId";
         $this->_logger->info("'Register Period' operation is started in bonus base module ($msgParams; $dsBegin-$dsEnd).");
-        if(is_null($calcTypeId)) {
+        if (is_null($calcTypeId)) {
             /* get calculation type ID by type code */
             $calcTypeId = $this->_repoMod->getTypeCalcIdByCode($calcTypeCode);
             $this->_logger->info("There is only calculation type code ($calcTypeCode) in request, calculation type id = $calcTypeId.");

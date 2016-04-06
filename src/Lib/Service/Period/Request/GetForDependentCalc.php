@@ -12,5 +12,5 @@ namespace Praxigento\Bonus\Base\Lib\Service\Period\Request;
  * @method string getDependentCalcTypeCode()
  * @method void setDependentCalcTypeCode(string $data)
  */
-class GetForDependentCalc extends \Praxigento\Core\Lib\Service\Base\Request {
+class GetForDependentCalc extends \Praxigento\Core\Service\Base\Request {
 }
