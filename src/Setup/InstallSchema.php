@@ -5,8 +5,6 @@
  */
 namespace Praxigento\BonusBase\Setup;
 
-use Magento\Framework\Setup\ModuleContextInterface;
-use Magento\Framework\Setup\SchemaSetupInterface;
 use Praxigento\Bonus\Base\Lib\Entity\Calculation;
 use Praxigento\Bonus\Base\Lib\Entity\Cfg\Generation as CfgGeneration;
 use Praxigento\Bonus\Base\Lib\Entity\Compress;
