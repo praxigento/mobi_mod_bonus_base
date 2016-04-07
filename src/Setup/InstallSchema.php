@@ -18,7 +18,6 @@ use Praxigento\Bonus\Base\Lib\Entity\Log\Sales as LogSales;
 use Praxigento\Bonus\Base\Lib\Entity\Period;
 use Praxigento\Bonus\Base\Lib\Entity\Rank;
 use Praxigento\Bonus\Base\Lib\Entity\Type\Calc as TypeCalc;
-use Praxigento\Core\Lib\Setup\Db as Db;
 
 class InstallSchema extends \Praxigento\Core\Setup\Schema\Base
 {
