@@ -14,6 +14,7 @@ class Box_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
 
     protected function setUp() {
         parent::setUp();
+        $this->markTestSkipped('Test is deprecated after M1 & M2 merge is done.');
         $mConvert = $this->_mock(\Praxigento\Core\Lib\Tool\Convert::class);
         $mDate = $this->_mock(\Praxigento\Core\Tool\IDate::class);
         $mFormat = $this->_mock(\Praxigento\Core\Tool\IFormat::class);

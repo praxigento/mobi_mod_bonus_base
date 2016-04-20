@@ -13,7 +13,8 @@ use Praxigento\Downline\Data\Entity\Snap;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
+class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
+{
     /** @var  \Mockery\MockInterface */
     private $mConn;
     /** @var  \Mockery\MockInterface */
@@ -25,8 +26,10 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
     /** @var  Module */
     private $repo;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
+        $this->markTestSkipped('Test is deprecated after M1 & M2 merge is done.');
         $this->mConn = $this->_mockDba();
         $this->mDba = $this->_mockRsrcConnOld($this->mConn);
         $this->mRepoBasic = $this->_mockRepoBasic($this->mDba);
@@ -37,7 +40,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         );
     }
 
-    public function test_addLogSaleOrder() {
+    public function test_addLogSaleOrder()
+    {
         /** === Test Data === */
         $TRAN_ID = 2;
         $SALE_ORDER_ID = 43;
@@ -49,7 +53,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->repo->addLogSaleOrder($TRAN_ID, $SALE_ORDER_ID);
     }
 
-    public function test_addPeriod_commit() {
+    public function test_addPeriod_commit()
+    {
         /** === Test Data === */
         $CALC_TYPE_ID = 2;
         $DS_BEGIN = '20160304';
@@ -83,7 +88,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
     /**
      * @expectedException \Exception
      */
-    public function test_addPeriod_exception() {
+    public function test_addPeriod_exception()
+    {
         /** === Test Data === */
         $CALC_TYPE_ID = 2;
         $DS_BEGIN = '20160304';
@@ -104,7 +110,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
     }
 
 
-    public function test_getCalcsForPeriod() {
+    public function test_getCalcsForPeriod()
+    {
         /** === Test Data === */
         $CALC_TYPE_ID = 2;
         $DS_BEGIN = '20160304';
@@ -112,7 +119,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $AS_ID = 'id';
         $CALC_ID = 23;
         $SHOULD_GET_LATEST = true;
-        $CALCS_FOUND = [ [ $AS_ID => $CALC_ID ] ];
+        $CALCS_FOUND = [[$AS_ID => $CALC_ID]];
 
         /** === Setup Mocks === */
         // $tblPeriod = $this->_getTableName(Period::ENTITY_NAME);
@@ -143,7 +150,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($CALC_ID, $resp[$AS_ID]);
     }
 
-    public function test_getCompressedTree() {
+    public function test_getCompressedTree()
+    {
         /** === Test Data === */
         $CALC_ID = 2;
 
@@ -154,7 +162,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->repo->getCompressedTree($CALC_ID);
     }
 
-    public function test_getConfigGenerationsPercents() {
+    public function test_getConfigGenerationsPercents()
+    {
         /** === Test Data === */
         $CALC_TYPE_ID = 2;
         $RANK_ID = 3;
@@ -162,9 +171,9 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $PERCENT = 0.12;
         $FOUND = [
             [
-                CfgGeneration::ATTR_RANK_ID    => $RANK_ID,
+                CfgGeneration::ATTR_RANK_ID => $RANK_ID,
                 CfgGeneration::ATTR_GENERATION => $GEN,
-                CfgGeneration::ATTR_PERCENT    => $PERCENT
+                CfgGeneration::ATTR_PERCENT => $PERCENT
             ]
         ];
 
@@ -178,7 +187,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($PERCENT, $resp[$RANK_ID][$GEN]);
     }
 
-    public function test_getFirstDateForPvTransactions() {
+    public function test_getFirstDateForPvTransactions()
+    {
         /** === Test Data === */
         $DATE = 'date';
 
@@ -214,16 +224,17 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($DATE, $resp);
     }
 
-    public function test_getLatestPeriod() {
+    public function test_getLatestPeriod()
+    {
         /** === Test Data === */
         $CALC_TYPE_ID = 2;
         $PERIOD_ID = 4;
         $CALC_ID = 8;
         $PERIOD_DATA = [
-            [ Period::ATTR_ID => $PERIOD_ID ]
+            [Period::ATTR_ID => $PERIOD_ID]
         ];
         $CALC_DATA = [
-            [ Calculation::ATTR_ID => $CALC_ID ]
+            [Calculation::ATTR_ID => $CALC_ID]
         ];
 
         /** === Setup Mocks === */
@@ -243,7 +254,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($CALC_ID, $calcData[Calculation::ATTR_ID]);
     }
 
-    public function test_getRankIdByCode() {
+    public function test_getRankIdByCode()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE = 'code';
         $ID = 8;
@@ -273,7 +285,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($ID, $resp);
     }
 
-    public function test_getTypeAssetIdByCode() {
+    public function test_getTypeAssetIdByCode()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE = 'code';
         $ID = 8;
@@ -303,7 +316,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($ID, $resp);
     }
 
-    public function test_getTypeCalcIdByCode() {
+    public function test_getTypeCalcIdByCode()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE = 'code';
         $ID = 8;
@@ -333,7 +347,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($ID, $resp);
     }
 
-    public function test_logRank() {
+    public function test_logRank()
+    {
         /** === Test Data === */
         $TRAN_REF = 21;
         $RANK_REF = 12;
@@ -347,11 +362,12 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->repo->logRank($TRAN_REF, $RANK_REF);
     }
 
-    public function test_saveCompressedTree_commit() {
+    public function test_saveCompressedTree_commit()
+    {
         /** === Test Data === */
         $CALC_ID = 21;
         $TREE = [
-            [ Snap::ATTR_CUSTOMER_ID => 1, Snap::ATTR_PARENT_ID => 2 ]
+            [Snap::ATTR_CUSTOMER_ID => 1, Snap::ATTR_PARENT_ID => 2]
         ];
 
         /** === Setup Mocks === */
@@ -370,11 +386,12 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
     /**
      * @expectedException  \Exception
      */
-    public function test_saveCompressedTree_exception() {
+    public function test_saveCompressedTree_exception()
+    {
         /** === Test Data === */
         $CALC_ID = 21;
         $TREE = [
-            [ Snap::ATTR_CUSTOMER_ID => 1, Snap::ATTR_PARENT_ID => 2 ]
+            [Snap::ATTR_CUSTOMER_ID => 1, Snap::ATTR_PARENT_ID => 2]
         ];
 
         /** === Setup Mocks === */
@@ -391,7 +408,8 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->repo->saveCompressedTree($CALC_ID, $TREE);
     }
 
-    public function test_updateCalcSetComplete() {
+    public function test_updateCalcSetComplete()
+    {
         /** === Test Data === */
         $CALC_ID = 21;
         $RESULT = 1;

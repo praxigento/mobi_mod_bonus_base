@@ -5,15 +5,16 @@
 namespace Praxigento\Bonus\Base\Lib\Service\Period;
 
 use Flancer32\Lib\DataObject;
-use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Bonus\Base\Lib\Entity\Calculation;
 use Praxigento\Bonus\Base\Lib\Entity\Period;
 use Praxigento\Bonus\Base\Lib\Repo\IModule;
+use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Core\Tool\IPeriod as ToolPeriod;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
+class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
+{
     /** @var  Call */
     private $call;
     /** @var  \Mockery\MockInterface */
@@ -31,8 +32,10 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
     /** @var  \Mockery\MockInterface */
     private $mToolPeriod;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         parent::setUp();
+        $this->markTestSkipped('Test is deprecated after M1 & M2 merge is done.');
         $this->mConn = $this->_mockDba();
         $this->mDba = $this->_mockRsrcConnOld($this->mConn);
         $this->mRepoBasic = $this->_mockRepoBasic($this->mDba);
@@ -48,7 +51,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         );
     }
 
-    public function test_getForDependentCalc_isBasePeriod_complete_isDependent_samePeriod_incomplete() {
+    public function test_getForDependentCalc_isBasePeriod_complete_isDependent_samePeriod_incomplete()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE_BASE = 'base';
         $CALC_TYPE_CODE_DEPEND = 'depend';
@@ -79,9 +83,9 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => [
                     Period::ATTR_DSTAMP_BEGIN => $PERIOD_BEGIN,
-                    Period::ATTR_DSTAMP_END   => $PERIOD_END
+                    Period::ATTR_DSTAMP_END => $PERIOD_END
                 ],
-                IModule::A_CALC   => [
+                IModule::A_CALC => [
                     Calculation::ATTR_STATE => Cfg::CALC_STATE_COMPLETE
                 ]
             ]));
@@ -92,9 +96,9 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => [
                     Period::ATTR_DSTAMP_BEGIN => $PERIOD_BEGIN,
-                    Period::ATTR_DSTAMP_END   => $PERIOD_END
+                    Period::ATTR_DSTAMP_END => $PERIOD_END
                 ],
-                IModule::A_CALC   => [
+                IModule::A_CALC => [
                     Calculation::ATTR_STATE => Cfg::CALC_STATE_STARTED
                 ]
             ]));
@@ -107,7 +111,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertTrue($resp->isSucceed());
     }
 
-    public function test_getForDependentCalc_isBasePeriod_complete_noDependent() {
+    public function test_getForDependentCalc_isBasePeriod_complete_noDependent()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE_BASE = 'base';
         $CALC_TYPE_CODE_DEPEND = 'depend';
@@ -138,9 +143,9 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => [
                     Period::ATTR_DSTAMP_BEGIN => $PERIOD_BEGIN,
-                    Period::ATTR_DSTAMP_END   => $PERIOD_END
+                    Period::ATTR_DSTAMP_END => $PERIOD_END
                 ],
-                IModule::A_CALC   => [
+                IModule::A_CALC => [
                     Calculation::ATTR_STATE => Cfg::CALC_STATE_COMPLETE
                 ]
             ]));
@@ -155,7 +160,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->with($CALC_TYPE_ID_DEPEND, $PERIOD_BEGIN, $PERIOD_END)
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => $DEP_PERIOD_DATA,
-                IModule::A_CALC   => $DEP_CALC_DATA
+                IModule::A_CALC => $DEP_CALC_DATA
             ]));
 
         /** === Call and asserts  === */
@@ -168,7 +173,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($DEP_CALC_DATA, $resp->getDependentCalcData());
     }
 
-    public function test_getForDependentCalc_isBasePeriod_started() {
+    public function test_getForDependentCalc_isBasePeriod_started()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE_BASE = 'base';
         $CALC_TYPE_CODE_DEPEND = 'depend';
@@ -197,9 +203,9 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => [
                     Period::ATTR_DSTAMP_BEGIN => $PERIOD_BEGIN,
-                    Period::ATTR_DSTAMP_END   => $PERIOD_END
+                    Period::ATTR_DSTAMP_END => $PERIOD_END
                 ],
-                IModule::A_CALC   => [
+                IModule::A_CALC => [
                     Calculation::ATTR_STATE => Cfg::CALC_STATE_STARTED
                 ]
             ]));
@@ -212,7 +218,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertFalse($resp->isSucceed());
     }
 
-    public function test_getForDependentCalc_isBase_complete_isDependent_notSamePeriod() {
+    public function test_getForDependentCalc_isBase_complete_isDependent_notSamePeriod()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE_BASE = 'base';
         $CALC_TYPE_CODE_DEPEND = 'depend';
@@ -243,9 +250,9 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => [
                     Period::ATTR_DSTAMP_BEGIN => $PERIOD_BEGIN,
-                    Period::ATTR_DSTAMP_END   => $PERIOD_END
+                    Period::ATTR_DSTAMP_END => $PERIOD_END
                 ],
-                IModule::A_CALC   => [
+                IModule::A_CALC => [
                     Calculation::ATTR_STATE => Cfg::CALC_STATE_COMPLETE
                 ]
             ]));
@@ -256,9 +263,9 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => [
                     Period::ATTR_DSTAMP_BEGIN => $PERIOD_BEGIN . 'not equal',
-                    Period::ATTR_DSTAMP_END   => $PERIOD_END
+                    Period::ATTR_DSTAMP_END => $PERIOD_END
                 ],
-                IModule::A_CALC   => [
+                IModule::A_CALC => [
                     Calculation::ATTR_STATE => Cfg::CALC_STATE_STARTED
                 ]
             ]));
@@ -268,7 +275,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->with($CALC_TYPE_ID_DEPEND, $PERIOD_BEGIN, $PERIOD_END)
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => $DEP_PERIOD_DATA,
-                IModule::A_CALC   => $DEP_CALC_DATA
+                IModule::A_CALC => $DEP_CALC_DATA
             ]));
 
         /** === Call and asserts  === */
@@ -281,7 +288,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($DEP_CALC_DATA, $resp->getDependentCalcData());
     }
 
-    public function test_getForDependentCalc_isBase_complete_isDependent_samePeriod_complete() {
+    public function test_getForDependentCalc_isBase_complete_isDependent_samePeriod_complete()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE_BASE = 'base';
         $CALC_TYPE_CODE_DEPEND = 'depend';
@@ -312,9 +320,9 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => [
                     Period::ATTR_DSTAMP_BEGIN => $PERIOD_BEGIN,
-                    Period::ATTR_DSTAMP_END   => $PERIOD_END
+                    Period::ATTR_DSTAMP_END => $PERIOD_END
                 ],
-                IModule::A_CALC   => [
+                IModule::A_CALC => [
                     Calculation::ATTR_STATE => Cfg::CALC_STATE_COMPLETE
                 ]
             ]));
@@ -325,9 +333,9 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => [
                     Period::ATTR_DSTAMP_BEGIN => $PERIOD_BEGIN,
-                    Period::ATTR_DSTAMP_END   => $PERIOD_END
+                    Period::ATTR_DSTAMP_END => $PERIOD_END
                 ],
-                IModule::A_CALC   => [
+                IModule::A_CALC => [
                     Calculation::ATTR_STATE => Cfg::CALC_STATE_COMPLETE
                 ]
             ]));
@@ -340,7 +348,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertFalse($resp->isSucceed());
     }
 
-    public function test_getForDependentCalc_noBasePeriod() {
+    public function test_getForDependentCalc_noBasePeriod()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE_BASE = 'base';
         $CALC_TYPE_CODE_DEPEND = 'depend';
@@ -365,7 +374,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->mRepoMod
             ->shouldReceive('getLatestPeriod')->once()
             ->with($CALC_TYPE_ID_BASE)
-            ->andReturn(new DataObject([ IModule::A_PERIOD => null ]));
+            ->andReturn(new DataObject([IModule::A_PERIOD => null]));
 
         /** === Call and asserts  === */
         $req = new Request\GetForDependentCalc();
@@ -375,7 +384,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertFalse($resp->isSucceed());
     }
 
-    public function test_getForPvBasedCalc_isPeriod_isCalc_complete_future() {
+    public function test_getForPvBasedCalc_isPeriod_isCalc_complete_future()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE = 'code';
         $CALC_TYPE_ID = 2;
@@ -401,10 +411,10 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->with($CALC_TYPE_ID)
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => [
-                    Period::ATTR_ID         => 'id',
+                    Period::ATTR_ID => 'id',
                     Period::ATTR_DSTAMP_END => $PERIOD_END
                 ],
-                IModule::A_CALC   => [
+                IModule::A_CALC => [
                     Calculation::ATTR_STATE => Cfg::CALC_STATE_COMPLETE
                 ]
             ]));
@@ -441,7 +451,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals(Response\GetForPvBasedCalc::ERR_PERIOD_CAN_BE_REGISTERED_IN_PAST_ONLY, $errCode);
     }
 
-    public function test_getForPvBasedCalc_isPeriod_isCalc_complete_past() {
+    public function test_getForPvBasedCalc_isPeriod_isCalc_complete_past()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE = 'code';
         $CALC_TYPE_ID = 2;
@@ -469,10 +480,10 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->with($CALC_TYPE_ID)
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => [
-                    Period::ATTR_ID         => 'id',
+                    Period::ATTR_ID => 'id',
                     Period::ATTR_DSTAMP_END => $PERIOD_END
                 ],
-                IModule::A_CALC   => [
+                IModule::A_CALC => [
                     Calculation::ATTR_STATE => Cfg::CALC_STATE_COMPLETE
                 ]
             ]));
@@ -505,7 +516,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->with($CALC_TYPE_ID, $DS_NEXT_BEGIN, $DS_NEXT_END)
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => $DATA_PERIOD,
-                IModule::A_CALC   => $DATA_CALC
+                IModule::A_CALC => $DATA_CALC
             ]));
 
         /** === Call and asserts  === */
@@ -517,7 +528,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals($DATA_CALC, $resp->getCalcData());
     }
 
-    public function test_getForPvBasedCalc_isPeriod_isCalc_incomplete() {
+    public function test_getForPvBasedCalc_isPeriod_isCalc_incomplete()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE = 'code';
         $CALC_TYPE_ID = 2;
@@ -540,7 +552,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
                 IModule::A_PERIOD => [
                     Period::ATTR_ID => 'id'
                 ],
-                IModule::A_CALC   => [
+                IModule::A_CALC => [
                     Calculation::ATTR_STATE => Cfg::CALC_STATE_STARTED
                 ]
             ]));
@@ -552,7 +564,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertTrue($resp->isSucceed());
     }
 
-    public function test_getForPvBasedCalc_isPeriod_noCalc() {
+    public function test_getForPvBasedCalc_isPeriod_noCalc()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE = 'code';
         $CALC_TYPE_ID = 2;
@@ -571,7 +584,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->mRepoMod
             ->shouldReceive('getLatestPeriod')->once()
             ->with($CALC_TYPE_ID)
-            ->andReturn(new DataObject([ IModule::A_PERIOD => [ Period::ATTR_ID => 'id' ] ]));
+            ->andReturn(new DataObject([IModule::A_PERIOD => [Period::ATTR_ID => 'id']]));
 
         /** === Call and asserts  === */
         $req = new Request\GetForPvBasedCalc();
@@ -582,7 +595,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals(Response\GetForPvBasedCalc::ERR_NO_CALC_FOR_EXISTING_PERIOD, $errCode);
     }
 
-    public function test_getForPvBasedCalc_noPeriod_isTrans() {
+    public function test_getForPvBasedCalc_noPeriod_isTrans()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE = 'code';
         $CALC_TYPE_ID = 2;
@@ -605,7 +619,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->mRepoMod
             ->shouldReceive('getLatestPeriod')->once()
             ->with($CALC_TYPE_ID)
-            ->andReturn(new DataObject([ IModule::A_PERIOD => null ]));
+            ->andReturn(new DataObject([IModule::A_PERIOD => null]));
         // $ts = $this->_repoMod->getFirstDateForPvTransactions();
         $this->mRepoMod
             ->shouldReceive('getFirstDateForPvTransactions')->once()
@@ -631,7 +645,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
             ->with($CALC_TYPE_ID, $DS_BEGIN, $DS_END)
             ->andReturn(new DataObject([
                 IModule::A_PERIOD => $PERIOD_DATA,
-                IModule::A_CALC   => $CALC_DATA
+                IModule::A_CALC => $CALC_DATA
             ]));
 
         /** === Call and asserts  === */
@@ -644,7 +658,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
 
     }
 
-    public function test_getForPvBasedCalc_noPeriod_noTrans() {
+    public function test_getForPvBasedCalc_noPeriod_noTrans()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE = 'code';
         $CALC_TYPE_ID = 2;
@@ -662,7 +677,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->mRepoMod
             ->shouldReceive('getLatestPeriod')->once()
             ->with($CALC_TYPE_ID)
-            ->andReturn(new DataObject([ IModule::A_PERIOD => null ]));
+            ->andReturn(new DataObject([IModule::A_PERIOD => null]));
         // $ts = $this->_repoMod->getFirstDateForPvTransactions();
         $this->mRepoMod
             ->shouldReceive('getFirstDateForPvTransactions')->once()
@@ -677,7 +692,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertEquals(Response\GetForPvBasedCalc::ERR_HAS_NO_PV_TRANSACTIONS_YET, $errCode);
     }
 
-    public function test_getLatest_byCalcCode_nothingToDo() {
+    public function test_getLatest_byCalcCode_nothingToDo()
+    {
         /** === Test Data === */
         $CALC_TYPE_CODE = 'calc_code';
         $CALC_TYPE_ID = 21;
@@ -702,7 +718,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertTrue($resp->isSucceed());
     }
 
-    public function test_getLatest_periodWithCalc() {
+    public function test_getLatest_periodWithCalc()
+    {
         /** === Test Data === */
         $CALC_TYPE_ID = 21;
 
@@ -711,8 +728,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->mLogger->shouldReceive('info');
         // $data = $this->_RepoMod->getLatestPeriod($calcTypeId, $shouldGetLatestCalc, $shouldGetAllCalcs);
         $mData = new DataObject([
-            IModule::A_PERIOD => [ ],
-            IModule::A_CALC   => [ ]
+            IModule::A_PERIOD => [],
+            IModule::A_CALC => []
         ]);
         $this->mRepoMod
             ->shouldReceive('getLatestPeriod')
@@ -730,7 +747,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         $this->assertTrue(is_array($periodData));
     }
 
-    public function test_registerPeriod() {
+    public function test_registerPeriod()
+    {
         /** === Test Data === */
         $CALC_TYPE_ID = 21;
         $PERIOD_DATA = 'period';
@@ -745,7 +763,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
         // $data = $this->_repoMod->addPeriod($calcTypeId, $dsBegin, $dsEnd);
         $mData = new DataObject([
             IModule::A_PERIOD => $PERIOD_DATA,
-            IModule::A_CALC   => $CALC_DATA
+            IModule::A_CALC => $CALC_DATA
         ]);
         $this->mRepoMod
             ->shouldReceive('addPeriod')
