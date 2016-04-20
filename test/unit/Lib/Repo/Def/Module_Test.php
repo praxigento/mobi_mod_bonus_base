@@ -20,7 +20,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
     /** @var  \Mockery\MockInterface */
     private $mDba;
     /** @var  \Mockery\MockInterface */
-    private $mRepoBasic;
+    private $mRepoGeneric;
     /** @var  \Mockery\MockInterface */
     private $mToolDate;
     /** @var  Module */
@@ -31,11 +31,11 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
         parent::setUp();
         $this->markTestSkipped('Test is deprecated after M1 & M2 merge is done.');
         $this->mConn = $this->_mockDba();
-        $this->mDba = $this->_mockRsrcConnOld($this->mConn);
-        $this->mRepoBasic = $this->_mockRepoBasic($this->mDba);
+        $this->mDba = $this->_mockResourceConnection($this->mConn);
+        $this->mRepoGeneric = $this->_mockRepoGeneric($this->mDba);
         $this->mToolDate = $this->_mock(\Praxigento\Core\Tool\IDate::class);
         $this->repo = new Module(
-            $this->mRepoBasic,
+            $this->mRepoGeneric,
             $this->mToolDate
         );
     }
@@ -47,7 +47,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
         $SALE_ORDER_ID = 43;
 
         /** === Setup Mocks === */
-        $this->mRepoBasic->shouldReceive('addEntity');
+        $this->mRepoGeneric->shouldReceive('addEntity');
 
         /** === Call and asserts  === */
         $this->repo->addLogSaleOrder($TRAN_ID, $SALE_ORDER_ID);
@@ -67,7 +67,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
         // $this->_getConn()->beginTransaction();
         $this->mConn->shouldReceive('beginTransaction');
         // $periodId = $this->_repoBasic->addEntity(Period::ENTITY_NAME, $periodData);
-        $this->mRepoBasic
+        $this->mRepoGeneric
             ->shouldReceive('addEntity')->once()
             ->andReturn($PERIOD_ID);
         // $dateStarted = $this->_toolDate->getUtcNowForDb();
@@ -75,7 +75,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
             ->shouldReceive('getUtcNowForDb')
             ->andReturn($DATE_STARTED);
         // $calcId = $this->_repoBasic->addEntity(Calculation::ENTITY_NAME, $calcData);
-        $this->mRepoBasic
+        $this->mRepoGeneric
             ->shouldReceive('addEntity')->once()
             ->andReturn($CALC_ID);
         // $this->_getConn()->commit();
@@ -99,7 +99,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
         // $this->_getConn()->beginTransaction();
         $this->mConn->shouldReceive('beginTransaction');
         // $periodId = $this->_repoBasic->addEntity(Period::ENTITY_NAME, $periodData);
-        $this->mRepoBasic
+        $this->mRepoGeneric
             ->shouldReceive('addEntity')->once()
             ->andThrow(new \Exception());
         // $this->_getConn()->rollBack();
@@ -156,7 +156,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
         $CALC_ID = 2;
 
         /** === Setup Mocks === */
-        $this->mRepoBasic->shouldReceive('getEntities');
+        $this->mRepoGeneric->shouldReceive('getEntities');
 
         /** === Call and asserts  === */
         $this->repo->getCompressedTree($CALC_ID);
@@ -178,7 +178,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
         ];
 
         /** === Setup Mocks === */
-        $this->mRepoBasic
+        $this->mRepoGeneric
             ->shouldReceive('getEntities')
             ->andReturn($FOUND);
 
@@ -239,11 +239,11 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
 
         /** === Setup Mocks === */
         //  $periodData = $this->_repoBasic->getEntities(Period::ENTITY_NAME, null, $wherePeriod, $orderPeriod, 1);
-        $this->mRepoBasic
+        $this->mRepoGeneric
             ->shouldReceive('getEntities')->once()
             ->andReturn($PERIOD_DATA);
         // $calcData = $this->_repoBasic->getEntities(Calculation::ENTITY_NAME, null, $where, $order, $limit);
-        $this->mRepoBasic
+        $this->mRepoGeneric
             ->shouldReceive('getEntities')->once()
             ->andReturn($CALC_DATA);
         /** === Call and asserts  === */
@@ -355,7 +355,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
 
         /** === Setup Mocks === */
         // $this->_repoBasic->addEntity(LogRank::ENTITY_NAME, $bind);
-        $this->mRepoBasic
+        $this->mRepoGeneric
             ->shouldReceive('addEntity')->once();
 
         /** === Call and asserts  === */
@@ -374,7 +374,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
         // $this->_getConn()->beginTransaction();
         $this->mConn->shouldReceive('beginTransaction');
         // $this->_repoBasic->addEntity(Compress::ENTITY_NAME, $bind);
-        $this->mRepoBasic
+        $this->mRepoGeneric
             ->shouldReceive('addEntity')->once();
         // $this->_getConn()->commit();
         $this->mConn->shouldReceive('commit');
@@ -398,7 +398,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
         // $this->_getConn()->beginTransaction();
         $this->mConn->shouldReceive('beginTransaction');
         // $this->_repoBasic->addEntity(Compress::ENTITY_NAME, $bind);
-        $this->mRepoBasic
+        $this->mRepoGeneric
             ->shouldReceive('addEntity')->once()
             ->andThrow(new \Exception());
         // $this->_getConn()->rollBack();
@@ -418,7 +418,7 @@ class Module_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase
         // $tsEnded = $this->_toolDate->getUtcNowForDb();
         $this->mToolDate->shouldReceive('getUtcNowForDb');
         // $result = $this->_repoBasic->updateEntity(Calculation::ENTITY_NAME, $bind, $where);
-        $this->mRepoBasic
+        $this->mRepoGeneric
             ->shouldReceive('updateEntity')
             ->andReturn($RESULT);
 

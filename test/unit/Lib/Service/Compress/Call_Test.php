@@ -16,7 +16,7 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
     /** @var  \Mockery\MockInterface */
     private $mDba;
     /** @var  \Mockery\MockInterface */
-    private $mRepoBasic;
+    private $mRepoGeneric;
     /** @var  \Mockery\MockInterface */
     private $mCallDownlineMap;
     /** @var  \Mockery\MockInterface */
@@ -33,8 +33,8 @@ class Call_UnitTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
     protected function setUp() {
         parent::setUp();
         $this->mConn = $this->_mockDba();
-        $this->mDba = $this->_mockRsrcConnOld($this->mConn);
-        $this->mRepoBasic = $this->_mockRepoBasic($this->mDba);
+        $this->mDba = $this->_mockResourceConnection($this->mConn);
+        $this->mRepoGeneric = $this->_mockRepoGeneric($this->mDba);
         $this->mRepoMod = $this->_mock(\Praxigento\Bonus\Base\Lib\Repo\IModule::class);
         $this->mLogger = $this->_mockLogger();
         $this->mCallDownlineMap = $this->_mock(\Praxigento\Downline\Lib\Service\IMap::class);
