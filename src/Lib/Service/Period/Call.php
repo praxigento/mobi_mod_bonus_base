@@ -73,7 +73,7 @@ class Call extends BaseCall implements IPeriod
                     $dependPeriodData = $this->_repoMod->addPeriod($dependentCalcTypeId, $baseDsBegin, $baseDsEnd);
                     $result->setDependentPeriodData($dependPeriodData->getData(IModule::A_PERIOD));
                     $result->setDependentCalcData($dependPeriodData->getData(IModule::A_CALC));
-                    $result->setAsSucceed();
+                    $result->markSucceed();
                 } else {
                     /* there is dependent period */
                     $dependentDsBegin = $dependPeriodData[Period::ATTR_DSTAMP_BEGIN];
@@ -96,7 +96,7 @@ class Call extends BaseCall implements IPeriod
                             $this->_logger->warning("There is '$dependentCalcTypeCode' period without complete calculation. Continue calculation for this period.");
                             $result->setDependentPeriodData($dependPeriodData);
                             $result->setDependentCalcData($dependentCalcData);
-                            $result->setAsSucceed();
+                            $result->markSucceed();
                         }
                     } else {
                         /* dependent period has different begin/end then related base period */
@@ -104,7 +104,7 @@ class Call extends BaseCall implements IPeriod
                         $dependPeriodData = $this->_repoMod->addPeriod($dependentCalcTypeId, $baseDsBegin, $baseDsEnd);
                         $result->setDependentPeriodData($dependPeriodData->getData(IModule::A_PERIOD));
                         $result->setDependentCalcData($dependPeriodData->getData(IModule::A_CALC));
-                        $result->setAsSucceed();
+                        $result->markSucceed();
                     }
                 }
             } else {
@@ -139,7 +139,7 @@ class Call extends BaseCall implements IPeriod
                 $data = $this->_repoMod->addPeriod($calcTypeId, $dsBegin, $dsEnd);
                 $result->setPeriodData($data->getData(RepoModule::A_PERIOD));
                 $result->setCalcData($data->getData(RepoModule::A_CALC));
-                $result->setAsSucceed();
+                $result->markSucceed();
             }
         } else {
             $result->setPeriodData($periodData);
@@ -169,7 +169,7 @@ class Call extends BaseCall implements IPeriod
                         $newPeriodData = $this->_repoMod->addPeriod($calcTypeId, $dsNextBegin, $dsNextEnd);
                         $result->setPeriodData($newPeriodData->getData(RepoModule::A_PERIOD));
                         $result->setCalcData($newPeriodData->getData(RepoModule::A_CALC));
-                        $result->setAsSucceed();
+                        $result->markSucceed();
                     } else {
                         $this->_logger->warning("New period can be registered in the past only (to register: $dsNextBegin-$dsNextEnd, current end: $dsNowEnd).");
                         $result->setErrorCode(Response\GetForPvBasedCalc::ERR_PERIOD_CAN_BE_REGISTERED_IN_PAST_ONLY);
@@ -177,7 +177,7 @@ class Call extends BaseCall implements IPeriod
                 } else {
                     $this->_logger->info("There is no complete calculation for existing period. Use existing period data.");
                     $result->setCalcData($calcData);
-                    $result->setAsSucceed();
+                    $result->markSucceed();
                 }
             }
         }
@@ -205,7 +205,7 @@ class Call extends BaseCall implements IPeriod
         $data = $this->_repoMod->getLatestPeriod($calcTypeId, $shouldGetLatestCalc, $shouldGetAllCalcs);
         $result->setPeriodData($data->getData(IModule::A_PERIOD));
         $result->setCalcData($data->getData(IModule::A_CALC));
-        $result->setAsSucceed();
+        $result->markSucceed();
         $this->_logger->info("'Get latest calculation period' operation is completed in bonus base module.");
         return $result;
     }
@@ -227,7 +227,7 @@ class Call extends BaseCall implements IPeriod
         $data = $this->_repoMod->addPeriod($calcTypeId, $dsBegin, $dsEnd);
         $result->setPeriodData($data->getData(IModule::A_PERIOD));
         $result->setCalcData($data->getData(IModule::A_CALC));
-        $result->setAsSucceed();
+        $result->markSucceed();
         $this->_logger->info("'Register Period' operation is completed in bonus base module.");
         return $result;
     }

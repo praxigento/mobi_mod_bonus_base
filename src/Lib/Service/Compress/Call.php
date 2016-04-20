@@ -156,7 +156,7 @@ class Call extends BaseCall implements ICompress
 
         /* save compressed tree */
         $this->_repoMod->saveCompressedTree($calcId, $treeCompressed);
-        $result->setAsSucceed();
+        $result->markSucceed();
         $this->_logger->info("'QualifyByUserData' operation is completed.");
         return $result;
     }
