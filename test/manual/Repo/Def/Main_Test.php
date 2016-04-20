@@ -9,7 +9,7 @@ use Praxigento\Bonus\Base\Lib\Repo\IModule;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
-class Main_ManualTest extends \Praxigento\Core\Lib\Test\BaseMockeryCase {
+class Main_ManualTest extends \Praxigento\Core\Test\BaseMockeryCase {
 
     public function test_construct() {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
