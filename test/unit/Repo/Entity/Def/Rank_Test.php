@@ -22,7 +22,7 @@ class Rank_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
     public function setUp()
     {
         parent::setUp();
-        /* create mocks */
+        /** create mocks */
         $this->mConn = $this->_mockConn();
         $this->mRepoGeneric = $this->_mockRepoGeneric();
         /* create object */
@@ -36,7 +36,7 @@ class Rank_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
 
     public function test_constructor()
     {
-        /* === Call and asserts  === */
+        /** === Call and asserts  === */
         $this->assertInstanceOf(IRank::class, $this->obj);
     }
 }
