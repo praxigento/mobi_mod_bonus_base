@@ -25,7 +25,7 @@ class Rank_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         /** create mocks */
         $this->mConn = $this->_mockConn();
         $this->mRepoGeneric = $this->_mockRepoGeneric();
-        /* create object */
+        /** create object to test */
         $mResource = $this->_mockResourceConnection($this->mConn);
         $this->obj = new Calc(
             $mResource,
