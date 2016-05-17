@@ -24,7 +24,7 @@ class Call extends BaseCall implements ICompress
     protected $_logger;
     /** @var  \Praxigento\Bonus\Base\Lib\Repo\IModule */
     protected $_repoMod;
-    /** @var  \Praxigento\Downline\Lib\Tool\ITree */
+    /** @var  \Praxigento\Downline\Tool\ITree */
     protected $_toolDownlineTree;
 
     public function __construct(
@@ -32,7 +32,7 @@ class Call extends BaseCall implements ICompress
         \Praxigento\Bonus\Base\Lib\Repo\IModule $repoMod,
         \Praxigento\Downline\Lib\Service\IMap $repoDownlineMap,
         \Praxigento\Downline\Lib\Service\ISnap $callDownlineSnap,
-        \Praxigento\Downline\Lib\Tool\ITree $toolDownlineTree
+        \Praxigento\Downline\Tool\ITree $toolDownlineTree
     ) {
         $this->_logger = $logger;
         $this->_repoMod = $repoMod;

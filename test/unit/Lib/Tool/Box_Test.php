@@ -19,7 +19,7 @@ class Box_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase {
         $mDate = $this->_mock(\Praxigento\Core\Tool\IDate::class);
         $mFormat = $this->_mock(\Praxigento\Core\Tool\IFormat::class);
         $mPeriod = $this->_mock(\Praxigento\Core\Tool\IPeriod::class);
-        $this->mTree = $this->_mock(\Praxigento\Downline\Lib\Tool\ITree::class);
+        $this->mTree = $this->_mock(\Praxigento\Downline\Tool\ITree::class);
         $this->obj = new Box(
             $mConvert,
             $mDate,
@@ -34,6 +34,6 @@ class Box_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase {
         /** === Setup Mocks === */
         /** === Call and asserts  === */
         $resp = $this->obj->getDownlineTree();
-        $this->assertTrue($resp instanceof \Praxigento\Downline\Lib\Tool\ITree);
+        $this->assertTrue($resp instanceof \Praxigento\Downline\Tool\ITree);
     }
 }
