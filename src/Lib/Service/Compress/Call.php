@@ -9,16 +9,16 @@ use Praxigento\Bonus\Base\Lib\Service\ICompress;
 use Praxigento\Core\Service\Base\Call as BaseCall;
 use Praxigento\Downline\Data\Entity\Customer;
 use Praxigento\Downline\Data\Entity\Snap;
-use Praxigento\Downline\Lib\Service\Map\Request\ById as DownlineMapByIdRequest;
-use Praxigento\Downline\Lib\Service\Map\Request\TreeByDepth as DownlineMapTreeByDepthRequest;
-use Praxigento\Downline\Lib\Service\Map\Request\TreeByTeams as DownlineMapTreeByTeamsRequest;
-use Praxigento\Downline\Lib\Service\Snap\Request\ExpandMinimal as DownlineSnapExtendMinimalRequest;
+use Praxigento\Downline\Service\Map\Request\ById as DownlineMapByIdRequest;
+use Praxigento\Downline\Service\Map\Request\TreeByDepth as DownlineMapTreeByDepthRequest;
+use Praxigento\Downline\Service\Map\Request\TreeByTeams as DownlineMapTreeByTeamsRequest;
+use Praxigento\Downline\Service\Snap\Request\ExpandMinimal as DownlineSnapExtendMinimalRequest;
 
 class Call extends BaseCall implements ICompress
 {
-    /** @var  \Praxigento\Downline\Lib\Service\IMap */
+    /** @var  \Praxigento\Downline\Service\IMap */
     protected $_callDownlineMap;
-    /** @var   \Praxigento\Downline\Lib\Service\ISnap */
+    /** @var   \Praxigento\Downline\Service\ISnap */
     protected $_callDownlineSnap;
     /** @var \Psr\Log\LoggerInterface */
     protected $_logger;
@@ -30,8 +30,8 @@ class Call extends BaseCall implements ICompress
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Bonus\Base\Lib\Repo\IModule $repoMod,
-        \Praxigento\Downline\Lib\Service\IMap $repoDownlineMap,
-        \Praxigento\Downline\Lib\Service\ISnap $callDownlineSnap,
+        \Praxigento\Downline\Service\IMap $repoDownlineMap,
+        \Praxigento\Downline\Service\ISnap $callDownlineSnap,
         \Praxigento\Downline\Tool\ITree $toolDownlineTree
     ) {
         $this->_logger = $logger;

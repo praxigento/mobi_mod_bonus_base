@@ -37,8 +37,8 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase {
         $this->mRepoGeneric = $this->_mockRepoGeneric($this->mDba);
         $this->mRepoMod = $this->_mock(\Praxigento\Bonus\Base\Lib\Repo\IModule::class);
         $this->mLogger = $this->_mockLogger();
-        $this->mCallDownlineMap = $this->_mock(\Praxigento\Downline\Lib\Service\IMap::class);
-        $this->mCallDownlineSnap = $this->_mock(\Praxigento\Downline\Lib\Service\ISnap::class);
+        $this->mCallDownlineMap = $this->_mock(\Praxigento\Downline\Service\IMap::class);
+        $this->mCallDownlineSnap = $this->_mock(\Praxigento\Downline\Service\ISnap::class);
         $this->mToolDownlineTree = $this->_mock(\Praxigento\Downline\Tool\ITree::class);
         $this->call = new Call(
             $this->mLogger,

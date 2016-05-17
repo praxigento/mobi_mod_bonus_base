@@ -17,9 +17,9 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseMockeryCase {
         /**
          * Prepare request data.
          */
-        /** @var  $callDownlineSnap \Praxigento\Downline\Lib\Service\ISnap */
-        $callDownlineSnap = $obm->get('\Praxigento\Downline\Lib\Service\ISnap');
-        $reqSnap = new \Praxigento\Downline\Lib\Service\Snap\Request\GetStateOnDate();
+        /** @var  $callDownlineSnap \Praxigento\Downline\Service\ISnap */
+        $callDownlineSnap = $obm->get('\Praxigento\Downline\Service\ISnap');
+        $reqSnap = new \Praxigento\Downline\Service\Snap\Request\GetStateOnDate();
         $reqSnap->setDatestamp('20201231');
         $respSnap = $callDownlineSnap->getStateOnDate($reqSnap);
         $flatTree = $respSnap->getData();
