@@ -12,7 +12,6 @@ use Praxigento\Downline\Data\Entity\Snap;
 use Praxigento\Downline\Service\Map\Request\ById as DownlineMapByIdRequest;
 use Praxigento\Downline\Service\Map\Request\TreeByDepth as DownlineMapTreeByDepthRequest;
 use Praxigento\Downline\Service\Map\Request\TreeByTeams as DownlineMapTreeByTeamsRequest;
-use Praxigento\Downline\Service\Snap\Request\ExpandMinimal as DownlineSnapExtendMinimalRequest;
 
 class Call extends BaseCall implements ICompress
 {
@@ -39,24 +38,6 @@ class Call extends BaseCall implements ICompress
         $this->_callDownlineMap = $repoDownlineMap;
         $this->_callDownlineSnap = $callDownlineSnap;
         $this->_toolDownlineTree = $toolDownlineTree;
-    }
-
-    /**
-     * Populate data with depth & path values.
-     *
-     * @param $data array of customer data with customer ID & parent ID
-     * @param $labelCustomerId string label for customerId
-     * @param $labelParentId string label for parentId
-     *
-     * @return array Downline Snap: [ $custId => [customer_id, depth, parent_id, path], ...]
-     */
-    private function _expandTree($data)
-    {
-        $req = new DownlineSnapExtendMinimalRequest();
-        $req->setKeyParentId(Snap::ATTR_PARENT_ID);
-        $req->setTree($data);
-        $resp = $this->_callDownlineSnap->expandMinimal($req);
-        return $resp->getSnapData();
     }
 
     private function _mapById($tree)
@@ -107,7 +88,7 @@ class Call extends BaseCall implements ICompress
         if ($skipExpand) {
             $treeExpanded = $treeFlat;
         } else {
-            $treeExpanded = $this->_expandTree($treeFlat);
+            $treeExpanded = $this->_toolDownlineTree->expandMinimal($treeFlat, Snap::ATTR_PARENT_ID);
         }
         $mapById = $this->_mapById($treeExpanded);
         $mapDepth = $this->_mapByTreeDepthDesc($treeExpanded);
