@@ -5,7 +5,7 @@
 
 namespace Praxigento\BonusBase\Repo\Entity;
 
-use Praxigento\Core\Repo\IType;
+use Praxigento\Core\Repo\Entity\IType;
 
 interface IRank extends IType
 {
