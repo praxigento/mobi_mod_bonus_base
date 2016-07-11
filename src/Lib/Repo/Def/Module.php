@@ -104,8 +104,8 @@ class Module extends Base implements IModule
         $conn = $this->_conn;
         $asPeriod = 'pbbp';
         $asCalc = 'pbbc';
-        $tblPeriod = $this->_conn->getTableName(Period::ENTITY_NAME);
-        $tblCalc = $this->_conn->getTableName(Calculation::ENTITY_NAME);
+        $tblPeriod = $this->_resource->getTableName(Period::ENTITY_NAME);
+        $tblCalc = $this->_resource->getTableName(Calculation::ENTITY_NAME);
         // SELECT FROM prxgt_bon_base_period pbbp
         $query = $conn->select();
         $query->from([$asPeriod => $tblPeriod], []);
@@ -164,9 +164,9 @@ class Module extends Base implements IModule
         $asAcc = 'paa';
         $asTrans = 'pat';
         $asType = 'pata';
-        $tblAcc = $this->_conn->getTableName(Account::ENTITY_NAME);
-        $tblTrans = $this->_conn->getTableName(Transaction::ENTITY_NAME);
-        $tblType = $this->_conn->getTableName(TypeAsset::ENTITY_NAME);
+        $tblAcc = $this->_resource->getTableName(Account::ENTITY_NAME);
+        $tblTrans = $this->_resource->getTableName(Transaction::ENTITY_NAME);
+        $tblType = $this->_resource->getTableName(TypeAsset::ENTITY_NAME);
         // SELECT FROM prxgt_acc_transaction pat
         $query = $this->_conn->select();
         $query->from([$asTrans => $tblTrans], [Transaction::ATTR_DATE_APPLIED]);
@@ -221,7 +221,7 @@ class Module extends Base implements IModule
 
     public function getRankIdByCode($calcTypeCode)
     {
-        $tbl = $this->_conn->getTableName(Rank::ENTITY_NAME);
+        $tbl = $this->_resource->getTableName(Rank::ENTITY_NAME);
         $query = $this->_conn->select();
         $query->from($tbl);
         $query->where(TypeBase::ATTR_CODE . '=:code');
@@ -233,7 +233,7 @@ class Module extends Base implements IModule
 
     public function getTypeAssetIdByCode($assetTypeCode)
     {
-        $tbl = $this->_conn->getTableName(TypeAsset::ENTITY_NAME);
+        $tbl = $this->_resource->getTableName(TypeAsset::ENTITY_NAME);
         /** @var  $query \Zend_Db_Select */
         $query = $this->_conn->select();
         $query->from($tbl);
@@ -246,7 +246,7 @@ class Module extends Base implements IModule
 
     public function getTypeCalcIdByCode($calcTypeCode)
     {
-        $tbl = $this->_conn->getTableName(TypeCalc::ENTITY_NAME);
+        $tbl = $this->_resource->getTableName(TypeCalc::ENTITY_NAME);
         /** @var  $query \Zend_Db_Select */
         $query = $this->_conn->select();
         $query->from($tbl);
