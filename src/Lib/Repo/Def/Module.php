@@ -28,12 +28,12 @@ class Module extends Base implements IModule
     protected $_toolDate;
     /** @var \Praxigento\Core\Repo\IGeneric */
     protected $_repoBasic;
-    /** @var  \Praxigento\Core\Repo\Transaction\IManager */
+    /** @var  \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\Core\Repo\Transaction\IManager $manTrans,
+        \Praxigento\Core\Transaction\Database\IManager $manTrans,
         \Praxigento\Core\Repo\IGeneric $repoBasic,
         \Praxigento\Core\Tool\IDate $toolDate
     ) {
@@ -55,7 +55,7 @@ class Module extends Base implements IModule
     public function addPeriod($calcTypeId, $dsBegin, $dsEnd)
     {
         $result = new DataObject();
-        $trans = $this->_manTrans->transactionBegin();
+        $def = $this->_manTrans->begin();
         try {
             /* add new period */
             $periodData = [
@@ -75,11 +75,11 @@ class Module extends Base implements IModule
                 Calculation::ATTR_STATE => Cfg::CALC_STATE_STARTED
             ];
             $calcId = $this->_repoBasic->addEntity(Calculation::ENTITY_NAME, $calcData);
-            $this->_manTrans->transactionCommit($trans);
+            $this->_manTrans->commit($def);
             $calcData[Calculation::ATTR_ID] = $calcId;
             $result->setData(IModule::A_CALC, $calcData);
         } finally {
-            $this->_manTrans->transactionClose($trans);
+            $this->_manTrans->end($def);
         }
         return $result;
     }
@@ -274,7 +274,7 @@ class Module extends Base implements IModule
      */
     public function saveCompressedTree($calcId, $tree)
     {
-        $trans = $this->_manTrans->transactionBegin();
+        $def = $this->_manTrans->begin();
         try {
             foreach ($tree as $item) {
                 $bind = [
@@ -284,9 +284,9 @@ class Module extends Base implements IModule
                 ];
                 $this->_repoBasic->addEntity(Compress::ENTITY_NAME, $bind);
             }
-            $this->_manTrans->transactionCommit($trans);
+            $this->_manTrans->commit($def);
         } finally {
-            $this->_manTrans->transactionClose($trans);
+            $this->_manTrans->end($def);
         }
     }
 
