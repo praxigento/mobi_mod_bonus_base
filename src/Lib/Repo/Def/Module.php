@@ -19,10 +19,10 @@ use Praxigento\Bonus\Base\Lib\Entity\Type\Calc as TypeCalc;
 use Praxigento\Bonus\Base\Lib\Repo\IModule;
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Core\Data\Entity\Type\Base as TypeBase;
-use Praxigento\Core\Repo\Def\Base;
+use Praxigento\Core\Repo\Def\Db;
 use Praxigento\Downline\Data\Entity\Snap;
 
-class Module extends Base implements IModule
+class Module extends Db implements IModule
 {
     /** @var \Praxigento\Core\Tool\IDate */
     protected $_toolDate;
