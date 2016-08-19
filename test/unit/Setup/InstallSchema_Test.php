@@ -56,24 +56,24 @@ class InstallSchema_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
         $mDemPackage = $this->_mock(DataObject::class);
         $this->mToolDem
             ->shouldReceive('readDemPackage')->once()
-            ->withArgs([anything(), '/dBEAR/package/Praxigento/package/Bonus/package/Base'])
+            ->withArgs([\Mockery::any(), '/dBEAR/package/Praxigento/package/Bonus/package/Base'])
             ->andReturn($mDemPackage);
         // $demEntity = $demPackage->getData('package/Type/entity/Asset');
         $mDemPackage->shouldReceive('getData');
         //
         // $this->_toolDem->createEntity($entityAlias, $demEntity);
         //
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([TypeCalc::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([Period::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([Calculation::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([Compress::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([Level::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([Rank::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([CfgGeneration::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([LogCustomers::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([LogOpers::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([LogRank::ENTITY_NAME, anything()]);
-        $this->mToolDem->shouldReceive('createEntity')->withArgs([LogSales::ENTITY_NAME, anything()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([TypeCalc::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([Period::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([Calculation::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([Compress::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([Level::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([Rank::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([CfgGeneration::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([LogCustomers::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([LogOpers::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([LogRank::ENTITY_NAME, \Mockery::any()]);
+        $this->mToolDem->shouldReceive('createEntity')->withArgs([LogSales::ENTITY_NAME, \Mockery::any()]);
         // $setup->endSetup();
         $this->mSetup
             ->shouldReceive('endSetup')->once();
