@@ -11,7 +11,7 @@ use Praxigento\BonusBase\Repo\Entity\IRank;
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
 class Rank_UnitTest
-    extends \Praxigento\Core\Test\BaseCase\Repo
+    extends \Praxigento\Core\Test\BaseCase\Repo\Entity
 {
     /** @var  Rank */
     private $obj;
