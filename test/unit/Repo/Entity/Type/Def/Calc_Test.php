@@ -10,7 +10,7 @@ use Praxigento\BonusBase\Repo\Entity\Type\ICalc;
 
 include_once(__DIR__ . '/../../../../phpunit_bootstrap.php');
 
-class Rank_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase
+class Rank_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
 {
     /** @var  \Mockery\MockInterface */
     private $mConn;

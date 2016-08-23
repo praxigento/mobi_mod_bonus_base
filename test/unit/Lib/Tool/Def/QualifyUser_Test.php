@@ -6,7 +6,7 @@ namespace Praxigento\Bonus\Base\Lib\Tool\Def;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class QualifyUser_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase {
+class QualifyUser_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery {
     /** @var  QualifyUser */
     private $obj;
 

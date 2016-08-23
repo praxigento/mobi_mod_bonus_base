@@ -6,7 +6,7 @@ namespace Praxigento\Bonus\Base\Lib\Tool;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
-class Box_UnitTest extends \Praxigento\Core\Test\BaseMockeryCase {
+class Box_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery {
     /** @var  Box */
     private $obj;
     /** @var  \Mockery\MockInterface */
