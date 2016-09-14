@@ -4,11 +4,11 @@
  *
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Lib\Tool\Def;
+namespace Praxigento\BonusBase\Lib\Tool\Def;
 
 
 use Flancer32\Lib\DataObject;
-use Praxigento\Bonus\Base\Lib\Tool\IQualifyUser;
+use Praxigento\BonusBase\Lib\Tool\IQualifyUser;
 
 class QualifyUser implements IQualifyUser {
     /**

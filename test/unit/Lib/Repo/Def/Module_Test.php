@@ -3,11 +3,11 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Bonus\Base\Lib\Repo\Def;
+namespace Praxigento\BonusBase\Lib\Repo\Def;
 
-use Praxigento\Bonus\Base\Lib\Entity\Calculation;
-use Praxigento\Bonus\Base\Lib\Entity\Cfg\Generation as CfgGeneration;
-use Praxigento\Bonus\Base\Lib\Entity\Period;
+use Praxigento\BonusBase\Data\Entity\Calculation;
+use Praxigento\BonusBase\Data\Entity\Cfg\Generation as CfgGeneration;
+use Praxigento\BonusBase\Data\Entity\Period;
 use Praxigento\Core\Data\Entity\Type\Base as TypeBase;
 use Praxigento\Downline\Data\Entity\Snap;
 

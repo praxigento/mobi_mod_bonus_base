@@ -2,7 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Lib\Service\Compress;
+namespace Praxigento\BonusBase\Lib\Service\Compress;
 
 use Flancer32\Lib\DataObject;
 use Praxigento\Downline\Data\Entity\Customer;
@@ -37,7 +37,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->mConn = $this->_mockDba();
         $this->mDba = $this->_mockResourceConnection($this->mConn);
         $this->mRepoGeneric = $this->_mockRepoGeneric($this->mDba);
-        $this->mRepoMod = $this->_mock(\Praxigento\Bonus\Base\Lib\Repo\IModule::class);
+        $this->mRepoMod = $this->_mock(\Praxigento\BonusBase\Lib\Repo\IModule::class);
         $this->mLogger = $this->_mockLogger();
         $this->mCallDownlineMap = $this->_mock(\Praxigento\Downline\Service\IMap::class);
         $this->mCallDownlineSnap = $this->_mock(\Praxigento\Downline\Service\ISnap::class);
@@ -73,7 +73,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             $CUST_4 => [Snap::ATTR_PATH => 'path4']
         ];
         /** === Setup Mocks === */
-        $mQualifier = $this->_mock(\Praxigento\Bonus\Base\Lib\Tool\IQualifyUser::class);
+        $mQualifier = $this->_mock(\Praxigento\BonusBase\Lib\Tool\IQualifyUser::class);
         $this->mLogger->shouldReceive('info');
         // $treeExpanded = $this->_toolDownlineTree->expandMinimal($treeFlat, Snap::ATTR_PARENT_ID);
         $this->mToolDownlineTree

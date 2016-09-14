@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Bonus\Base\Lib\Repo;
+namespace Praxigento\BonusBase\Lib\Repo;
 
 use Flancer32\Lib\DataObject;
 

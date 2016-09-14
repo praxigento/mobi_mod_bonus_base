@@ -2,10 +2,10 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Lib\Service;
+namespace Praxigento\BonusBase\Lib\Service;
 
-use Praxigento\Bonus\Base\Lib\Service\Compress\Request\QualifyByUserData as QualifyByUserDataRequest;
-use Praxigento\Bonus\Base\Lib\Service\Compress\Response\QualifyByUserData as QualifyByUserDataResponse;
+use Praxigento\BonusBase\Lib\Service\Compress\Request\QualifyByUserData as QualifyByUserDataRequest;
+use Praxigento\BonusBase\Lib\Service\Compress\Response\QualifyByUserData as QualifyByUserDataResponse;
 
 interface ICompress {
 

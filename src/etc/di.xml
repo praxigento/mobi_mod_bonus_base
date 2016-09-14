@@ -7,17 +7,17 @@
                 type="Praxigento\BonusBase\Repo\Entity\Def\Rank"/>
     <preference for="Praxigento\BonusBase\Repo\Entity\Type\ICalc"
                 type="Praxigento\BonusBase\Repo\Entity\Type\Def\Calc"/>
-    <preference for="Praxigento\Bonus\Base\Lib\Repo\IModule"
-                type="Praxigento\Bonus\Base\Lib\Repo\Def\Module"/>
+    <preference for="Praxigento\BonusBase\Lib\Repo\IModule"
+                type="Praxigento\BonusBase\Lib\Repo\Def\Module"/>
 
     <!-- Services -->
-    <preference for="Praxigento\Bonus\Base\Lib\Service\ICompress"
-                type="Praxigento\Bonus\Base\Lib\Service\Compress\Call"/>
-    <preference for="Praxigento\Bonus\Base\Lib\Service\IPeriod"
-                type="Praxigento\Bonus\Base\Lib\Service\Period\Call"/>
+    <preference for="Praxigento\BonusBase\Lib\Service\ICompress"
+                type="Praxigento\BonusBase\Lib\Service\Compress\Call"/>
+    <preference for="Praxigento\BonusBase\Lib\Service\IPeriod"
+                type="Praxigento\BonusBase\Lib\Service\Period\Call"/>
 
     <!-- Tools -->
-    <preference for="Praxigento\Bonus\Base\Lib\Tool\IQualifyUser"
-                type="Praxigento\Bonus\Base\Lib\Tool\Def\QualifyUser"/>
+    <preference for="Praxigento\BonusBase\Lib\Tool\IQualifyUser"
+                type="Praxigento\BonusBase\Lib\Tool\Def\QualifyUser"/>
 
 </config>

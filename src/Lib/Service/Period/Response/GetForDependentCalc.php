@@ -2,7 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Lib\Service\Period\Response;
+namespace Praxigento\BonusBase\Lib\Service\Period\Response;
 
 /**
  * Response contains arrays with period and calculation data for base and dependent calculations.

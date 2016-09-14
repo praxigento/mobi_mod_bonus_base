@@ -15,8 +15,7 @@
       "src/registration.php"
     ],
     "psr-4": {
-      "Praxigento\\BonusBase\\": "src/",
-      "Praxigento\\Bonus\\Base\\": "src/"
+      "Praxigento\\BonusBase\\": "src/"
     }
   },
   "require": {

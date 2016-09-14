@@ -2,10 +2,10 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Lib\Service\Compress;
+namespace Praxigento\BonusBase\Lib\Service\Compress;
 
 
-use Praxigento\Bonus\Base\Lib\Service\ICompress;
+use Praxigento\BonusBase\Lib\Service\ICompress;
 use Praxigento\Core\Service\Base\Call as BaseCall;
 use Praxigento\Downline\Data\Entity\Customer;
 use Praxigento\Downline\Data\Entity\Snap;
@@ -21,14 +21,14 @@ class Call extends BaseCall implements ICompress
     protected $_callDownlineSnap;
     /** @var \Psr\Log\LoggerInterface */
     protected $_logger;
-    /** @var  \Praxigento\Bonus\Base\Lib\Repo\IModule */
+    /** @var  \Praxigento\BonusBase\Lib\Repo\IModule */
     protected $_repoMod;
     /** @var  \Praxigento\Downline\Tool\ITree */
     protected $_toolDownlineTree;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
-        \Praxigento\Bonus\Base\Lib\Repo\IModule $repoMod,
+        \Praxigento\BonusBase\Lib\Repo\IModule $repoMod,
         \Praxigento\Downline\Service\IMap $repoDownlineMap,
         \Praxigento\Downline\Service\ISnap $callDownlineSnap,
         \Praxigento\Downline\Tool\ITree $toolDownlineTree

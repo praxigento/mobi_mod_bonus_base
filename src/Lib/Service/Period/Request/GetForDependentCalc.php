@@ -2,7 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Lib\Service\Period\Request;
+namespace Praxigento\BonusBase\Lib\Service\Period\Request;
 
 /**
  * Set BaseCalcCode and DependentCalcCode in request.

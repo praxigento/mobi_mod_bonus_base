@@ -2,10 +2,10 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Lib\Service;
+namespace Praxigento\BonusBase\Lib\Service;
 
-use Praxigento\Bonus\Base\Lib\Service\Period\Request;
-use Praxigento\Bonus\Base\Lib\Service\Period\Response;
+use Praxigento\BonusBase\Lib\Service\Period\Request;
+use Praxigento\BonusBase\Lib\Service\Period\Response;
 
 interface IPeriod {
     /**

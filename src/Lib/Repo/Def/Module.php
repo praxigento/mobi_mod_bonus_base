@@ -2,21 +2,21 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Lib\Repo\Def;
+namespace Praxigento\BonusBase\Lib\Repo\Def;
 
 use Flancer32\Lib\DataObject;
 use Praxigento\Accounting\Data\Entity\Account;
 use Praxigento\Accounting\Data\Entity\Transaction;
 use Praxigento\Accounting\Data\Entity\Type\Asset as TypeAsset;
-use Praxigento\Bonus\Base\Lib\Entity\Calculation;
-use Praxigento\Bonus\Base\Lib\Entity\Cfg\Generation as CfgGeneration;
-use Praxigento\Bonus\Base\Lib\Entity\Compress;
-use Praxigento\Bonus\Base\Lib\Entity\Log\Rank as LogRank;
-use Praxigento\Bonus\Base\Lib\Entity\Log\Sales as LogSales;
-use Praxigento\Bonus\Base\Lib\Entity\Period;
-use Praxigento\Bonus\Base\Lib\Entity\Rank;
-use Praxigento\Bonus\Base\Lib\Entity\Type\Calc as TypeCalc;
-use Praxigento\Bonus\Base\Lib\Repo\IModule;
+use Praxigento\BonusBase\Data\Entity\Calculation;
+use Praxigento\BonusBase\Data\Entity\Cfg\Generation as CfgGeneration;
+use Praxigento\BonusBase\Data\Entity\Compress;
+use Praxigento\BonusBase\Data\Entity\Log\Rank as LogRank;
+use Praxigento\BonusBase\Data\Entity\Log\Sales as LogSales;
+use Praxigento\BonusBase\Data\Entity\Period;
+use Praxigento\BonusBase\Data\Entity\Rank;
+use Praxigento\BonusBase\Data\Entity\Type\Calc as TypeCalc;
+use Praxigento\BonusBase\Lib\Repo\IModule;
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Core\Data\Entity\Type\Base as TypeBase;
 use Praxigento\Core\Repo\Def\Db;

@@ -15,7 +15,7 @@ class Calc
         parent::__construct(
             $resource,
             $repoGeneric,
-            \Praxigento\Bonus\Base\Lib\Entity\Type\Calc::class
+            \Praxigento\BonusBase\Data\Entity\Type\Calc::class
         );
     }
 }

@@ -5,17 +5,17 @@
  */
 namespace Praxigento\BonusBase\Setup;
 
-use Praxigento\Bonus\Base\Lib\Entity\Calculation;
-use Praxigento\Bonus\Base\Lib\Entity\Cfg\Generation as CfgGeneration;
-use Praxigento\Bonus\Base\Lib\Entity\Compress;
-use Praxigento\Bonus\Base\Lib\Entity\Level;
-use Praxigento\Bonus\Base\Lib\Entity\Log\Customers as LogCustomers;
-use Praxigento\Bonus\Base\Lib\Entity\Log\Opers as LogOpers;
-use Praxigento\Bonus\Base\Lib\Entity\Log\Rank as LogRank;
-use Praxigento\Bonus\Base\Lib\Entity\Log\Sales as LogSales;
-use Praxigento\Bonus\Base\Lib\Entity\Period;
-use Praxigento\Bonus\Base\Lib\Entity\Rank;
-use Praxigento\Bonus\Base\Lib\Entity\Type\Calc as TypeCalc;
+use Praxigento\BonusBase\Data\Entity\Calculation;
+use Praxigento\BonusBase\Data\Entity\Cfg\Generation as CfgGeneration;
+use Praxigento\BonusBase\Data\Entity\Compress;
+use Praxigento\BonusBase\Data\Entity\Level;
+use Praxigento\BonusBase\Data\Entity\Log\Customers as LogCustomers;
+use Praxigento\BonusBase\Data\Entity\Log\Opers as LogOpers;
+use Praxigento\BonusBase\Data\Entity\Log\Rank as LogRank;
+use Praxigento\BonusBase\Data\Entity\Log\Sales as LogSales;
+use Praxigento\BonusBase\Data\Entity\Period;
+use Praxigento\BonusBase\Data\Entity\Rank;
+use Praxigento\BonusBase\Data\Entity\Type\Calc as TypeCalc;
 
 include_once(__DIR__ . '/../phpunit_bootstrap.php');
 

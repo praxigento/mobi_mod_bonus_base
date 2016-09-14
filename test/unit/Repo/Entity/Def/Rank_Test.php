@@ -4,7 +4,7 @@
  */
 namespace Praxigento\BonusBase\Repo\Entity\Def;
 
-use Praxigento\Bonus\Base\Lib\Entity\Rank as Entity;
+use Praxigento\BonusBase\Data\Entity\Rank as Entity;
 use Praxigento\BonusBase\Repo\Entity\IRank;
 
 

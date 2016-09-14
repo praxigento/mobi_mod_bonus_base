@@ -2,13 +2,13 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Lib\Service\Period;
+namespace Praxigento\BonusBase\Lib\Service\Period;
 
-use Praxigento\Bonus\Base\Lib\Entity\Calculation;
-use Praxigento\Bonus\Base\Lib\Entity\Period;
-use Praxigento\Bonus\Base\Lib\Repo\IModule;
-use Praxigento\Bonus\Base\Lib\Repo\IModule as RepoModule;
-use Praxigento\Bonus\Base\Lib\Service\IPeriod;
+use Praxigento\BonusBase\Data\Entity\Calculation;
+use Praxigento\BonusBase\Data\Entity\Period;
+use Praxigento\BonusBase\Lib\Repo\IModule;
+use Praxigento\BonusBase\Lib\Repo\IModule as RepoModule;
+use Praxigento\BonusBase\Lib\Service\IPeriod;
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Core\Service\Base\Call as BaseCall;
 use Praxigento\Core\Tool\IPeriod as ToolPeriod;

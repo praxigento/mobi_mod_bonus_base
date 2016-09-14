@@ -15,7 +15,7 @@ class Rank
         parent::__construct(
             $resource,
             $repoGeneric,
-            \Praxigento\Bonus\Base\Lib\Entity\Rank::class
+            \Praxigento\BonusBase\Data\Entity\Rank::class
         );
     }
 }

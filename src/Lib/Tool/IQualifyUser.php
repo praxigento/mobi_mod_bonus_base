@@ -1,12 +1,12 @@
 <?php
 /**
  * Qualification function to be used in downline tree compression.
- * See \Praxigento\Bonus\Base\Lib\Service\ICompress
+ * See \Praxigento\BonusBase\Lib\Service\ICompress
  *
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\Bonus\Base\Lib\Tool;
+namespace Praxigento\BonusBase\Lib\Tool;
 
 
 interface IQualifyUser {

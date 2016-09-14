@@ -2,7 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Lib\Tool;
+namespace Praxigento\BonusBase\Lib\Tool;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 

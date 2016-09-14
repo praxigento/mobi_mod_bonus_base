@@ -2,9 +2,9 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\Bonus\Base\Lib\Service\Compress\Request;
+namespace Praxigento\BonusBase\Lib\Service\Compress\Request;
 
-use Praxigento\Bonus\Base\Lib\Tool\IQualifyUser;
+use Praxigento\BonusBase\Lib\Tool\IQualifyUser;
 
 /**
  * @method int getCalcId()

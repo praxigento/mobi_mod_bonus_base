@@ -4,7 +4,7 @@
  */
 namespace Praxigento\BonusBase\Repo\Entity\Type\Def;
 
-use Praxigento\Bonus\Base\Lib\Entity\Type\Calc as Entity;
+use Praxigento\BonusBase\Data\Entity\Type\Calc as Entity;
 use Praxigento\BonusBase\Repo\Entity\Type\ICalc;
 
 
