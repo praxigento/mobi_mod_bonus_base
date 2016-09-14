@@ -4,11 +4,11 @@
  */
 namespace Praxigento\BonusBase\Repo\Entity\Def;
 
-use Praxigento\BonusBase\Data\Entity\Calculation as Entity;
+use Praxigento\BonusBase\Data\Entity\Period as Entity;
 
-class Calculation
+class Period
     extends \Praxigento\Core\Repo\Def\Entity
-    implements \Praxigento\BonusBase\Repo\Entity\ICalculation
+    implements \Praxigento\BonusBase\Repo\Entity\IPeriod
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,

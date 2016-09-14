@@ -4,22 +4,22 @@
  */
 namespace Praxigento\BonusBase\Repo\Entity\Def;
 
-use Praxigento\BonusBase\Data\Entity\Calculation as Entity;
+use Praxigento\BonusBase\Data\Entity\Level as Entity;
 
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
-class Calculation_UnitTest
+class Level_UnitTest
     extends \Praxigento\Core\Test\BaseCase\Repo\Entity
 {
-    /** @var  Calculation */
+    /** @var  Level */
     private $obj;
 
     public function setUp()
     {
         parent::setUp();
         /** create object to test */
-        $this->obj = new Calculation(
+        $this->obj = new Level(
             $this->mResource,
             $this->mRepoGeneric,
             Entity::class
@@ -29,6 +29,6 @@ class Calculation_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\ICalculation::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\ILevel::class, $this->obj);
     }
 }

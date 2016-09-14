@@ -1,23 +1,25 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
     <!-- Repos -->
-    <preference for="Praxigento\BonusBase\Repo\Entity\IRank"
-                type="Praxigento\BonusBase\Repo\Entity\Def\Rank"/>
-    <preference for="Praxigento\BonusBase\Repo\Entity\Type\ICalc"
-                type="Praxigento\BonusBase\Repo\Entity\Type\Def\Calc"/>
-    <preference for="Praxigento\BonusBase\Lib\Repo\IModule"
-                type="Praxigento\BonusBase\Lib\Repo\Def\Module"/>
+    <preference for="Praxigento\BonusBase\Repo\Entity\Cfg\IGeneration" type="Praxigento\BonusBase\Repo\Entity\Cfg\Def\Generation"/>
+    <preference for="Praxigento\BonusBase\Repo\Entity\Log\ICustomers" type="Praxigento\BonusBase\Repo\Entity\Log\Def\Customers"/>
+    <preference for="Praxigento\BonusBase\Repo\Entity\Log\IOpers" type="Praxigento\BonusBase\Repo\Entity\Log\Def\Opers"/>
+    <preference for="Praxigento\BonusBase\Repo\Entity\Log\IRank" type="Praxigento\BonusBase\Repo\Entity\Log\Def\Rank"/>
+    <preference for="Praxigento\BonusBase\Repo\Entity\Log\ISales" type="Praxigento\BonusBase\Repo\Entity\Log\Def\Sales"/>
+    <preference for="Praxigento\BonusBase\Repo\Entity\Type\ICalc" type="Praxigento\BonusBase\Repo\Entity\Type\Def\Calc"/>
+    <preference for="Praxigento\BonusBase\Repo\Entity\ICalculation" type="Praxigento\BonusBase\Repo\Entity\Def\Calculation"/>
+    <preference for="Praxigento\BonusBase\Repo\Entity\ICompress" type="Praxigento\BonusBase\Repo\Entity\Def\Compress"/>
+    <preference for="Praxigento\BonusBase\Repo\Entity\ILevel" type="Praxigento\BonusBase\Repo\Entity\Def\Level"/>
+    <preference for="Praxigento\BonusBase\Repo\Entity\IPeriod" type="Praxigento\BonusBase\Repo\Entity\Def\Period"/>
+    <preference for="Praxigento\BonusBase\Repo\Entity\IRank" type="Praxigento\BonusBase\Repo\Entity\Def\Rank"/>
+    <preference for="Praxigento\BonusBase\Lib\Repo\IModule" type="Praxigento\BonusBase\Lib\Repo\Def\Module"/>
 
     <!-- Services -->
-    <preference for="Praxigento\BonusBase\Lib\Service\ICompress"
-                type="Praxigento\BonusBase\Lib\Service\Compress\Call"/>
-    <preference for="Praxigento\BonusBase\Lib\Service\IPeriod"
-                type="Praxigento\BonusBase\Lib\Service\Period\Call"/>
+    <preference for="Praxigento\BonusBase\Lib\Service\ICompress" type="Praxigento\BonusBase\Lib\Service\Compress\Call"/>
+    <preference for="Praxigento\BonusBase\Lib\Service\IPeriod" type="Praxigento\BonusBase\Lib\Service\Period\Call"/>
 
     <!-- Tools -->
-    <preference for="Praxigento\BonusBase\Lib\Tool\IQualifyUser"
-                type="Praxigento\BonusBase\Lib\Tool\Def\QualifyUser"/>
+    <preference for="Praxigento\BonusBase\Lib\Tool\IQualifyUser" type="Praxigento\BonusBase\Lib\Tool\Def\QualifyUser"/>
 
 </config>

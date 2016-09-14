@@ -2,13 +2,13 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Repo\Entity\Def;
+namespace Praxigento\BonusBase\Repo\Entity\Cfg\Def;
 
-use Praxigento\BonusBase\Data\Entity\Calculation as Entity;
+use Praxigento\BonusBase\Data\Entity\Cfg\Generation as Entity;
 
-class Calculation
+class Generation
     extends \Praxigento\Core\Repo\Def\Entity
-    implements \Praxigento\BonusBase\Repo\Entity\ICalculation
+    implements \Praxigento\BonusBase\Repo\Entity\Cfg\IGeneration
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
