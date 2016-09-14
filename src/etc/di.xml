@@ -13,13 +13,13 @@
     <preference for="Praxigento\BonusBase\Repo\Entity\ILevel" type="Praxigento\BonusBase\Repo\Entity\Def\Level"/>
     <preference for="Praxigento\BonusBase\Repo\Entity\IPeriod" type="Praxigento\BonusBase\Repo\Entity\Def\Period"/>
     <preference for="Praxigento\BonusBase\Repo\Entity\IRank" type="Praxigento\BonusBase\Repo\Entity\Def\Rank"/>
-    <preference for="Praxigento\BonusBase\Lib\Repo\IModule" type="Praxigento\BonusBase\Lib\Repo\Def\Module"/>
+    <preference for="Praxigento\BonusBase\Repo\IModule" type="Praxigento\BonusBase\Repo\Def\Module"/>
 
     <!-- Services -->
-    <preference for="Praxigento\BonusBase\Lib\Service\ICompress" type="Praxigento\BonusBase\Lib\Service\Compress\Call"/>
-    <preference for="Praxigento\BonusBase\Lib\Service\IPeriod" type="Praxigento\BonusBase\Lib\Service\Period\Call"/>
+    <preference for="Praxigento\BonusBase\Service\ICompress" type="Praxigento\BonusBase\Service\Compress\Call"/>
+    <preference for="Praxigento\BonusBase\Service\IPeriod" type="Praxigento\BonusBase\Service\Period\Call"/>
 
     <!-- Tools -->
-    <preference for="Praxigento\BonusBase\Lib\Tool\IQualifyUser" type="Praxigento\BonusBase\Lib\Tool\Def\QualifyUser"/>
+    <preference for="Praxigento\BonusBase\Tool\IQualifyUser" type="Praxigento\BonusBase\Tool\Def\QualifyUser"/>
 
 </config>

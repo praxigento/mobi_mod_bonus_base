@@ -2,7 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Lib\Service\Period;
+namespace Praxigento\BonusBase\Service\Period;
 
 
 
@@ -12,8 +12,8 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseCase\Mockery {
 
     public function test_getForDependentCalc() {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
-        /** @var  $call \Praxigento\BonusBase\Lib\Service\Period\Call */
-        $call = $obm->get('Praxigento\BonusBase\Lib\Service\Period\Call');
+        /** @var  $call \Praxigento\BonusBase\Service\Period\Call */
+        $call = $obm->get('Praxigento\BonusBase\Service\Period\Call');
         $req = new Request\GetForDependentCalc();
         $req->setBaseCalcTypeCode('LOYALTY_BON_COMPRESS');
         $req->setDependentCalcTypeCode('HYBRID_VALUE_OV');
@@ -23,8 +23,8 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseCase\Mockery {
 
     public function test_getLatest() {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
-        /** @var  $call \Praxigento\BonusBase\Lib\Service\Period\Call */
-        $call = $obm->get('Praxigento\BonusBase\Lib\Service\Period\Call');
+        /** @var  $call \Praxigento\BonusBase\Service\Period\Call */
+        $call = $obm->get('Praxigento\BonusBase\Service\Period\Call');
         $req = new Request\GetLatest();
         $req->setCalcTypeId(null);
         $req->setCalcTypeCode('LOYALTY_BON_COMPRESS');
@@ -39,8 +39,8 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseCase\Mockery {
         /** @var  $dba \Praxigento\Core\Lib\Context\IDbAdapter */
         $dba = $obm->get(\Praxigento\Core\Lib\Context\IDbAdapter::class);
         $dba->getDefaultConnection()->beginTransaction();
-        /** @var  $call \Praxigento\BonusBase\Lib\Service\Period\Call */
-        $call = $obm->get('Praxigento\BonusBase\Lib\Service\Period\Call');
+        /** @var  $call \Praxigento\BonusBase\Service\Period\Call */
+        $call = $obm->get('Praxigento\BonusBase\Service\Period\Call');
         $req = new Request\GetForPvBasedCalc();
         $req->setCalcTypeCode('LOYALTY_BON_COMPRESS');
         $resp = $call->getForPvBasedCalc($req);

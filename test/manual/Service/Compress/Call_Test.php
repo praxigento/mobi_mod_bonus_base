@@ -2,9 +2,9 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Lib\Service\Compress;
+namespace Praxigento\BonusBase\Service\Compress;
 
-use Praxigento\BonusBase\Lib\Tool\IQualifyUser;
+use Praxigento\BonusBase\Tool\IQualifyUser;
 
 use Praxigento\Downline\Data\Entity\Customer;
 
@@ -23,8 +23,8 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseCase\Mockery {
         $reqSnap->setDatestamp('20201231');
         $respSnap = $callDownlineSnap->getStateOnDate($reqSnap);
         $flatTree = $respSnap->getData();
-        /** @var  $call \Praxigento\BonusBase\Lib\Service\Compress\Call */
-        $call = $obm->get('Praxigento\BonusBase\Lib\Service\Compress\Call');
+        /** @var  $call \Praxigento\BonusBase\Service\Compress\Call */
+        $call = $obm->get('Praxigento\BonusBase\Service\Compress\Call');
         $request = new Request\QualifyByUserData();
         $request->setCalcId(6);
         $request->setFlatTree($flatTree);
