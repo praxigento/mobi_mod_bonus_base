@@ -47,7 +47,7 @@ class Module extends Db implements IModule
     {
         $bind = [
             LogSales::ATTR_TRANS_ID => $transId,
-            LogSales::ATTR_SALES_ORDER_ID => $saleOrderId
+            LogSales::ATTR_SALE_ORDER_ID => $saleOrderId
         ];
         $this->_repoBasic->addEntity(LogSales::ENTITY_NAME, $bind);
     }

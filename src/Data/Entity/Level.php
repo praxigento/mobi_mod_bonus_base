@@ -12,8 +12,60 @@ class Level
     const ATTR_PERCENT = 'percent';
     const ENTITY_NAME = 'prxgt_bon_base_level';
 
+    /**
+     * @return int
+     */
+    public function getCalcTypeId()
+    {
+        $result = parent::getData(self::ATTR_CALC_TYPE_ID);
+        return $result;
+    }
+
+    /**
+     * @return double
+     */
+    public function getLevel()
+    {
+        $result = parent::getData(self::ATTR_LEVEL);
+        return $result;
+    }
+
+    /**
+     * @return double
+     */
+    public function getPercent()
+    {
+        $result = parent::getData(self::ATTR_PERCENT);
+        return $result;
+    }
+
     public function getPrimaryKeyAttrs()
     {
         return [self::ATTR_CALC_TYPE_ID, self::ATTR_LEVEL];
     }
+
+    /**
+     * @param int $data
+     */
+    public function setCalcTypeId($data)
+    {
+        parent::setData(self::ATTR_CALC_TYPE_ID, $data);
+    }
+
+    /**
+     * @param double $data
+     */
+    public function setLevel($data)
+    {
+        parent::setData(self::ATTR_LEVEL, $data);
+    }
+
+    /**
+     * @param double $data
+     */
+    public function setPercent($data)
+    {
+        parent::setData(self::ATTR_PERCENT, $data);
+    }
+
 }

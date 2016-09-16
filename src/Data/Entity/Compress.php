@@ -14,8 +14,76 @@ class Compress
     const ATTR_PARENT_ID = 'parent_id';
     const ENTITY_NAME = 'prxgt_bon_base_compress';
 
+    /**
+     * @return int
+     */
+    public function getCalcId()
+    {
+        $result = parent::getData(self::ATTR_CALC_ID);
+        return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCustomerId()
+    {
+        $result = parent::getData(self::ATTR_CUSTOMER_ID);
+        return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        $result = parent::getData(self::ATTR_ID);
+        return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public function getParentId()
+    {
+        $result = parent::getData(self::ATTR_PARENT_ID);
+        return $result;
+    }
+
     public function getPrimaryKeyAttrs()
     {
         return [self::ATTR_ID];
+    }
+
+    /**
+     * @param int $data
+     */
+    public function setCalcId($data)
+    {
+        parent::setData(self::ATTR_CALC_ID, $data);
+    }
+
+    /**
+     * @param int $data
+     */
+    public function setCustomerId($data)
+    {
+        parent::setData(self::ATTR_CUSTOMER_ID, $data);
+    }
+
+    /**
+     * @param int $data
+     */
+    public function setId($data)
+    {
+        parent::setData(self::ATTR_ID, $data);
+    }
+
+    /**
+     * @param int $data
+     */
+    public function setParentId($data)
+    {
+        parent::setData(self::ATTR_PARENT_ID, $data);
     }
 }
