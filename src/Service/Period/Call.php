@@ -4,12 +4,12 @@
  */
 namespace Praxigento\BonusBase\Service\Period;
 
+use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Data\Entity\Calculation;
 use Praxigento\BonusBase\Data\Entity\Period;
 use Praxigento\BonusBase\Repo\IModule;
 use Praxigento\BonusBase\Repo\IModule as RepoModule;
 use Praxigento\BonusBase\Service\IPeriod;
-use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Core\Service\Base\Call as BaseCall;
 use Praxigento\Core\Tool\IPeriod as ToolPeriod;
 
@@ -120,6 +120,7 @@ class Call extends BaseCall implements IPeriod
     {
         $result = new Response\GetForPvBasedCalc();
         $calcTypeCode = $request->getCalcTypeCode();
+        $periodType = $request->getPeriodType() ?? ToolPeriod::TYPE_MONTH;
         $this->_logger->info("'Get latest period for PV based calc' operation is started in bonus base module (type code '$calcTypeCode').");
         /* get calculation type ID by type code */
         $calcTypeId = $this->_repoMod->getTypeCalcIdByCode($calcTypeCode);
@@ -133,7 +134,7 @@ class Call extends BaseCall implements IPeriod
                 $result->setErrorCode(Response\GetForPvBasedCalc::ERR_HAS_NO_PV_TRANSACTIONS_YET);
             } else {
                 $this->_logger->info("First PV transaction was performed at '$ts'.");
-                $periodMonth = $this->_toolPeriod->getPeriodCurrent($ts, ToolPeriod::TYPE_MONTH);
+                $periodMonth = $this->_toolPeriod->getPeriodCurrent($ts, $periodType);
                 $dsBegin = $this->_toolPeriod->getPeriodFirstDate($periodMonth);
                 $dsEnd = $this->_toolPeriod->getPeriodLastDate($periodMonth);
                 $data = $this->_repoMod->addPeriod($calcTypeId, $dsBegin, $dsEnd);
