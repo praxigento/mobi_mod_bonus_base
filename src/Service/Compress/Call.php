@@ -99,7 +99,7 @@ class Call extends BaseCall implements ICompress
                 $custData = $mapById[$custId];
                 $ref = isset($custData[Customer::ATTR_HUMAN_REF]) ? $custData[Customer::ATTR_HUMAN_REF] : '';
                 if ($qualifier->isQualified($custData)) {
-                    $this->_logger->info("Customer #$custId ($ref) is qualified and added to compressed tree..");
+                    $this->_logger->info("Customer #$custId ($ref) is qualified and added to compressed tree.");
                     $treeCompressed[$custId] = $custData;
                 } else {
                     $this->_logger->info("Customer #$custId ($ref) is not qualified.");
