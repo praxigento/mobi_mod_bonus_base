@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Praxigento_BonusBase::bonus"
+                title="Bonus" translate="title" module="Praxigento_BonusBase"
+                sortOrder="32"
+                resource="Praxigento_BonusBase::admin_bonus"/>
+        <add id="Praxigento_BonusBase::bonus_calc"
+                title="Calcs" translate="title" module="Praxigento_BonusBase"
+                sortOrder="100" parent="Praxigento_BonusBase::bonus"
+                action="bonus/calc"
+                resource="Praxigento_BonusBase::admin_bonus"/>
+        <add id="Praxigento_BonusBase::bonus_period"
+                title="Periods" translate="title" module="Praxigento_BonusBase"
+                sortOrder="200" parent="Praxigento_BonusBase::bonus"
+                action="bonus/period"
+                resource="Praxigento_BonusBase::admin_bonus"/>
+        <add id="Praxigento_BonusBase::bonus_rank"
+                title="Ranks" translate="title" module="Praxigento_BonusBase"
+                sortOrder="300" parent="Praxigento_BonusBase::bonus"
+                action="bonus/rank"
+                resource="Praxigento_BonusBase::admin_bonus"/>
+        <add id="Praxigento_BonusBase::bonus_type_calc"
+                title="Types" translate="title" module="Praxigento_BonusBase"
+                sortOrder="400" parent="Praxigento_BonusBase::bonus"
+                action="bonus/type_calc"
+                resource="Praxigento_BonusBase::admin_bonus"/>
+    </menu>
+</config>
