@@ -26,6 +26,7 @@ class Calc
         parent::__construct(
             $url,
             $criteriaAdapter,
+            null,
             $repo,
             $reporting,
             $searchCriteriaBuilder,
