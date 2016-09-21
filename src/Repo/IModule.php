@@ -14,14 +14,6 @@ interface IModule
     const A_PERIOD = 'period';
 
     /**
-     * Register new record in the log.
-     *
-     * @param int $transId
-     * @param int $saleOrderId
-     */
-    public function addLogSaleOrder($transId, $saleOrderId);
-
-    /**
      * Create new period record and related calculation record.
      *
      * @param int $calcTypeId
@@ -43,13 +35,6 @@ interface IModule
      * @return array [[Calculation/*], ...] or [Calculation/*]
      */
     public function getCalcsForPeriod($calcTypeId, $dsBegin, $dsEnd, $shouldGetLatestCalc = false);
-
-    /**
-     * @param $calcId
-     *
-     * @return array [[Compress/*], ...]
-     */
-    public function getCompressedTree($calcId);
 
     /**
      * @param $calcTypeId

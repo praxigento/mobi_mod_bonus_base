@@ -40,19 +40,6 @@ class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         );
     }
 
-    public function test_addLogSaleOrder()
-    {
-        /** === Test Data === */
-        $TRAN_ID = 2;
-        $SALE_ORDER_ID = 43;
-
-        /** === Setup Mocks === */
-        $this->mRepoGeneric->shouldReceive('addEntity');
-
-        /** === Call and asserts  === */
-        $this->repo->addLogSaleOrder($TRAN_ID, $SALE_ORDER_ID);
-    }
-
     public function test_addPeriod_commit()
     {
         /** === Test Data === */
@@ -148,18 +135,6 @@ class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $resp = $this->repo->getCalcsForPeriod($CALC_TYPE_ID, $DS_BEGIN, $DS_END, $SHOULD_GET_LATEST);
         $this->assertTrue(is_array($resp));
         $this->assertEquals($CALC_ID, $resp[$AS_ID]);
-    }
-
-    public function test_getCompressedTree()
-    {
-        /** === Test Data === */
-        $CALC_ID = 2;
-
-        /** === Setup Mocks === */
-        $this->mRepoGeneric->shouldReceive('getEntities');
-
-        /** === Call and asserts  === */
-        $this->repo->getCompressedTree($CALC_ID);
     }
 
     public function test_getConfigGenerationsPercents()

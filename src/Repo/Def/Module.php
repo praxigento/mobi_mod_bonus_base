@@ -43,15 +43,6 @@ class Module extends Db implements IModule
         $this->_toolDate = $toolDate;
     }
 
-    public function addLogSaleOrder($transId, $saleOrderId)
-    {
-        $bind = [
-            LogSales::ATTR_TRANS_ID => $transId,
-            LogSales::ATTR_SALE_ORDER_ID => $saleOrderId
-        ];
-        $this->_repoBasic->addEntity(LogSales::ENTITY_NAME, $bind);
-    }
-
     public function addPeriod($calcTypeId, $dsBegin, $dsEnd)
     {
         $result = new DataObject();
@@ -127,18 +118,6 @@ class Module extends Db implements IModule
         if ($shouldGetLatestCalc && is_array($result)) {
             $result = reset($result);
         }
-        return $result;
-    }
-
-    /**
-     * @param int $calcId
-     *
-     * @return array [[Compress/*], ...]
-     */
-    public function getCompressedTree($calcId)
-    {
-        $where = Compress::ATTR_CALC_ID . '=' . (int)$calcId;
-        $result = $this->_repoBasic->getEntities(Compress::ENTITY_NAME, null, $where);
         return $result;
     }
 

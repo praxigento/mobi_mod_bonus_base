@@ -14,10 +14,18 @@ class Compress_UnitTest
 {
     /** @var  Compress */
     private $obj;
+    /** @var array Constructor arguments for object mocking */
+    private $objArgs = [];
 
     public function setUp()
     {
         parent::setUp();
+        /** reset args. to create mock of the tested object */
+        $this->objArgs = [
+            $this->mResource,
+            $this->mRepoGeneric,
+            Entity::class
+        ];
         /** create object to test */
         $this->obj = new Compress(
             $this->mResource,
@@ -30,5 +38,22 @@ class Compress_UnitTest
     {
         /** === Call and asserts  === */
         $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\ICompress::class, $this->obj);
+    }
+
+    public function test_getTreeByCalcId()
+    {
+        /** === Test Data === */
+        $CALC_ID = 2;
+        $RESULT = [];
+        /** === Mock object itself === */
+        $this->obj = \Mockery::mock(Compress::class . '[get]', $this->objArgs);
+        /** === Setup Mocks === */
+        // $result = $this->get($where);
+        $this->obj
+            ->shouldReceive('get')->once()
+            ->andReturn($RESULT);
+        /** === Call and asserts  === */
+        $res = $this->obj->getTreeByCalcId($CALC_ID);
+
     }
 }
