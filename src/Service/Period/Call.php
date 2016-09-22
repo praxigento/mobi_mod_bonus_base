@@ -282,7 +282,7 @@ class Call
             $result->setPeriodData($periodLatest);
             /* add period calculations to result set */
             $periodId = $periodLatest->getId();
-            $calcLatest = $this->_repoService->getLastCalcForPeriod($periodId);
+            $calcLatest = $this->_repoService->getLastCalcForPeriodById($periodId);
             $result->setCalcData($calcLatest);
         }
         $result->markSucceed();

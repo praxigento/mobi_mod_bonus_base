@@ -62,7 +62,38 @@ class Module
         return $result;
     }
 
-    public function getLastCalcForPeriod($periodId)
+    public function getLastCalcForPeriodByDates($calcTypeId, $dsBegin, $dsEnd)
+    {
+        $result = null;
+        $conn = $this->_conn;
+        $asPeriod = 'pbbp';
+        $asCalc = 'pbbc';
+        $tblPeriod = $this->_resource->getTableName(EPeriod::ENTITY_NAME);
+        $tblCalc = $this->_resource->getTableName(ECalculation::ENTITY_NAME);
+        // SELECT FROM prxgt_bon_base_period pbbp
+        $query = $conn->select();
+        $query->from([$asPeriod => $tblPeriod], []);
+        // LEFT JOIN prxgt_bon_base_calc pbbc ON pbbp.id = pbbc.period_id
+        $on = $asPeriod . '.' . EPeriod::ATTR_ID . '=' . $asCalc . '.' . ECalculation::ATTR_PERIOD_ID;
+        $cols = '*';
+        $query->joinLeft([$asCalc => $tblCalc], $on, $cols);
+        // LIMIT
+        $query->limit(1);
+        // WHERE
+        $whereTypeId = $asPeriod . '.' . EPeriod::ATTR_CALC_TYPE_ID . '=' . (int)$calcTypeId;
+        $whereFrom = $asPeriod . '.' . EPeriod::ATTR_DSTAMP_BEGIN . '=' . $conn->quote($dsBegin);
+        $whereTo = $asPeriod . '.' . EPeriod::ATTR_DSTAMP_END . '=' . $conn->quote($dsEnd);
+        $query->where("$whereTypeId AND $whereFrom AND $whereTo");
+        //
+        $rs = $conn->fetchAll($query);
+        if (is_array($rs)) {
+            $data = reset($rs);
+            $result = new ECalculation($data);
+        }
+        return $result;
+    }
+
+    public function getLastCalcForPeriodById($periodId)
     {
         $result = null;
         $where = ECalculation::ATTR_PERIOD_ID . '=' . (int)$periodId;

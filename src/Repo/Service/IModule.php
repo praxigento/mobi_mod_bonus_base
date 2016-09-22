@@ -16,12 +16,23 @@ interface IModule
     public function getFirstDateForPvTransactions();
 
     /**
+     * Get calculations (or the last one) by Calculation Type ID and period's bounds (from & to).
+     *
+     * @param int $calcTypeId
+     * @param string $dsBegin 'YYYYMMDD'
+     * @param string $dsEnd 'YYYYMMDD'
+     *
+     * @return \Praxigento\BonusBase\Data\Entity\Calculation|null
+     */
+    public function getLastCalcForPeriodByDates($calcTypeId, $dsBegin, $dsEnd);
+
+    /**
      * Get the last calculation for period.
      *
      * @param int $periodId
      * @return \Praxigento\BonusBase\Data\Entity\Calculation|null
      */
-    public function getLastCalcForPeriod($periodId);
+    public function getLastCalcForPeriodById($periodId);
 
     /**
      * Get the last period data by calculation type.

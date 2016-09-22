@@ -17,7 +17,7 @@ class Module_ManualTest
     {
         /** @var \Praxigento\BonusBase\Repo\Service\Def\Module $obj */
         $obj = $this->_manObj->get(\Praxigento\BonusBase\Repo\Service\IModule::class);
-        $res = $obj->getLastCalcForPeriod(1);
+        $res = $obj->getLastCalcForPeriodById(1);
         $this->assertInstanceOf(ECalculation::class, $res);
     }
 
