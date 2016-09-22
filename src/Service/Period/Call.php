@@ -7,7 +7,6 @@ namespace Praxigento\BonusBase\Service\Period;
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Data\Entity\Calculation;
 use Praxigento\BonusBase\Data\Entity\Period;
-use Praxigento\BonusBase\Repo\IModule;
 use Praxigento\BonusBase\Repo\IModule as RepoModule;
 use Praxigento\Core\Tool\IPeriod as ToolPeriod;
 
@@ -19,22 +18,25 @@ class Call
     protected $_logger;
     /** @var  \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
+    /** @var \Praxigento\BonusBase\Repo\Entity\ICalculation */
+    protected $_repoCalc;
     /** @var RepoModule */
     protected $_repoMod;
     /** @var \Praxigento\BonusBase\Repo\Entity\IPeriod */
     protected $_repoPeriod;
-    /** @var \Praxigento\BonusBase\Repo\Entity\ICalculation */
-    protected $_repoCalc;
-    /** @var  \Praxigento\Core\Tool\IPeriod */
-    protected $_toolPeriod;
+    /** @var \Praxigento\BonusBase\Repo\Service\IModule */
+    protected $_repoService;
     /** @var \Praxigento\Core\Tool\IDate */
     protected $_toolDate;
+    /** @var  \Praxigento\Core\Tool\IPeriod */
+    protected $_toolPeriod;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
         \Praxigento\BonusBase\Repo\Entity\ICalculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\IPeriod $repoPeriod,
+        \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
         \Praxigento\Core\Tool\IDate $toolDate,
         RepoModule $repoMod
@@ -43,6 +45,7 @@ class Call
         $this->_manTrans = $manTrans;
         $this->_repoCalc = $repoCalc;
         $this->_repoPeriod = $repoPeriod;
+        $this->_repoService = $repoService;
         $this->_toolPeriod = $toolPeriod;
         $this->_toolDate = $toolDate;
         $this->_repoMod = $repoMod;
@@ -89,31 +92,38 @@ class Call
         $result = new Response\GetForDependentCalc();
         $dependentCalcTypeCode = $request->getDependentCalcTypeCode();
         $baseCalcTypeCode = $request->getBaseCalcTypeCode();
-        $this->_logger->info("'Get latest period for Dependent Calculation' operation is started (dependent=$dependentCalcTypeCode, base=$baseCalcTypeCode).");
+        $msg = "'Get latest period for Dependent Calculation' operation is started "
+            . "(dependent=$dependentCalcTypeCode, base=$baseCalcTypeCode).";
+        $this->_logger->info($msg);
 
         /* get IDs for calculations codes */
         $dependentCalcTypeId = $this->_repoMod->getTypeCalcIdByCode($dependentCalcTypeCode);
         $baseCalcTypeId = $this->_repoMod->getTypeCalcIdByCode($baseCalcTypeCode);
         /* get the last base period data */
-        $latestPeriodData = $this->_repoMod->getLatestPeriod($baseCalcTypeId);
-        $basePeriodData = $latestPeriodData->getData(IModule::A_PERIOD);
+        $reqLatest = new Request\GetLatest();
+        $reqLatest->setCalcTypeId($baseCalcTypeId);
+        $latestPeriodData = $this->getLatest($reqLatest);
+        $basePeriodData = $latestPeriodData->getPeriodData();
         if (is_null($basePeriodData)) {
-            $this->_logger->warning("There is no period for '$baseCalcTypeCode' calculation  yet. '$dependentCalcTypeCode' could not be calculated.");
+            $msg = "There is no period for '$baseCalcTypeCode' calculation  yet. "
+                . "'$dependentCalcTypeCode' could not be calculated.";
+            $this->_logger->warning($msg);
         } else {
             $result->setBasePeriodData($basePeriodData);
-            $baseCalcData = $latestPeriodData->getData(IModule::A_CALC);
+            $baseCalcData = $latestPeriodData->getCalcData();
             $result->setBaseCalcData($baseCalcData);
-            $baseDsBegin = $basePeriodData[Period::ATTR_DSTAMP_BEGIN];
-            $baseDsEnd = $basePeriodData[Period::ATTR_DSTAMP_END];
+            $baseDsBegin = $basePeriodData->getDstampBegin();
+            $baseDsEnd = $basePeriodData->getDstampEnd();
             if (
-                is_array($baseCalcData) &&
-                isset($baseCalcData[Calculation::ATTR_STATE]) &&
-                ($baseCalcData[Calculation::ATTR_STATE] == Cfg::CALC_STATE_COMPLETE)
+                $baseCalcData &&
+                ($baseCalcData->getState() == Cfg::CALC_STATE_COMPLETE)
             ) {
                 /* there is complete Base Calculation */
-                $respDependentPeriod = $this->_repoMod->getLatestPeriod($dependentCalcTypeId);
-                $dependPeriodData = $respDependentPeriod->getData(IModule::A_PERIOD);
-                $dependentCalcData = $respDependentPeriod->getData(IModule::A_CALC);
+                $reqLatest = new Request\GetLatest();
+                $reqLatest->setCalcTypeId($dependentCalcTypeId);
+                $respDependentPeriod = $this->getLatest($reqLatest);
+                $dependPeriodData = $respDependentPeriod->getPeriodData();
+                $dependentCalcData = $respDependentPeriod->getCalcData();
                 if (is_null($dependPeriodData)) {
                     /* there is no dependent period */
                     $msg = "There is no period data for calculation '$dependentCalcTypeCode'."
@@ -123,9 +133,9 @@ class Call
                     $reqAddCalc->setCalcTypeId($dependentCalcTypeId);
                     $reqAddCalc->setDateStampBegin($baseDsBegin);
                     $reqAddCalc->setDateStampEnd($baseDsEnd);
-                    $dependPeriodData = $this->addCalc($reqAddCalc);
-                    $result->setDependentPeriodData($dependPeriodData->getPeriod());
-                    $result->setDependentCalcData($dependPeriodData->getCalculation());
+                    $respAddCalc = $this->addCalc($reqAddCalc);
+                    $result->setDependentPeriodData($respAddCalc->getPeriod());
+                    $result->setDependentCalcData($respAddCalc->getCalculation());
                     $result->markSucceed();
                 } else {
                     /* there is dependent period */
@@ -166,7 +176,9 @@ class Call
                 }
             } else {
                 /* there is no complete Base Calculation */
-                $this->_logger->warning("There is no complete base '$baseCalcTypeCode' calculation for dependent '$dependentCalcTypeCode' calculation. New period could not be created.");
+                $msg = "There is no complete base '$baseCalcTypeCode' calculation for dependent "
+                    . "'$dependentCalcTypeCode' calculation. New period could not be created.";
+                $this->_logger->warning($msg);
             }
         }
         $this->_logger->info("'Get latest period for Dependent Calculation' operation is completed.");
@@ -181,8 +193,10 @@ class Call
         $this->_logger->info("'Get latest period for PV based calc' operation is started in bonus base module (type code '$calcTypeCode').");
         /* get calculation type ID by type code */
         $calcTypeId = $this->_repoMod->getTypeCalcIdByCode($calcTypeCode);
-        $data = $this->_repoMod->getLatestPeriod($calcTypeId);
-        $periodData = $data->getData(IModule::A_PERIOD);
+        $reqLatest = new Request\GetLatest();
+        $reqLatest->setCalcTypeId($calcTypeId);
+        $data = $this->getLatest($reqLatest);
+        $periodData = $data->getPeriodData();
         if (is_null($periodData)) {
             /* we should lookup for first PV transaction and calculate first period range */
             $ts = $this->_repoMod->getFirstDateForPvTransactions();
@@ -207,7 +221,7 @@ class Call
             $result->setPeriodData($periodData);
             $periodId = $periodData[Period::ATTR_ID];
             $this->_logger->info("There is registered period #$periodId for '$calcTypeCode' calculation.");
-            $calcData = $data->getData(IModule::A_CALC);
+            $calcData = $data->getCalcData();
             if (!is_array($calcData)) {
                 $this->_logger->error("There is no calculation data for existing period ($calcTypeCode).");
                 $result->setErrorCode(Response\GetForPvBasedCalc::ERR_NO_CALC_FOR_EXISTING_PERIOD);
@@ -265,9 +279,16 @@ class Call
             $calcTypeId = $this->_repoMod->getTypeCalcIdByCode($calcTypeCode);
             $this->_logger->info("There is only calculation type code ($calcTypeCode) in request, calculation type id = $calcTypeId.");
         }
-        $data = $this->_repoMod->getLatestPeriod($calcTypeId, $shouldGetLatestCalc, $shouldGetAllCalcs);
-        $result->setPeriodData($data->getData(IModule::A_PERIOD));
-        $result->setCalcData($data->getData(IModule::A_CALC));
+        $periodLatest = $this->_repoService->getLastPeriodByCalcType($calcTypeId);
+        if ($periodLatest) {
+            $result->setPeriodData($periodLatest);
+            if ($shouldGetAllCalcs || $shouldGetLatestCalc) {
+                /* add period calculations to result set */
+                $periodId = $periodLatest->getId();
+                $calcLatest = $this->_repoService->getLastCalcForPeriod($periodId);
+                $result->setCalcData($calcLatest);
+            }
+        }
         $result->markSucceed();
         $this->_logger->info("'Get latest calculation period' operation is completed in bonus base module.");
         return $result;

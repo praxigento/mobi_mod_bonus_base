@@ -5,9 +5,7 @@
 
 namespace Praxigento\BonusBase\Repo\Def;
 
-use Praxigento\BonusBase\Data\Entity\Calculation;
 use Praxigento\BonusBase\Data\Entity\Cfg\Generation as CfgGeneration;
-use Praxigento\BonusBase\Data\Entity\Period;
 use Praxigento\Core\Data\Entity\Type\Base as TypeBase;
 use Praxigento\Downline\Data\Entity\Snap;
 
@@ -39,7 +37,6 @@ class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             $this->mToolDate
         );
     }
-
 
 
     public function test_getCalcsForPeriod()
@@ -142,36 +139,6 @@ class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         /** === Call and asserts  === */
         $resp = $this->repo->getFirstDateForPvTransactions();
         $this->assertEquals($DATE, $resp);
-    }
-
-    public function test_getLatestPeriod()
-    {
-        /** === Test Data === */
-        $CALC_TYPE_ID = 2;
-        $PERIOD_ID = 4;
-        $CALC_ID = 8;
-        $PERIOD_DATA = [
-            [Period::ATTR_ID => $PERIOD_ID]
-        ];
-        $CALC_DATA = [
-            [Calculation::ATTR_ID => $CALC_ID]
-        ];
-
-        /** === Setup Mocks === */
-        //  $periodData = $this->_repoBasic->getEntities(Period::ENTITY_NAME, null, $wherePeriod, $orderPeriod, 1);
-        $this->mRepoGeneric
-            ->shouldReceive('getEntities')->once()
-            ->andReturn($PERIOD_DATA);
-        // $calcData = $this->_repoBasic->getEntities(Calculation::ENTITY_NAME, null, $where, $order, $limit);
-        $this->mRepoGeneric
-            ->shouldReceive('getEntities')->once()
-            ->andReturn($CALC_DATA);
-        /** === Call and asserts  === */
-        $resp = $this->repo->getLatestPeriod($CALC_TYPE_ID);
-        $periodData = $resp->getData(Module::A_PERIOD);
-        $this->assertEquals($PERIOD_ID, $periodData[Period::ATTR_ID]);
-        $calcData = $resp->getData(Module::A_CALC);
-        $this->assertEquals($CALC_ID, $calcData[Calculation::ATTR_ID]);
     }
 
     public function test_getRankIdByCode()

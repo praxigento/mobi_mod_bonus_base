@@ -14,6 +14,7 @@ namespace Praxigento\BonusBase\Service\Period\Request;
  * @method bool getShouldGetLatestCalc()
  * @method void setShouldGetLatestCalc(bool $data)
  */
-class GetLatest extends \Praxigento\Core\Service\Base\Request {
+class GetLatest extends \Praxigento\Core\Service\Base\Request
+{
 
 }
