@@ -6,19 +6,18 @@
  */
 namespace Praxigento\BonusBase\Tool\Def;
 
-
-use Flancer32\Lib\DataObject;
-use Praxigento\BonusBase\Tool\IQualifyUser;
-
-class QualifyUser implements IQualifyUser {
+class QualifyUser
+    implements \Praxigento\BonusBase\Tool\IQualifyUser
+{
     /**
-     * Default implementation is always 'true'.
+     * Default implementation: always 'true'.
      *
-     * @param DataObject $data
+     * @param array $data
      *
      * @return bool
      */
-    public function isQualified(array $data) {
+    public function isQualified(array $data)
+    {
         return true;
     }
 

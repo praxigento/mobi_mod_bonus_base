@@ -8,16 +8,14 @@ use Flancer32\Lib\DataObject;
 use Praxigento\Accounting\Data\Entity\Account;
 use Praxigento\Accounting\Data\Entity\Transaction;
 use Praxigento\Accounting\Data\Entity\Type\Asset as TypeAsset;
+use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Data\Entity\Calculation;
 use Praxigento\BonusBase\Data\Entity\Cfg\Generation as CfgGeneration;
 use Praxigento\BonusBase\Data\Entity\Compress;
-use Praxigento\BonusBase\Data\Entity\Log\Rank as LogRank;
-use Praxigento\BonusBase\Data\Entity\Log\Sales as LogSales;
 use Praxigento\BonusBase\Data\Entity\Period;
 use Praxigento\BonusBase\Data\Entity\Rank;
 use Praxigento\BonusBase\Data\Entity\Type\Calc as TypeCalc;
 use Praxigento\BonusBase\Repo\IModule;
-use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Core\Data\Entity\Type\Base as TypeBase;
 use Praxigento\Core\Repo\Def\Db;
 use Praxigento\Downline\Data\Entity\Snap;
@@ -236,15 +234,6 @@ class Module extends Db implements IModule
         return $result;
     }
 
-    public function logRank($transRef, $rankRef)
-    {
-        $bind = [
-            LogRank::ATTR_TRANS_REF => $transRef,
-            LogRank::ATTR_RANK_REF => $rankRef
-        ];
-        $this->_repoBasic->addEntity(LogRank::ENTITY_NAME, $bind);
-    }
-
     /**
      * Save compressed tree.
      *
@@ -269,15 +258,4 @@ class Module extends Db implements IModule
         }
     }
 
-    public function updateCalcSetComplete($calcId)
-    {
-        $tsEnded = $this->_toolDate->getUtcNowForDb();
-        $bind = [
-            Calculation::ATTR_DATE_ENDED => $tsEnded,
-            Calculation::ATTR_STATE => Cfg::CALC_STATE_COMPLETE
-        ];
-        $where = Calculation::ATTR_ID . '=' . $calcId;
-        $result = $this->_repoBasic->updateEntity(Calculation::ENTITY_NAME, $bind, $where);
-        return $result;
-    }
 }

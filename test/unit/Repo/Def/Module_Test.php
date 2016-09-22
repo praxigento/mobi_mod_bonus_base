@@ -322,21 +322,6 @@ class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->assertEquals($ID, $resp);
     }
 
-    public function test_logRank()
-    {
-        /** === Test Data === */
-        $TRAN_REF = 21;
-        $RANK_REF = 12;
-
-        /** === Setup Mocks === */
-        // $this->_repoBasic->addEntity(LogRank::ENTITY_NAME, $bind);
-        $this->mRepoGeneric
-            ->shouldReceive('addEntity')->once();
-
-        /** === Call and asserts  === */
-        $this->repo->logRank($TRAN_REF, $RANK_REF);
-    }
-
     public function test_saveCompressedTree_commit()
     {
         /** === Test Data === */
@@ -381,25 +366,6 @@ class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
 
         /** === Call and asserts  === */
         $this->repo->saveCompressedTree($CALC_ID, $TREE);
-    }
-
-    public function test_updateCalcSetComplete()
-    {
-        /** === Test Data === */
-        $CALC_ID = 21;
-        $RESULT = 1;
-
-        /** === Setup Mocks === */
-        // $tsEnded = $this->_toolDate->getUtcNowForDb();
-        $this->mToolDate->shouldReceive('getUtcNowForDb');
-        // $result = $this->_repoBasic->updateEntity(Calculation::ENTITY_NAME, $bind, $where);
-        $this->mRepoGeneric
-            ->shouldReceive('updateEntity')
-            ->andReturn($RESULT);
-
-        /** === Call and asserts  === */
-        $resp = $this->repo->updateCalcSetComplete($CALC_ID);
-        $this->assertEquals($RESULT, $resp);
     }
 
 

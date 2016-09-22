@@ -10,8 +10,8 @@ interface ICompress
     /**
      * Get compressed tree for given calculation.
      *
-     * @param $calId
+     * @param $calcId
      * @return array raw data from DB
      */
-    public function getTreeByCalcId($calId);
+    public function getTreeByCalcId($calcId);
 }

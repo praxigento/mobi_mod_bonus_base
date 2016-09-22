@@ -74,23 +74,9 @@ interface IModule
     public function getTypeCalcIdByCode($calcTypeCode);
 
     /**
-     * Register new record in the log.
-     *
-     * @param int $transRef
-     * @param int $rankRef
-     */
-    public function logRank($transRef, $rankRef);
-
-    /**
      * @param int $calcId
      * @param array $tree [[Snap::ATTR_CUSTOMER_ID, Snap::ATTR_PARENT_ID], ...]
      */
     public function saveCompressedTree($calcId, $tree);
 
-    /**
-     * @param int $calcId
-     *
-     * @return int number of updated rows (expected one only)
-     */
-    public function updateCalcSetComplete($calcId);
 }

@@ -17,9 +17,9 @@ class Compress
         parent::__construct($resource, $repoGeneric, Entity::class);
     }
 
-    public function getTreeByCalcId($calId)
+    public function getTreeByCalcId($calcId)
     {
-        $where = Entity::ATTR_CALC_ID . '=' . (int)$calId;
+        $where = Entity::ATTR_CALC_ID . '=' . (int)$calcId;
         $result = $this->get($where);
         return $result;
     }

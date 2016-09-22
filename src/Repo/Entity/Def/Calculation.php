@@ -4,8 +4,6 @@
  */
 namespace Praxigento\BonusBase\Repo\Entity\Def;
 
-use Praxigento\BonusBase\Data\Entity\Calculation as Entity;
-
 class Calculation
     extends \Praxigento\Core\Repo\Def\Entity
     implements \Praxigento\BonusBase\Repo\Entity\ICalculation
@@ -14,7 +12,11 @@ class Calculation
         \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\Core\Repo\IGeneric $repoGeneric
     ) {
-        parent::__construct($resource, $repoGeneric, Entity::class);
+        parent::__construct(
+            $resource,
+            $repoGeneric,
+            \Praxigento\BonusBase\Data\Entity\Calculation::class
+        );
     }
 
 }

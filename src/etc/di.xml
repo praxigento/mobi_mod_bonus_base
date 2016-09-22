@@ -13,6 +13,8 @@
     <preference for="Praxigento\BonusBase\Repo\Entity\ILevel" type="Praxigento\BonusBase\Repo\Entity\Def\Level"/>
     <preference for="Praxigento\BonusBase\Repo\Entity\IPeriod" type="Praxigento\BonusBase\Repo\Entity\Def\Period"/>
     <preference for="Praxigento\BonusBase\Repo\Entity\IRank" type="Praxigento\BonusBase\Repo\Entity\Def\Rank"/>
+    <preference for="\Praxigento\BonusBase\Repo\Service\IModule" type="\Praxigento\BonusBase\Repo\Service\Def\Module"/>
+
     <preference for="Praxigento\BonusBase\Repo\IModule" type="Praxigento\BonusBase\Repo\Def\Module"/>
 
     <!-- Services -->
