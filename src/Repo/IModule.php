@@ -17,17 +17,6 @@ interface IModule
     const A_PERIOD = 'period';
 
     /**
-     * Create new period record and related calculation record.
-     *
-     * @param int $calcTypeId
-     * @param string $dsBegin 'YYYYMMDD'
-     * @param string $dsEnd 'YYYYMMDD'
-     *
-     * @return DataObject
-     */
-    public function addPeriod($calcTypeId, $dsBegin, $dsEnd);
-
-    /**
      * Get calculations (or the last one) by Calculation Type ID and period's bounds (from & to).
      *
      * @param int $calcTypeId

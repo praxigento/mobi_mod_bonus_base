@@ -40,61 +40,6 @@ class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         );
     }
 
-    public function test_addPeriod_commit()
-    {
-        /** === Test Data === */
-        $CALC_TYPE_ID = 2;
-        $DS_BEGIN = '20160304';
-        $DS_END = '20160308';
-        $CALC_ID = 23;
-        $PERIOD_ID = 32;
-        $DATE_STARTED = '2012-08-23 20:32:43';
-
-        /** === Setup Mocks === */
-        // $this->_getConn()->beginTransaction();
-        $this->mConn->shouldReceive('beginTransaction');
-        // $periodId = $this->_repoBasic->addEntity(Period::ENTITY_NAME, $periodData);
-        $this->mRepoGeneric
-            ->shouldReceive('addEntity')->once()
-            ->andReturn($PERIOD_ID);
-        // $dateStarted = $this->_toolDate->getUtcNowForDb();
-        $this->mToolDate
-            ->shouldReceive('getUtcNowForDb')
-            ->andReturn($DATE_STARTED);
-        // $calcId = $this->_repoBasic->addEntity(Calculation::ENTITY_NAME, $calcData);
-        $this->mRepoGeneric
-            ->shouldReceive('addEntity')->once()
-            ->andReturn($CALC_ID);
-        // $this->_getConn()->commit();
-        $this->mConn->shouldReceive('commit');
-
-        /** === Call and asserts  === */
-        $this->repo->addPeriod($CALC_TYPE_ID, $DS_BEGIN, $DS_END);
-    }
-
-    /**
-     * @expectedException \Exception
-     */
-    public function test_addPeriod_exception()
-    {
-        /** === Test Data === */
-        $CALC_TYPE_ID = 2;
-        $DS_BEGIN = '20160304';
-        $DS_END = '20160308';
-
-        /** === Setup Mocks === */
-        // $this->_getConn()->beginTransaction();
-        $this->mConn->shouldReceive('beginTransaction');
-        // $periodId = $this->_repoBasic->addEntity(Period::ENTITY_NAME, $periodData);
-        $this->mRepoGeneric
-            ->shouldReceive('addEntity')->once()
-            ->andThrow(new \Exception());
-        // $this->_getConn()->rollBack();
-        $this->mConn->shouldReceive('rollBack');
-
-        /** === Call and asserts  === */
-        $this->repo->addPeriod($CALC_TYPE_ID, $DS_BEGIN, $DS_END);
-    }
 
 
     public function test_getCalcsForPeriod()

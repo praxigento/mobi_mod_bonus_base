@@ -41,38 +41,6 @@ class Module extends Db implements IModule
         $this->_toolDate = $toolDate;
     }
 
-    public function addPeriod($calcTypeId, $dsBegin, $dsEnd)
-    {
-        $result = new DataObject();
-        $def = $this->_manTrans->begin();
-        try {
-            /* add new period */
-            $periodData = [
-                Period::ATTR_CALC_TYPE_ID => $calcTypeId,
-                Period::ATTR_DSTAMP_BEGIN => $dsBegin,
-                Period::ATTR_DSTAMP_END => $dsEnd
-            ];
-            $periodId = $this->_repoBasic->addEntity(Period::ENTITY_NAME, $periodData);
-            $periodData[Period::ATTR_ID] = $periodId;
-            $result->setData(IModule::A_PERIOD, $periodData);
-            /* add related calculation */
-            $dateStarted = $this->_toolDate->getUtcNowForDb();
-            $calcData = [
-                Calculation::ATTR_PERIOD_ID => $periodId,
-                Calculation::ATTR_DATE_STARTED => $dateStarted,
-                Calculation::ATTR_DATE_ENDED => null,
-                Calculation::ATTR_STATE => Cfg::CALC_STATE_STARTED
-            ];
-            $calcId = $this->_repoBasic->addEntity(Calculation::ENTITY_NAME, $calcData);
-            $this->_manTrans->commit($def);
-            $calcData[Calculation::ATTR_ID] = $calcId;
-            $result->setData(IModule::A_CALC, $calcData);
-        } finally {
-            $this->_manTrans->end($def);
-        }
-        return $result;
-    }
-
     /**
      * SELECT
      * pbbc.*

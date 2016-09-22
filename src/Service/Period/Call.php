@@ -116,10 +116,16 @@ class Call
                 $dependentCalcData = $respDependentPeriod->getData(IModule::A_CALC);
                 if (is_null($dependPeriodData)) {
                     /* there is no dependent period */
-                    $this->_logger->warning("There is no period data for calculation '$dependentCalcTypeCode'. New period and related calculation will be created.");
-                    $dependPeriodData = $this->_repoMod->addPeriod($dependentCalcTypeId, $baseDsBegin, $baseDsEnd);
-                    $result->setDependentPeriodData($dependPeriodData->getData(IModule::A_PERIOD));
-                    $result->setDependentCalcData($dependPeriodData->getData(IModule::A_CALC));
+                    $msg = "There is no period data for calculation '$dependentCalcTypeCode'."
+                        . " New period and related calculation will be created.";
+                    $this->_logger->warning($msg);
+                    $reqAddCalc = new Request\AddCalc();
+                    $reqAddCalc->setCalcTypeId($dependentCalcTypeId);
+                    $reqAddCalc->setDateStampBegin($baseDsBegin);
+                    $reqAddCalc->setDateStampEnd($baseDsEnd);
+                    $dependPeriodData = $this->addCalc($reqAddCalc);
+                    $result->setDependentPeriodData($dependPeriodData->getPeriod());
+                    $result->setDependentCalcData($dependPeriodData->getCalculation());
                     $result->markSucceed();
                 } else {
                     /* there is dependent period */
@@ -148,9 +154,13 @@ class Call
                     } else {
                         /* dependent period has different begin/end then related base period */
                         $this->_logger->warning("There is no period for '$dependentCalcTypeCode' calculation based on '$baseCalcTypeCode' ($baseDsBegin-$baseDsEnd). New period and related calculation will be created.");
-                        $dependPeriodData = $this->_repoMod->addPeriod($dependentCalcTypeId, $baseDsBegin, $baseDsEnd);
-                        $result->setDependentPeriodData($dependPeriodData->getData(IModule::A_PERIOD));
-                        $result->setDependentCalcData($dependPeriodData->getData(IModule::A_CALC));
+                        $reqAddCalc = new Request\AddCalc();
+                        $reqAddCalc->setCalcTypeId($dependentCalcTypeId);
+                        $reqAddCalc->setDateStampBegin($baseDsBegin);
+                        $reqAddCalc->setDateStampEnd($baseDsEnd);
+                        $dependPeriodData = $this->addCalc($reqAddCalc);
+                        $result->setDependentPeriodData($dependPeriodData->getPeriod());
+                        $result->setDependentCalcData($dependPeriodData->getCalculation());
                         $result->markSucceed();
                     }
                 }
@@ -184,9 +194,13 @@ class Call
                 $periodMonth = $this->_toolPeriod->getPeriodCurrent($ts, $periodType);
                 $dsBegin = $this->_toolPeriod->getPeriodFirstDate($periodMonth);
                 $dsEnd = $this->_toolPeriod->getPeriodLastDate($periodMonth);
-                $data = $this->_repoMod->addPeriod($calcTypeId, $dsBegin, $dsEnd);
-                $result->setPeriodData($data->getData(RepoModule::A_PERIOD));
-                $result->setCalcData($data->getData(RepoModule::A_CALC));
+                $reqAddCalc = new Request\AddCalc();
+                $reqAddCalc->setCalcTypeId($calcTypeId);
+                $reqAddCalc->setDateStampBegin($dsBegin);
+                $reqAddCalc->setDateStampEnd($dsEnd);
+                $data = $this->addCalc($reqAddCalc);
+                $result->setPeriodData($data->getPeriod());
+                $result->setCalcData($data->getCalculation());
                 $result->markSucceed();
             }
         } else {
@@ -214,9 +228,13 @@ class Call
                     $dsNowEnd = $this->_toolPeriod->getPeriodLastDate($periodNow);
                     if ($dsNextEnd < $dsNowEnd) {
                         /* registry new period */
-                        $newPeriodData = $this->_repoMod->addPeriod($calcTypeId, $dsNextBegin, $dsNextEnd);
-                        $result->setPeriodData($newPeriodData->getData(RepoModule::A_PERIOD));
-                        $result->setCalcData($newPeriodData->getData(RepoModule::A_CALC));
+                        $reqAddCalc = new Request\AddCalc();
+                        $reqAddCalc->setCalcTypeId($calcTypeId);
+                        $reqAddCalc->setDateStampBegin($dsNextBegin);
+                        $reqAddCalc->setDateStampEnd($dsNextEnd);
+                        $newPeriodData = $this->addCalc($reqAddCalc);
+                        $result->setPeriodData($newPeriodData->getPeriod());
+                        $result->setCalcData($newPeriodData->getCalculation());
                         $result->markSucceed();
                     } else {
                         $this->_logger->warning("New period can be registered in the past only (to register: $dsNextBegin-$dsNextEnd, current end: $dsNowEnd).");
@@ -269,9 +287,13 @@ class Call
             $calcTypeId = $this->_repoMod->getTypeCalcIdByCode($calcTypeCode);
             $this->_logger->info("There is only calculation type code ($calcTypeCode) in request, calculation type id = $calcTypeId.");
         }
-        $data = $this->_repoMod->addPeriod($calcTypeId, $dsBegin, $dsEnd);
-        $result->setPeriodData($data->getData(IModule::A_PERIOD));
-        $result->setCalcData($data->getData(IModule::A_CALC));
+        $reqAddCalc = new Request\AddCalc();
+        $reqAddCalc->setCalcTypeId($calcTypeId);
+        $reqAddCalc->setDateStampBegin($dsBegin);
+        $reqAddCalc->setDateStampEnd($dsEnd);
+        $data = $this->addCalc($reqAddCalc);
+        $result->setPeriodData($data->getPeriod());
+        $result->setCalcData($data->getCalculation());
         $result->markSucceed();
         $this->_logger->info("'Register Period' operation is completed in bonus base module.");
         return $result;
