@@ -12,8 +12,6 @@ use Praxigento\BonusBase\Data\Entity\Calculation;
 use Praxigento\BonusBase\Data\Entity\Cfg\Generation as CfgGeneration;
 use Praxigento\BonusBase\Data\Entity\Compress;
 use Praxigento\BonusBase\Data\Entity\Period;
-use Praxigento\BonusBase\Data\Entity\Rank;
-use Praxigento\BonusBase\Data\Entity\Type\Calc as TypeCalc;
 use Praxigento\BonusBase\Repo\IModule;
 use Praxigento\Core\Data\Entity\Type\Base as TypeBase;
 use Praxigento\Core\Repo\Def\Db;
@@ -128,18 +126,6 @@ class Module extends Db implements IModule
         $query->limit(1);
         // $sql = (string)$query;
         $result = $this->_conn->fetchOne($query);
-        return $result;
-    }
-
-    public function getRankIdByCode($calcTypeCode)
-    {
-        $tbl = $this->_resource->getTableName(Rank::ENTITY_NAME);
-        $query = $this->_conn->select();
-        $query->from($tbl);
-        $query->where(TypeBase::ATTR_CODE . '=:code');
-        // $sql = (string)$query;
-        $data = $this->_conn->fetchRow($query, ['code' => $calcTypeCode]);
-        $result = isset($data[TypeBase::ATTR_ID]) ? $data[TypeBase::ATTR_ID] : null;
         return $result;
     }
 

@@ -39,13 +39,6 @@ interface IModule
     public function getFirstDateForPvTransactions();
 
     /**
-     * @param string $calcTypeCode
-     *
-     * @return int
-     */
-    public function getRankIdByCode($calcTypeCode);
-
-    /**
      * @param int $calcId
      * @param array $tree [[Snap::ATTR_CUSTOMER_ID, Snap::ATTR_PARENT_ID], ...]
      */
