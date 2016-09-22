@@ -270,8 +270,6 @@ class Call
         $result = new Response\GetLatest();
         $calcTypeId = $request->getCalcTypeId();
         $calcTypeCode = $request->getCalcTypeCode();
-        $shouldGetAllCalcs = $request->getShouldGetAllCalcs();
-        $shouldGetLatestCalc = $request->getShouldGetLatestCalc();
         $msgParams = is_null($calcTypeId) ? "type code '$calcTypeCode'" : "type ID #$calcTypeId";
         $this->_logger->info("'Get latest calculation period' operation is started with $msgParams in bonus base module.");
         if (is_null($calcTypeId)) {
@@ -282,12 +280,10 @@ class Call
         $periodLatest = $this->_repoService->getLastPeriodByCalcType($calcTypeId);
         if ($periodLatest) {
             $result->setPeriodData($periodLatest);
-            if ($shouldGetAllCalcs || $shouldGetLatestCalc) {
-                /* add period calculations to result set */
-                $periodId = $periodLatest->getId();
-                $calcLatest = $this->_repoService->getLastCalcForPeriod($periodId);
-                $result->setCalcData($calcLatest);
-            }
+            /* add period calculations to result set */
+            $periodId = $periodLatest->getId();
+            $calcLatest = $this->_repoService->getLastCalcForPeriod($periodId);
+            $result->setCalcData($calcLatest);
         }
         $result->markSucceed();
         $this->_logger->info("'Get latest calculation period' operation is completed in bonus base module.");

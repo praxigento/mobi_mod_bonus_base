@@ -738,7 +738,6 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         /** === Call and asserts  === */
         $req = new Request\GetLatest();
         $req->setCalcTypeId($CALC_TYPE_ID);
-        $req->setShouldGetLatestCalc(true);
         $resp = $this->call->getLatest($req);
         $this->assertTrue($resp->isSucceed());
         $calcData = $resp->getCalcData();

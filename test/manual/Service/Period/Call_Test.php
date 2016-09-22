@@ -52,8 +52,6 @@ class Call_ManualTest
         $req = new Request\GetLatest();
         $req->setCalcTypeId(null);
         $req->setCalcTypeCode('LOYALTY_BON_COMPRESS');
-        $req->setShouldGetLatestCalc(false);
-        $req->setShouldGetAllCalcs(true);
         $resp = $call->getLatest($req);
         $this->assertTrue($resp->isSucceed());
     }
