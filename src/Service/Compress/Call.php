@@ -38,6 +38,7 @@ class Call extends BaseCall implements ICompress
         \Praxigento\Downline\Tool\ITree $toolDownlineTree
     ) {
         $this->_logger = $logger;
+        $this->_manTrans = $manTrans;
         $this->_repoBonusCompress = $repoBonusCompress;
         $this->_callDownlineMap = $repoDownlineMap;
         $this->_callDownlineSnap = $callDownlineSnap;
@@ -142,7 +143,6 @@ class Call extends BaseCall implements ICompress
         /* save compressed tree */
         $def = $this->_manTrans->begin();
         try {
-            $this->_repoMod->saveCompressedTree($calcId, $treeCompressed);
             foreach ($treeCompressed as $item) {
                 $data = [
                     ECompress::ATTR_CALC_ID => $calcId,
