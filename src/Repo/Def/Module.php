@@ -9,12 +9,9 @@ use Praxigento\Accounting\Data\Entity\Transaction;
 use Praxigento\Accounting\Data\Entity\Type\Asset as TypeAsset;
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Data\Entity\Calculation;
-use Praxigento\BonusBase\Data\Entity\Cfg\Generation as CfgGeneration;
-use Praxigento\BonusBase\Data\Entity\Compress;
 use Praxigento\BonusBase\Data\Entity\Period;
 use Praxigento\BonusBase\Repo\IModule;
 use Praxigento\Core\Repo\Def\Db;
-use Praxigento\Downline\Data\Entity\Snap;
 
 class Module extends Db implements IModule
 {
@@ -79,20 +76,6 @@ class Module extends Db implements IModule
         $result = $conn->fetchAll($query);
         if ($shouldGetLatestCalc && is_array($result)) {
             $result = reset($result);
-        }
-        return $result;
-    }
-
-    public function getConfigGenerationsPercents($calcTypeId)
-    {
-        $result = [];
-        $where = CfgGeneration::ATTR_CALC_TYPE_ID . '=' . (int)$calcTypeId;
-        $rows = $this->_repoBasic->getEntities(CfgGeneration::ENTITY_NAME, null, $where);
-        foreach ($rows as $row) {
-            $rankId = $row[CfgGeneration::ATTR_RANK_ID];
-            $gen = $row[CfgGeneration::ATTR_GENERATION];
-            $percent = $row[CfgGeneration::ATTR_PERCENT];
-            $result[$rankId][$gen] = $percent;
         }
         return $result;
     }

@@ -27,13 +27,6 @@ interface IModule
     public function getCalcsForPeriod($calcTypeId, $dsBegin, $dsEnd, $shouldGetLatestCalc = false);
 
     /**
-     * @param $calcTypeId
-     *
-     * @return array [$rankId=>[$gen=>$percent, ...], ...]
-     */
-    public function getConfigGenerationsPercents($calcTypeId);
-
-    /**
      * @return string 'Y-m-d H:i:s'
      */
     public function getFirstDateForPvTransactions();

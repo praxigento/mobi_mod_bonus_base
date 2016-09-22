@@ -5,8 +5,6 @@
 
 namespace Praxigento\BonusBase\Repo\Def;
 
-use Praxigento\BonusBase\Data\Entity\Cfg\Generation as CfgGeneration;
-
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
 class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
@@ -75,31 +73,6 @@ class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $resp = $this->repo->getCalcsForPeriod($CALC_TYPE_ID, $DS_BEGIN, $DS_END, $SHOULD_GET_LATEST);
         $this->assertTrue(is_array($resp));
         $this->assertEquals($CALC_ID, $resp[$AS_ID]);
-    }
-
-    public function test_getConfigGenerationsPercents()
-    {
-        /** === Test Data === */
-        $CALC_TYPE_ID = 2;
-        $RANK_ID = 3;
-        $GEN = 1;
-        $PERCENT = 0.12;
-        $FOUND = [
-            [
-                CfgGeneration::ATTR_RANK_ID => $RANK_ID,
-                CfgGeneration::ATTR_GENERATION => $GEN,
-                CfgGeneration::ATTR_PERCENT => $PERCENT
-            ]
-        ];
-
-        /** === Setup Mocks === */
-        $this->mRepoGeneric
-            ->shouldReceive('getEntities')
-            ->andReturn($FOUND);
-
-        /** === Call and asserts  === */
-        $resp = $this->repo->getConfigGenerationsPercents($CALC_TYPE_ID);
-        $this->assertEquals($PERCENT, $resp[$RANK_ID][$GEN]);
     }
 
     public function test_getFirstDateForPvTransactions()
