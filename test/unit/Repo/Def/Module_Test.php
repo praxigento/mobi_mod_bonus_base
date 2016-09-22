@@ -6,8 +6,6 @@
 namespace Praxigento\BonusBase\Repo\Def;
 
 use Praxigento\BonusBase\Data\Entity\Cfg\Generation as CfgGeneration;
-use Praxigento\Core\Data\Entity\Type\Base as TypeBase;
-use Praxigento\Downline\Data\Entity\Snap;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
@@ -140,83 +138,5 @@ class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $resp = $this->repo->getFirstDateForPvTransactions();
         $this->assertEquals($DATE, $resp);
     }
-
-    public function test_getTypeAssetIdByCode()
-    {
-        /** === Test Data === */
-        $CALC_TYPE_CODE = 'code';
-        $ID = 8;
-        $DATA = [
-            TypeBase::ATTR_ID => $ID
-        ];
-
-        /** === Setup Mocks === */
-        // $tbl = $this->_getTableName(Rank::ENTITY_NAME);
-        $this->mDba->shouldReceive('getTableName');
-        // $query = $this->_getConn()->select();
-        $mQuery = $this->_mockDbSelect();
-        $this->mConn
-            ->shouldReceive('select')
-            ->andReturn($mQuery);
-        // $query->from(...);
-        $mQuery->shouldReceive('from');
-        // $query->where(...);
-        $mQuery->shouldReceive('where');
-        // $data = $this->_getConn()->fetchRow($query, [ 'code' => $calcTypeCode ]);
-        $this->mConn
-            ->shouldReceive('fetchRow')
-            ->andReturn($DATA);
-
-        /** === Call and asserts  === */
-        $resp = $this->repo->getTypeAssetIdByCode($CALC_TYPE_CODE);
-        $this->assertEquals($ID, $resp);
-    }
-
-    public function test_saveCompressedTree_commit()
-    {
-        /** === Test Data === */
-        $CALC_ID = 21;
-        $TREE = [
-            [Snap::ATTR_CUSTOMER_ID => 1, Snap::ATTR_PARENT_ID => 2]
-        ];
-
-        /** === Setup Mocks === */
-        // $this->_getConn()->beginTransaction();
-        $this->mConn->shouldReceive('beginTransaction');
-        // $this->_repoBasic->addEntity(Compress::ENTITY_NAME, $bind);
-        $this->mRepoGeneric
-            ->shouldReceive('addEntity')->once();
-        // $this->_getConn()->commit();
-        $this->mConn->shouldReceive('commit');
-
-        /** === Call and asserts  === */
-        $this->repo->saveCompressedTree($CALC_ID, $TREE);
-    }
-
-    /**
-     * @expectedException  \Exception
-     */
-    public function test_saveCompressedTree_exception()
-    {
-        /** === Test Data === */
-        $CALC_ID = 21;
-        $TREE = [
-            [Snap::ATTR_CUSTOMER_ID => 1, Snap::ATTR_PARENT_ID => 2]
-        ];
-
-        /** === Setup Mocks === */
-        // $this->_getConn()->beginTransaction();
-        $this->mConn->shouldReceive('beginTransaction');
-        // $this->_repoBasic->addEntity(Compress::ENTITY_NAME, $bind);
-        $this->mRepoGeneric
-            ->shouldReceive('addEntity')->once()
-            ->andThrow(new \Exception());
-        // $this->_getConn()->rollBack();
-        $this->mConn->shouldReceive('rollBack');
-
-        /** === Call and asserts  === */
-        $this->repo->saveCompressedTree($CALC_ID, $TREE);
-    }
-
 
 }

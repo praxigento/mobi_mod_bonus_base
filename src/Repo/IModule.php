@@ -38,10 +38,4 @@ interface IModule
      */
     public function getFirstDateForPvTransactions();
 
-    /**
-     * @param int $calcId
-     * @param array $tree [[Snap::ATTR_CUSTOMER_ID, Snap::ATTR_PARENT_ID], ...]
-     */
-    public function saveCompressedTree($calcId, $tree);
-
 }

@@ -13,7 +13,6 @@ use Praxigento\BonusBase\Data\Entity\Cfg\Generation as CfgGeneration;
 use Praxigento\BonusBase\Data\Entity\Compress;
 use Praxigento\BonusBase\Data\Entity\Period;
 use Praxigento\BonusBase\Repo\IModule;
-use Praxigento\Core\Data\Entity\Type\Base as TypeBase;
 use Praxigento\Core\Repo\Def\Db;
 use Praxigento\Downline\Data\Entity\Snap;
 
@@ -129,41 +128,5 @@ class Module extends Db implements IModule
         return $result;
     }
 
-    public function getTypeAssetIdByCode($assetTypeCode)
-    {
-        $tbl = $this->_resource->getTableName(TypeAsset::ENTITY_NAME);
-        /** @var  $query \Zend_Db_Select */
-        $query = $this->_conn->select();
-        $query->from($tbl);
-        $query->where(TypeBase::ATTR_CODE . '=:code');
-        // $sql = (string)$query;
-        $data = $this->_conn->fetchRow($query, ['code' => $assetTypeCode]);
-        $result = isset($data[TypeBase::ATTR_ID]) ? $data[TypeBase::ATTR_ID] : null;
-        return $result;
-    }
-
-    /**
-     * Save compressed tree.
-     *
-     * @param $calcId
-     * @param $tree
-     */
-    public function saveCompressedTree($calcId, $tree)
-    {
-        $def = $this->_manTrans->begin();
-        try {
-            foreach ($tree as $item) {
-                $bind = [
-                    Compress::ATTR_CALC_ID => $calcId,
-                    Compress::ATTR_CUSTOMER_ID => $item[Snap::ATTR_CUSTOMER_ID],
-                    Compress::ATTR_PARENT_ID => $item[Snap::ATTR_PARENT_ID]
-                ];
-                $this->_repoBasic->addEntity(Compress::ENTITY_NAME, $bind);
-            }
-            $this->_manTrans->commit($def);
-        } finally {
-            $this->_manTrans->end($def);
-        }
-    }
 
 }
