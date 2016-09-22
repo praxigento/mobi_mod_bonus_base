@@ -5,8 +5,6 @@
 
 namespace Praxigento\BonusBase\Repo;
 
-use Flancer32\Lib\DataObject;
-
 /**
  * @deprecated use \Praxigento\BonusBase\Repo\Service\IModule or entities repo instead.
  */
@@ -41,29 +39,11 @@ interface IModule
     public function getFirstDateForPvTransactions();
 
     /**
-     * Get the latest period and related calculation(s).
-     *
-     * @param int $calcTypeId
-     * @param bool $shouldGetLatestCalc
-     * @param bool $shouldGetAllCalcs
-     *
-     * @return DataObject
-     */
-    public function getLatestPeriod($calcTypeId, $shouldGetLatestCalc = true, $shouldGetAllCalcs = false);
-
-    /**
      * @param string $calcTypeCode
      *
      * @return int
      */
     public function getRankIdByCode($calcTypeCode);
-
-    /**
-     * @param string $calcTypeCode
-     *
-     * @return int
-     */
-    public function getTypeCalcIdByCode($calcTypeCode);
 
     /**
      * @param int $calcId

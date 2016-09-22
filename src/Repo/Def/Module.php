@@ -4,7 +4,6 @@
  */
 namespace Praxigento\BonusBase\Repo\Def;
 
-use Flancer32\Lib\DataObject;
 use Praxigento\Accounting\Data\Entity\Account;
 use Praxigento\Accounting\Data\Entity\Transaction;
 use Praxigento\Accounting\Data\Entity\Type\Asset as TypeAsset;
@@ -132,38 +131,6 @@ class Module extends Db implements IModule
         return $result;
     }
 
-    public function getLatestPeriod($calcTypeId, $shouldGetLatestCalc = true, $shouldGetAllCalcs = false)
-    {
-        $result = new DataObject();
-        /* set WHERE and ORDER BY clauses */
-        $wherePeriod = Period::ATTR_CALC_TYPE_ID . '=' . (int)$calcTypeId;
-        $orderPeriod = [Period::ATTR_DSTAMP_BEGIN . ' DESC'];
-        /* get one only period with the biggest begin date stamp */
-        $periodData = $this->_repoBasic->getEntities(Period::ENTITY_NAME, null, $wherePeriod, $orderPeriod, 1);
-        if (is_array($periodData) && (count($periodData) > 0)) {
-            /* get first (and only) item from result set */
-            $periodData = reset($periodData);
-            if ($periodData !== false) {
-                $result->setData(self::A_PERIOD, $periodData);
-                if ($shouldGetAllCalcs || $shouldGetLatestCalc) {
-                    /* add period calculations to result set */
-                    $where = Calculation::ATTR_PERIOD_ID . '=' . $periodData[Period::ATTR_ID];
-                    $limit = ($shouldGetLatestCalc) ? 1 : null;
-                    $order = [Calculation::ATTR_ID . ' ASC'];
-                    $calcData = $this->_repoBasic->getEntities(Calculation::ENTITY_NAME, null, $where, $order,
-                        $limit);
-                    if (is_array($calcData) && (count($calcData) > 0)) {
-                        if ($shouldGetLatestCalc) {
-                            $calcData = reset($calcData);
-                        }
-                        $result->setData(self::A_CALC, $calcData);
-                    }
-                }
-            }
-        }
-        return $result;
-    }
-
     public function getRankIdByCode($calcTypeCode)
     {
         $tbl = $this->_resource->getTableName(Rank::ENTITY_NAME);
@@ -185,19 +152,6 @@ class Module extends Db implements IModule
         $query->where(TypeBase::ATTR_CODE . '=:code');
         // $sql = (string)$query;
         $data = $this->_conn->fetchRow($query, ['code' => $assetTypeCode]);
-        $result = isset($data[TypeBase::ATTR_ID]) ? $data[TypeBase::ATTR_ID] : null;
-        return $result;
-    }
-
-    public function getTypeCalcIdByCode($calcTypeCode)
-    {
-        $tbl = $this->_resource->getTableName(TypeCalc::ENTITY_NAME);
-        /** @var  $query \Zend_Db_Select */
-        $query = $this->_conn->select();
-        $query->from($tbl);
-        $query->where(TypeBase::ATTR_CODE . '=:code');
-        // $sql = (string)$query;
-        $data = $this->_conn->fetchRow($query, ['code' => $calcTypeCode]);
         $result = isset($data[TypeBase::ATTR_ID]) ? $data[TypeBase::ATTR_ID] : null;
         return $result;
     }

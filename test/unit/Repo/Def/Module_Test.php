@@ -203,37 +203,6 @@ class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->assertEquals($ID, $resp);
     }
 
-    public function test_getTypeCalcIdByCode()
-    {
-        /** === Test Data === */
-        $CALC_TYPE_CODE = 'code';
-        $ID = 8;
-        $DATA = [
-            TypeBase::ATTR_ID => $ID
-        ];
-
-        /** === Setup Mocks === */
-        // $tbl = $this->_getTableName(Rank::ENTITY_NAME);
-        $this->mDba->shouldReceive('getTableName');
-        // $query = $this->_getConn()->select();
-        $mQuery = $this->_mockDbSelect();
-        $this->mConn
-            ->shouldReceive('select')
-            ->andReturn($mQuery);
-        // $query->from(...);
-        $mQuery->shouldReceive('from');
-        // $query->where(...);
-        $mQuery->shouldReceive('where');
-        // $data = $this->_getConn()->fetchRow($query, [ 'code' => $calcTypeCode ]);
-        $this->mConn
-            ->shouldReceive('fetchRow')
-            ->andReturn($DATA);
-
-        /** === Call and asserts  === */
-        $resp = $this->repo->getTypeCalcIdByCode($CALC_TYPE_CODE);
-        $this->assertEquals($ID, $resp);
-    }
-
     public function test_saveCompressedTree_commit()
     {
         /** === Test Data === */
