@@ -7,6 +7,9 @@ namespace Praxigento\BonusBase\Repo;
 
 use Flancer32\Lib\DataObject;
 
+/**
+ * @deprecated use \Praxigento\BonusBase\Repo\Service\IModule or entities repo instead.
+ */
 interface IModule
 {
 

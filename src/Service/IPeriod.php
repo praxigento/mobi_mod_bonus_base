@@ -7,7 +7,16 @@ namespace Praxigento\BonusBase\Service;
 use Praxigento\BonusBase\Service\Period\Request;
 use Praxigento\BonusBase\Service\Period\Response;
 
-interface IPeriod {
+interface IPeriod
+{
+    /**
+     * Create new calculation for given period.
+     *
+     * @param Request\AddCalc $request
+     * @return Response\AddCalc
+     */
+    public function addCalc(Request\AddCalc $request);
+
     /**
      * Get period data for calculation dependent on the other calculation.
      *

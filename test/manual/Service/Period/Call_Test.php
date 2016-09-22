@@ -5,12 +5,35 @@
 namespace Praxigento\BonusBase\Service\Period;
 
 
+use Praxigento\BonusBase\Data\Entity\Calculation;
+use Praxigento\BonusBase\Data\Entity\Period;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
-class Call_ManualTest extends \Praxigento\Core\Test\BaseCase\Mockery {
+class Call_ManualTest
+    extends \Praxigento\Core\Test\BaseCase\Manual
+{
+    public function test_addCalc()
+    {
+        $def = $this->_manTrans->begin();
+        /** @var  $call \Praxigento\BonusBase\Service\Period\Call */
+        $call = $this->_manObj->get(\Praxigento\BonusBase\Service\IPeriod::class);
+        $req = new Request\AddCalc();
+        $req->setCalcTypeId(2);
+        $req->setDateStampBegin('20160922');
+        $req->setDateStampEnd('20160925');
+        $res = $call->addCalc($req);
+        $this->assertTrue($res->isSucceed());
+        $period = $res->getPeriod();
+        $this->assertInstanceOf(Period::class, $period);
+        $calc = $res->getCalculation();
+        $this->assertInstanceOf(Calculation::class, $calc);
+        // rollback
+        $this->_manTrans->rollback($def);
+    }
 
-    public function test_getForDependentCalc() {
+    public function test_getForDependentCalc()
+    {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $call \Praxigento\BonusBase\Service\Period\Call */
         $call = $obm->get('Praxigento\BonusBase\Service\Period\Call');
@@ -21,10 +44,11 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseCase\Mockery {
         $this->assertTrue($resp->isSucceed());
     }
 
-    public function test_getLatest() {
+    public function test_getLatest()
+    {
         $obm = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var  $call \Praxigento\BonusBase\Service\Period\Call */
-        $call = $obm->get('Praxigento\BonusBase\Service\Period\Call');
+        $call = $obm->get(\Praxigento\BonusBase\Service\IPeriod::class);
         $req = new Request\GetLatest();
         $req->setCalcTypeId(null);
         $req->setCalcTypeCode('LOYALTY_BON_COMPRESS');
@@ -34,18 +58,5 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseCase\Mockery {
         $this->assertTrue($resp->isSucceed());
     }
 
-    public function test_getLatestForPvBasedCalc() {
-        $obm = \Magento\Framework\App\ObjectManager::getInstance();
-        /** @var  $dba \Praxigento\Core\Lib\Context\IDbAdapter */
-        $dba = $obm->get(\Praxigento\Core\Lib\Context\IDbAdapter::class);
-        $dba->getDefaultConnection()->beginTransaction();
-        /** @var  $call \Praxigento\BonusBase\Service\Period\Call */
-        $call = $obm->get('Praxigento\BonusBase\Service\Period\Call');
-        $req = new Request\GetForPvBasedCalc();
-        $req->setCalcTypeCode('LOYALTY_BON_COMPRESS');
-        $resp = $call->getForPvBasedCalc($req);
-        $this->assertTrue($resp->isSucceed());
-        $dba->getDefaultConnection()->commit();
-    }
 
 }

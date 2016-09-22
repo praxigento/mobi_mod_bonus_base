@@ -9,34 +9,81 @@ use Praxigento\BonusBase\Data\Entity\Calculation;
 use Praxigento\BonusBase\Data\Entity\Period;
 use Praxigento\BonusBase\Repo\IModule;
 use Praxigento\BonusBase\Repo\IModule as RepoModule;
-use Praxigento\BonusBase\Service\IPeriod;
-use Praxigento\Core\Service\Base\Call as BaseCall;
 use Praxigento\Core\Tool\IPeriod as ToolPeriod;
 
-class Call extends BaseCall implements IPeriod
+class Call
+    extends \Praxigento\Core\Service\Base\Call
+    implements \Praxigento\BonusBase\Service\IPeriod
 {
     /** @var \Psr\Log\LoggerInterface */
     protected $_logger;
+    /** @var  \Praxigento\Core\Transaction\Database\IManager */
+    protected $_manTrans;
     /** @var RepoModule */
     protected $_repoMod;
+    /** @var \Praxigento\BonusBase\Repo\Entity\IPeriod */
+    protected $_repoPeriod;
+    /** @var \Praxigento\BonusBase\Repo\Entity\ICalculation */
+    protected $_repoCalc;
     /** @var  \Praxigento\Core\Tool\IPeriod */
     protected $_toolPeriod;
+    /** @var \Praxigento\Core\Tool\IDate */
+    protected $_toolDate;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
+        \Praxigento\Core\Transaction\Database\IManager $manTrans,
+        \Praxigento\BonusBase\Repo\Entity\ICalculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Entity\IPeriod $repoPeriod,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
+        \Praxigento\Core\Tool\IDate $toolDate,
         RepoModule $repoMod
     ) {
         $this->_logger = $logger;
+        $this->_manTrans = $manTrans;
+        $this->_repoCalc = $repoCalc;
+        $this->_repoPeriod = $repoPeriod;
         $this->_toolPeriod = $toolPeriod;
+        $this->_toolDate = $toolDate;
         $this->_repoMod = $repoMod;
     }
 
-    /**
-     * @param Request\GetForDependentCalc $request
-     *
-     * @return Response\GetForDependentCalc
-     */
+    public function addCalc(Request\AddCalc $request)
+    {
+        $result = new Response\AddCalc();
+        $calcTypeId = $request->getCalcTypeId();
+        $dsBegin = $request->getDateStampBegin();
+        $dsEnd = $request->getDateStampEnd();
+        $def = $this->_manTrans->begin();
+        try {
+            /* create new period for given calculation type */
+            $periodData = [
+                Period::ATTR_CALC_TYPE_ID => $calcTypeId,
+                Period::ATTR_DSTAMP_BEGIN => $dsBegin,
+                Period::ATTR_DSTAMP_END => $dsEnd
+            ];
+            $periodId = $this->_repoPeriod->create($periodData);
+            /* create new calculation for the period */
+            $dateStarted = $this->_toolDate->getUtcNowForDb();
+            $calcData = [
+                Calculation::ATTR_PERIOD_ID => $periodId,
+                Calculation::ATTR_DATE_STARTED => $dateStarted,
+                Calculation::ATTR_STATE => Cfg::CALC_STATE_STARTED
+            ];
+            $calcId = $this->_repoCalc->create($calcData);
+            $this->_manTrans->commit($def);
+            /* compose response */
+            $periodData[Period::ATTR_ID] = $periodId;
+            $calcData[Calculation::ATTR_ID] = $calcId;
+            $result->setPeriod($periodData);
+            $result->setCalculation($calcData);
+            $result->markSucceed();
+        } finally {
+            $this->_manTrans->end($def);
+        }
+        return $result;
+    }
+
     public function getForDependentCalc(Request\GetForDependentCalc $request)
     {
         $result = new Response\GetForDependentCalc();
@@ -186,9 +233,6 @@ class Call extends BaseCall implements IPeriod
         return $result;
     }
 
-    /**
-     * @param Request\GetLatest $request
-     */
     public function getLatest(Request\GetLatest $request)
     {
         $result = new Response\GetLatest();
