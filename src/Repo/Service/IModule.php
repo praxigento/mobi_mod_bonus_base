@@ -11,12 +11,9 @@ namespace Praxigento\BonusBase\Repo\Service;
 interface IModule
 {
     /**
-     * Get the last period data by calculation type.
-     *
-     * @param int $calcTypeId
-     * @return \Praxigento\BonusBase\Data\Entity\Period|null
+     * @return string 'Y-m-d H:i:s'
      */
-    public function getLastPeriodByCalcType($calcTypeId);
+    public function getFirstDateForPvTransactions();
 
     /**
      * Get the last calculation for period.
@@ -26,6 +23,13 @@ interface IModule
      */
     public function getLastCalcForPeriod($periodId);
 
+    /**
+     * Get the last period data by calculation type.
+     *
+     * @param int $calcTypeId
+     * @return \Praxigento\BonusBase\Data\Entity\Period|null
+     */
+    public function getLastPeriodByCalcType($calcTypeId);
 
     /**
      * Set complete state for given calculation and save 'date_ended' as current UTC date.

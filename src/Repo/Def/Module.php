@@ -80,36 +80,6 @@ class Module extends Db implements IModule
         return $result;
     }
 
-    /**
-     * Return timestamp for the first transaction related to PV.
-     */
-    public function getFirstDateForPvTransactions()
-    {
-        $asAcc = 'paa';
-        $asTrans = 'pat';
-        $asType = 'pata';
-        $tblAcc = $this->_resource->getTableName(Account::ENTITY_NAME);
-        $tblTrans = $this->_resource->getTableName(Transaction::ENTITY_NAME);
-        $tblType = $this->_resource->getTableName(TypeAsset::ENTITY_NAME);
-        // SELECT FROM prxgt_acc_transaction pat
-        $query = $this->_conn->select();
-        $query->from([$asTrans => $tblTrans], [Transaction::ATTR_DATE_APPLIED]);
-        // LEFT JOIN prxgt_acc_account paa ON paa.id = pat.debit_acc_id
-        $on = $asAcc . '.' . Account::ATTR_ID . '=' . $asTrans . '.' . Transaction::ATTR_DEBIT_ACC_ID;
-        $query->joinLeft([$asAcc => $tblAcc], $on, null);
-        // LEFT JOIN prxgt_acc_type_asset pata ON paa.asset_type_id = pata.id
-        $on = $asAcc . '.' . Account::ATTR_ASSET_TYPE_ID . '=' . $asType . '.' . TypeAsset::ATTR_ID;
-        $query->joinLeft([$asType => $tblType], $on, null);
-        // WHERE
-        $where = $asType . '.' . TypeAsset::ATTR_CODE . '=' . $this->_conn->quote(Cfg::CODE_TYPE_ASSET_PV);
-        $query->where($where);
-        // ORDER & LIMIT
-        $query->order($asTrans . '.' . Transaction::ATTR_DATE_APPLIED . ' ASC');
-        $query->limit(1);
-        // $sql = (string)$query;
-        $result = $this->_conn->fetchOne($query);
-        return $result;
-    }
 
 
 }

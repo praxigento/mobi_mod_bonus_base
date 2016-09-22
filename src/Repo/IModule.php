@@ -26,9 +26,4 @@ interface IModule
      */
     public function getCalcsForPeriod($calcTypeId, $dsBegin, $dsEnd, $shouldGetLatestCalc = false);
 
-    /**
-     * @return string 'Y-m-d H:i:s'
-     */
-    public function getFirstDateForPvTransactions();
-
 }

@@ -20,8 +20,6 @@ class Call
     protected $_manTrans;
     /** @var \Praxigento\BonusBase\Repo\Entity\ICalculation */
     protected $_repoCalc;
-    /** @var RepoModule */
-    protected $_repoMod;
     /** @var \Praxigento\BonusBase\Repo\Entity\IPeriod */
     protected $_repoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
@@ -41,8 +39,7 @@ class Call
         \Praxigento\BonusBase\Repo\Entity\Type\ICalc $repoTypeCalc,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
-        \Praxigento\Core\Tool\IDate $toolDate,
-        RepoModule $repoMod
+        \Praxigento\Core\Tool\IDate $toolDate
     ) {
         $this->_logger = $logger;
         $this->_manTrans = $manTrans;
@@ -52,7 +49,6 @@ class Call
         $this->_repoService = $repoService;
         $this->_toolPeriod = $toolPeriod;
         $this->_toolDate = $toolDate;
-        $this->_repoMod = $repoMod;
     }
 
     public function addCalc(Request\AddCalc $request)
@@ -203,7 +199,7 @@ class Call
         $periodData = $data->getPeriodData();
         if (is_null($periodData)) {
             /* we should lookup for first PV transaction and calculate first period range */
-            $ts = $this->_repoMod->getFirstDateForPvTransactions();
+            $ts = $this->_repoService->getFirstDateForPvTransactions();
             if ($ts === false) {
                 $this->_logger->warning("There is no PV transactions yet. Nothing to do.");
                 $result->setErrorCode(Response\GetForPvBasedCalc::ERR_HAS_NO_PV_TRANSACTIONS_YET);

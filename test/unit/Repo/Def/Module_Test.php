@@ -75,41 +75,5 @@ class Module_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->assertEquals($CALC_ID, $resp[$AS_ID]);
     }
 
-    public function test_getFirstDateForPvTransactions()
-    {
-        /** === Test Data === */
-        $DATE = 'date';
-
-        /** === Setup Mocks === */
-        //$tblAcc = $this->_getTableName(Account::ENTITY_NAME);
-        //$tblTrans = $this->_getTableName(Transaction::ENTITY_NAME);
-        //$tblType = $this->_getTableName(TypeAsset::ENTITY_NAME);
-        $this->mDba->shouldReceive('getTableName');
-        // $query = $this->_getConn()->select();
-        $mQuery = $this->_mockDbSelect();
-        $this->mConn
-            ->shouldReceive('select')
-            ->andReturn($mQuery);
-        // $query->from(...);
-        $mQuery->shouldReceive('from');
-        // $query->joinLeft(...);
-        $mQuery->shouldReceive('joinLeft');
-        // $where = $asType . '.' . TypeAsset::ATTR_CODE . '=' . $this->_getConn()->quote(Cfg::CODE_TYPE_ASSET_PV);
-        $this->mConn->shouldReceive('quote');
-        // $query->where(...);
-        $mQuery->shouldReceive('where');
-        // $query->order(...);
-        $mQuery->shouldReceive('order');
-        // $query->limit(...);
-        $mQuery->shouldReceive('limit');
-        // $result = $this->_getConn()->fetchOne($query);
-        $this->mConn
-            ->shouldReceive('fetchOne')
-            ->andReturn($DATE);
-
-        /** === Call and asserts  === */
-        $resp = $this->repo->getFirstDateForPvTransactions();
-        $this->assertEquals($DATE, $resp);
-    }
 
 }
