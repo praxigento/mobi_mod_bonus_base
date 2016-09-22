@@ -143,10 +143,10 @@ class Call extends BaseCall implements ICompress
         /* save compressed tree */
         $def = $this->_manTrans->begin();
         try {
-            foreach ($treeCompressed as $item) {
+            foreach ($treeCompressed as $custId => $item) {
                 $data = [
                     ECompress::ATTR_CALC_ID => $calcId,
-                    ECompress::ATTR_CUSTOMER_ID => $item[ESnap::ATTR_CUSTOMER_ID],
+                    ECompress::ATTR_CUSTOMER_ID => $custId,
                     ECompress::ATTR_PARENT_ID => $item[ESnap::ATTR_PARENT_ID]
                 ];
                 $this->_repoBonusCompress->create($data);

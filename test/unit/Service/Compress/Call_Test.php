@@ -19,32 +19,27 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
     /** @var  \Mockery\MockInterface */
     private $mCallDownlineSnap;
     /** @var  \Mockery\MockInterface */
-    private $mConn;
-    /** @var  \Mockery\MockInterface */
-    private $mDba;
-    /** @var  \Mockery\MockInterface */
     private $mLogger;
     /** @var  \Mockery\MockInterface */
-    private $mRepoGeneric;
+    private $mManTrans;
     /** @var  \Mockery\MockInterface */
-    private $mRepoMod;
+    private $mRepoBonusCompress;
     /** @var  \Mockery\MockInterface */
     private $mToolDownlineTree;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->mConn = $this->_mockDba();
-        $this->mDba = $this->_mockResourceConnection($this->mConn);
-        $this->mRepoGeneric = $this->_mockRepoGeneric($this->mDba);
-        $this->mRepoMod = $this->_mock(\Praxigento\BonusBase\Repo\IModule::class);
         $this->mLogger = $this->_mockLogger();
+        $this->mManTrans = $this->_mockTransactionManager();
+        $this->mRepoBonusCompress = $this->_mock(\Praxigento\BonusBase\Repo\Entity\ICompress::class);
         $this->mCallDownlineMap = $this->_mock(\Praxigento\Downline\Service\IMap::class);
         $this->mCallDownlineSnap = $this->_mock(\Praxigento\Downline\Service\ISnap::class);
         $this->mToolDownlineTree = $this->_mock(\Praxigento\Downline\Tool\ITree::class);
         $this->call = new Call(
             $this->mLogger,
-            $this->mRepoMod,
+            $this->mManTrans,
+            $this->mRepoBonusCompress,
             $this->mCallDownlineMap,
             $this->mCallDownlineSnap,
             $this->mToolDownlineTree
@@ -158,10 +153,22 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->mToolDownlineTree
             ->shouldReceive('getParentsFromPathReversed')
             ->andReturn($mParents);
-        // $this->_repoMod->saveCompressedTree($calcId, $treeCompressed);
-        $this->mRepoMod
-            ->shouldReceive('saveCompressedTree')->once();
-
+        // $def = $this->_manTrans->begin();
+        $mDef = $this->_mockTransactionDefinition();
+        $this->mManTrans
+            ->shouldReceive('begin')->once()
+            ->andReturn($mDef);
+        // $this->_repoBonusCompress->create($data);
+        $this->mRepoBonusCompress
+            ->shouldReceive('create')->once();
+        // $this->_manTrans->commit($def);
+        $this->mManTrans
+            ->shouldReceive('commit')->once()
+            ->with($mDef);
+        // $this->_manTrans->end($def);
+        $this->mManTrans
+            ->shouldReceive('end')->once()
+            ->with($mDef);
         /** === Call and asserts  === */
         $req = new Request\QualifyByUserData();
         $req->setCalcId($CALC_ID);
