@@ -7,7 +7,6 @@ namespace Praxigento\BonusBase\Service\Period;
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Data\Entity\Calculation;
 use Praxigento\BonusBase\Data\Entity\Period;
-use Praxigento\BonusBase\Repo\IModule as RepoModule;
 use Praxigento\Core\Tool\IPeriod as ToolPeriod;
 
 class Call

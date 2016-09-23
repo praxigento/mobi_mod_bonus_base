@@ -7,7 +7,6 @@ namespace Praxigento\BonusBase\Service\Period;
 use Flancer32\Lib\DataObject;
 use Praxigento\BonusBase\Data\Entity\Calculation;
 use Praxigento\BonusBase\Data\Entity\Period;
-use Praxigento\BonusBase\Repo\IModule;
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Core\Tool\IPeriod as ToolPeriod;
 
@@ -28,8 +27,6 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
     /** @var  \Mockery\MockInterface */
     private $mRepoGeneric;
     /** @var  \Mockery\MockInterface */
-    private $mRepoMod;
-    /** @var  \Mockery\MockInterface */
     private $mToolPeriod;
 
     protected function setUp()
@@ -39,15 +36,13 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->mConn = $this->_mockDba();
         $this->mDba = $this->_mockResourceConnection($this->mConn);
         $this->mRepoGeneric = $this->_mockRepoGeneric($this->mDba);
-        $this->mRepoMod = $this->_mock(\Praxigento\BonusBase\Repo\IModule::class);
         $this->mLogger = $this->_mockLogger();
         $this->mCallTypeCalc = $this->_mock(\Praxigento\BonusBase\Service\ITypeCalc::class);
         $this->mToolPeriod = $this->_mock(\Praxigento\Core\Tool\IPeriod::class);
         $this->call = new Call(
             $this->mLogger,
             $this->mCallTypeCalc,
-            $this->mToolPeriod,
-            $this->mRepoMod
+            $this->mToolPeriod
         );
     }
 
