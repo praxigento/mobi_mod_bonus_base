@@ -194,7 +194,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->mLogger->shouldReceive('info');
         // $mapById = $this->_mapById($treeExpanded);
         // $resp = $this->_callDownlineMap->byId($req);
-        $this->mCallDownlineMap->shouldReceive()->andThrow('Finita la comedia!');
+        $this->mCallDownlineMap->shouldReceive('byId')->andThrow(new \Exception());
 
         /** === Call and asserts  === */
         $req = new Request\QualifyByUserData();
