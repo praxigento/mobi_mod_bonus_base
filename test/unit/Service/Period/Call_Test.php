@@ -5,9 +5,9 @@
 namespace Praxigento\BonusBase\Service\Period;
 
 use Flancer32\Lib\DataObject;
+use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Data\Entity\Calculation;
 use Praxigento\BonusBase\Data\Entity\Period;
-use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\Core\Tool\IPeriod as ToolPeriod;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');

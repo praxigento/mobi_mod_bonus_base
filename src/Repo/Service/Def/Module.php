@@ -77,6 +77,8 @@ class Module
         $on = $asPeriod . '.' . EPeriod::ATTR_ID . '=' . $asCalc . '.' . ECalculation::ATTR_PERIOD_ID;
         $cols = '*';
         $query->joinLeft([$asCalc => $tblCalc], $on, $cols);
+        // ORDER
+        $query->order(ECalculation::ATTR_ID . ' DESC');
         // LIMIT
         $query->limit(1);
         // WHERE
