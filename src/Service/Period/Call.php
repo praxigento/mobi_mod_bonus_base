@@ -25,6 +25,8 @@ class Call
     protected $_repoService;
     /** @var \Praxigento\BonusBase\Repo\Entity\Type\ICalc */
     protected $_repoTypeCalc;
+    /** @var  \Praxigento\BonusBase\Service\Period\Sub\Depended */
+    protected $_subDepended;
     /** @var \Praxigento\Core\Tool\IDate */
     protected $_toolDate;
     /** @var  \Praxigento\Core\Tool\IPeriod */
@@ -38,7 +40,8 @@ class Call
         \Praxigento\BonusBase\Repo\Entity\Type\ICalc $repoTypeCalc,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
-        \Praxigento\Core\Tool\IDate $toolDate
+        \Praxigento\Core\Tool\IDate $toolDate,
+        \Praxigento\BonusBase\Service\Period\Sub\Depended $subDepended
     ) {
         $this->_logger = $logger;
         $this->_manTrans = $manTrans;
@@ -48,6 +51,7 @@ class Call
         $this->_repoService = $repoService;
         $this->_toolPeriod = $toolPeriod;
         $this->_toolDate = $toolDate;
+        $this->_subDepended = $subDepended;
     }
 
     public function addCalc(Request\AddCalc $request)
@@ -94,91 +98,38 @@ class Call
         $msg = "'Get latest period for Dependent Calculation' operation is started "
             . "(dependent=$dependentCalcTypeCode, base=$baseCalcTypeCode).";
         $this->_logger->info($msg);
-
-        /* get IDs for calculations codes */
-        $dependentCalcTypeId = $this->_repoTypeCalc->getIdByCode($dependentCalcTypeCode);
-        $baseCalcTypeId = $this->_repoTypeCalc->getIdByCode($baseCalcTypeCode);
-        /* get the last base period data */
-        $reqLatest = new Request\GetLatest();
-        $reqLatest->setCalcTypeId($baseCalcTypeId);
-        $latestPeriodData = $this->getLatest($reqLatest);
-        $basePeriodData = $latestPeriodData->getPeriodData();
-        if (is_null($basePeriodData)) {
-            $msg = "There is no period for '$baseCalcTypeCode' calculation  yet. "
-                . "'$dependentCalcTypeCode' could not be calculated.";
-            $this->_logger->warning($msg);
-        } else {
-            $result->setBasePeriodData($basePeriodData);
-            $baseCalcData = $latestPeriodData->getCalcData();
-            $result->setBaseCalcData($baseCalcData);
-            $baseDsBegin = $basePeriodData->getDstampBegin();
-            $baseDsEnd = $basePeriodData->getDstampEnd();
-            if (
-                $baseCalcData &&
-                ($baseCalcData->getState() == Cfg::CALC_STATE_COMPLETE)
-            ) {
-                /* there is complete Base Calculation */
-                $reqLatest = new Request\GetLatest();
-                $reqLatest->setCalcTypeId($dependentCalcTypeId);
-                $respDependentPeriod = $this->getLatest($reqLatest);
-                $dependPeriodData = $respDependentPeriod->getPeriodData();
-                $dependentCalcData = $respDependentPeriod->getCalcData();
-                if (is_null($dependPeriodData)) {
-                    /* there is no dependent period */
-                    $msg = "There is no period data for calculation '$dependentCalcTypeCode'."
-                        . " New period and related calculation will be created.";
-                    $this->_logger->warning($msg);
-                    $reqAddCalc = new Request\AddCalc();
-                    $reqAddCalc->setCalcTypeId($dependentCalcTypeId);
-                    $reqAddCalc->setDateStampBegin($baseDsBegin);
-                    $reqAddCalc->setDateStampEnd($baseDsEnd);
-                    $respAddCalc = $this->addCalc($reqAddCalc);
-                    $result->setDependentPeriodData($respAddCalc->getPeriod());
-                    $result->setDependentCalcData($respAddCalc->getCalculation());
-                    $result->markSucceed();
-                } else {
-                    /* there is dependent period */
-                    $dependentDsBegin = $dependPeriodData[Period::ATTR_DSTAMP_BEGIN];
-                    $dependentDsEnd = $dependPeriodData[Period::ATTR_DSTAMP_END];
-                    if (
-                        ($dependentDsBegin == $baseDsBegin) &&
-                        ($dependentDsEnd == $baseDsEnd)
-                    ) {
-                        /* dependent period has the same begin/end as related base period */
-                        $this->_logger->info("There is base '$baseCalcTypeCode' period for dependent '$dependentCalcTypeCode' period ($dependentDsBegin-$dependentDsEnd).");
-                        if (
-                            is_array($dependentCalcData) &&
-                            isset($dependentCalcData[Calculation::ATTR_STATE]) &&
-                            ($dependentCalcData[Calculation::ATTR_STATE] == Cfg::CALC_STATE_COMPLETE)
-                        ) {
-                            /* complete dependent period for complete base period */
-                            $this->_logger->warning("There is '$dependentCalcTypeCode' period with complete calculation. No more '$dependentCalcTypeCode' could be calculated.");
-                        } else {
-                            /* incomplete dependent period for complete base period */
-                            $this->_logger->warning("There is '$dependentCalcTypeCode' period without complete calculation. Continue calculation for this period.");
-                            $result->setDependentPeriodData($dependPeriodData);
-                            $result->setDependentCalcData($dependentCalcData);
-                            $result->markSucceed();
-                        }
-                    } else {
-                        /* dependent period has different begin/end then related base period */
-                        $this->_logger->warning("There is no period for '$dependentCalcTypeCode' calculation based on '$baseCalcTypeCode' ($baseDsBegin-$baseDsEnd). New period and related calculation will be created.");
-                        $reqAddCalc = new Request\AddCalc();
-                        $reqAddCalc->setCalcTypeId($dependentCalcTypeId);
-                        $reqAddCalc->setDateStampBegin($baseDsBegin);
-                        $reqAddCalc->setDateStampEnd($baseDsEnd);
-                        $dependPeriodData = $this->addCalc($reqAddCalc);
-                        $result->setDependentPeriodData($dependPeriodData->getPeriod());
-                        $result->setDependentCalcData($dependPeriodData->getCalculation());
-                        $result->markSucceed();
-                    }
-                }
-            } else {
-                /* there is no complete Base Calculation */
-                $msg = "There is no complete base '$baseCalcTypeCode' calculation for dependent "
-                    . "'$dependentCalcTypeCode' calculation. New period could not be created.";
+        $def = $this->_manTrans->begin();
+        try {
+            /* get IDs for calculations codes */
+            $dependentCalcTypeId = $this->_repoTypeCalc->getIdByCode($dependentCalcTypeCode);
+            $baseCalcTypeId = $this->_repoTypeCalc->getIdByCode($baseCalcTypeCode);
+            /* get the last base period data from repo */
+            $basePeriodData = $this->_repoService->getLastPeriodByCalcType($baseCalcTypeId);
+            if (is_null($basePeriodData)) {
+                $msg = "There is no period for '$baseCalcTypeCode' calculation yet (base). "
+                    . "Depended '$dependentCalcTypeCode' could not be calculated.";
                 $this->_logger->warning($msg);
+            } else {
+                /* there is period for base calculation, place base data into response */
+                $result->setBasePeriodData($basePeriodData);
+                $baseDsBegin = $basePeriodData->getDstampBegin();
+                $baseDsEnd = $basePeriodData->getDstampEnd();
+                /* then get data for depended period & calc */
+                $periodId = $basePeriodData->getId();
+                $this->_subDepended->getDependedCalc(
+                    $periodId,
+                    $dependentCalcTypeId,
+                    $dependentCalcTypeCode,
+                    $baseCalcTypeCode,
+                    $baseDsBegin,
+                    $baseDsEnd,
+                    $result
+                );
             }
+            $this->_manTrans->commit($def);
+            $result->markSucceed();
+        } finally {
+            $this->_manTrans->end($def);
         }
         $this->_logger->info("'Get latest period for Dependent Calculation' operation is completed.");
         return $result;
