@@ -117,13 +117,13 @@ class Call
                 /* then get data for depended period & calc */
                 $periodId = $basePeriodData->getId();
                 $this->_subDepended->getDependedCalc(
+                    $result,
                     $periodId,
-                    $dependentCalcTypeId,
-                    $dependentCalcTypeCode,
                     $baseCalcTypeCode,
                     $baseDsBegin,
                     $baseDsEnd,
-                    $result
+                    $dependentCalcTypeCode,
+                    $dependentCalcTypeId
                 );
             }
             $this->_manTrans->commit($def);

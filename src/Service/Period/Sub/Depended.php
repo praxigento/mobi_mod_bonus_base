@@ -40,20 +40,22 @@ class Depended
     }
 
     /**
+     * Analyze depended calculation data and to the results if state is incomplete.
+     *
      * This function is created for CRAP reducing and is used from this class only.
      *
-     * @param $dependentCalcTypeCode
-     * @param $dependentCalcTypeId
-     * @param $dependentDsBegin
-     * @param $dependentDsEnd
-     * @param $result
+     * @param \Praxigento\BonusBase\Service\Period\Response\GetForDependentCalc $result
+     * @param string $dependentCalcTypeCode
+     * @param int $dependentCalcTypeId
+     * @param string $dependentDsBegin
+     * @param string $dependentDsEnd
      */
     public function _analyzeDependedCalc(
+        $result,
         $dependentCalcTypeCode,
         $dependentCalcTypeId,
         $dependentDsBegin,
-        $dependentDsEnd,
-        $result
+        $dependentDsEnd
     ) {
         $dependentCalcData = $this->_repoService->getLastCalcForPeriodByDates(
             $dependentCalcTypeId,
@@ -74,26 +76,28 @@ class Depended
     }
 
     /**
+     * Create new depended period and calculation or return existing data.
+     *
      * This function is created for CRAP reducing and is used from this class only.
      *
-     * @param $baseCalcTypeCode
-     * @param $baseDsBegin
-     * @param $baseDsEnd
-     * @param $dependentCalcTypeCode
-     * @param $dependentCalcTypeId
-     * @param $dependentDsBegin
-     * @param $dependentDsEnd
-     * @param $result
+     * @param \Praxigento\BonusBase\Service\Period\Response\GetForDependentCalc $result
+     * @param string $baseCalcTypeCode
+     * @param string $baseDsBegin
+     * @param string $baseDsEnd
+     * @param string $dependentCalcTypeCode
+     * @param int $dependentCalcTypeId
+     * @param string $dependentDsBegin
+     * @param string $dependentDsEnd
      */
     public function _getDependedCalcForExistingPeriod(
+        $result,
         $baseCalcTypeCode,
         $baseDsBegin,
         $baseDsEnd,
         $dependentCalcTypeCode,
         $dependentCalcTypeId,
         $dependentDsBegin,
-        $dependentDsEnd,
-        $result
+        $dependentDsEnd
     ) {
         if (
             ($dependentDsBegin == $baseDsBegin) &&
@@ -102,14 +106,11 @@ class Depended
             /* dependent period has the same begin/end as related base period, get calc data */
             $this->_logger->info("There is base '$baseCalcTypeCode' period for dependent '$dependentCalcTypeCode' period ($dependentDsBegin-$dependentDsEnd).");
             $this->_analyzeDependedCalc(
-                $baseCalcTypeCode,
-                $baseDsBegin,
-                $baseDsEnd,
+                $result,
                 $dependentCalcTypeCode,
                 $dependentCalcTypeId,
                 $dependentDsBegin,
-                $dependentDsEnd,
-                $result
+                $dependentDsEnd
             );
         } else {
             /* dependent period has different begin/end than related base period */
@@ -138,20 +139,20 @@ class Depended
     /**
      * This function is created for CRAP reducing and is used from this class only.
      *
-     * @param $dependentCalcTypeId
-     * @param $dependentCalcTypeCode
-     * @param $baseCalcTypeCode
-     * @param $baseDsBegin
-     * @param $baseDsEnd
-     * @param $result
+     * @param \Praxigento\BonusBase\Service\Period\Response\GetForDependentCalc $result
+     * @param string $baseCalcTypeCode
+     * @param string $baseDsBegin
+     * @param string $baseDsEnd
+     * @param string $dependentCalcTypeCode
+     * @param int $dependentCalcTypeId
      */
     public function _getForCompleteBase(
-        $dependentCalcTypeId,
-        $dependentCalcTypeCode,
+        $result,
         $baseCalcTypeCode,
         $baseDsBegin,
         $baseDsEnd,
-        $result
+        $dependentCalcTypeCode,
+        $dependentCalcTypeId
     ) {
         $dependPeriodData = $this->_repoService->getLastPeriodByCalcType($dependentCalcTypeId);
         if (is_null($dependPeriodData)) {
@@ -184,14 +185,14 @@ class Depended
             $dependentDsBegin = $dependPeriodData->getDstampBegin();
             $dependentDsEnd = $dependPeriodData->getDstampEnd();
             $this->_getDependedCalcForExistingPeriod(
+                $result,
                 $baseCalcTypeCode,
                 $baseDsBegin,
                 $baseDsEnd,
                 $dependentCalcTypeCode,
                 $dependentCalcTypeId,
                 $dependentDsBegin,
-                $dependentDsEnd,
-                $result
+                $dependentDsEnd
             );
         }
     }
@@ -199,22 +200,22 @@ class Depended
     /**
      * Sub-functionality to get period and calculation data for depended calculation.
      *
-     * @param $basePeriodId
-     * @param $dependentCalcTypeId
-     * @param $dependentCalcTypeCode
-     * @param $baseCalcTypeCode
-     * @param $baseDsBegin
-     * @param $baseDsEnd
-     * @param $result
+     * @param \Praxigento\BonusBase\Service\Period\Response\GetForDependentCalc $result
+     * @param int $basePeriodId
+     * @param string $baseCalcTypeCode
+     * @param string $baseDsBegin
+     * @param string $baseDsEnd
+     * @param string $dependentCalcTypeCode
+     * @param int $dependentCalcTypeId
      */
     public function getDependedCalc(
+        $result,
         $basePeriodId,
-        $dependentCalcTypeId,
-        $dependentCalcTypeCode,
         $baseCalcTypeCode,
         $baseDsBegin,
         $baseDsEnd,
-        $result
+        $dependentCalcTypeCode,
+        $dependentCalcTypeId
     ) {
         $baseCalcData = $this->_repoService->getLastCalcForPeriodById($basePeriodId);
         $result->setBaseCalcData($baseCalcData);
@@ -225,12 +226,12 @@ class Depended
         ) {
             /* there is complete base calculation, get period for depended calc */
             $this->_getForCompleteBase(
-                $dependentCalcTypeId,
-                $dependentCalcTypeCode,
+                $result,
                 $baseCalcTypeCode,
                 $baseDsBegin,
                 $baseDsEnd,
-                $result
+                $dependentCalcTypeCode,
+                $dependentCalcTypeId
             );
         } else {
             /* there is no complete Base Calculation */
