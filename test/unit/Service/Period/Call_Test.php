@@ -29,6 +29,8 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
     private $mToolPeriod;
     /** @var  \Mockery\MockInterface */
     private $mSubDepended;
+    /** @var  \Mockery\MockInterface */
+    private $mSubPvBased;
     /** @var  Call */
     private $obj;
     /** @var array Constructor arguments for object mocking */
@@ -47,6 +49,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->mToolPeriod = $this->_mock(\Praxigento\Core\Tool\IPeriod::class);
         $this->mToolDate = $this->_mock(\Praxigento\Core\Tool\IDate::class);
         $this->mSubDepended = $this->_mock(\Praxigento\BonusBase\Service\Period\Sub\Depended::class);
+        $this->mSubPvBased = $this->_mock(\Praxigento\BonusBase\Service\Period\Sub\PvBased::class);
         /** reset args. to create mock of the tested object */
         $this->objArgs = [
             $this->mLogger,
@@ -57,7 +60,8 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             $this->mRepoService,
             $this->mToolPeriod,
             $this->mToolDate,
-            $this->mSubDepended
+            $this->mSubDepended,
+            $this->mSubPvBased
         ];
         /** create object to test */
         $this->obj = new Call(
@@ -69,7 +73,8 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             $this->mRepoService,
             $this->mToolPeriod,
             $this->mToolDate,
-            $this->mSubDepended
+            $this->mSubDepended,
+            $this->mSubPvBased
         );
     }
 

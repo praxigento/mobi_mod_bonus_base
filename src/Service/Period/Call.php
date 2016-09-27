@@ -27,6 +27,8 @@ class Call
     protected $_repoTypeCalc;
     /** @var  \Praxigento\BonusBase\Service\Period\Sub\Depended */
     protected $_subDepended;
+    /** @var \Praxigento\BonusBase\Service\Period\Sub\PvBased */
+    protected $_subPvBased;
     /** @var \Praxigento\Core\Tool\IDate */
     protected $_toolDate;
     /** @var  \Praxigento\Core\Tool\IPeriod */
@@ -41,7 +43,8 @@ class Call
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
         \Praxigento\Core\Tool\IDate $toolDate,
-        \Praxigento\BonusBase\Service\Period\Sub\Depended $subDepended
+        \Praxigento\BonusBase\Service\Period\Sub\Depended $subDepended,
+        \Praxigento\BonusBase\Service\Period\Sub\PvBased $subPvBased
     ) {
         $this->_logger = $logger;
         $this->_manTrans = $manTrans;
@@ -52,6 +55,7 @@ class Call
         $this->_toolPeriod = $toolPeriod;
         $this->_toolDate = $toolDate;
         $this->_subDepended = $subDepended;
+        $this->_subPvBased = $subPvBased;
     }
 
     public function addCalc(Request\AddCalc $request)
@@ -146,76 +150,29 @@ class Call
         $result = new Response\GetForPvBasedCalc();
         $calcTypeCode = $request->getCalcTypeCode();
         $periodType = $request->getPeriodType() ?? ToolPeriod::TYPE_MONTH;
-        $this->_logger->info("'Get latest period for PV based calc' operation is started in bonus base module (type code '$calcTypeCode').");
+        $msg = "'Get latest period for PV based calc' operation is started in bonus base module "
+            . "(type code: $calcTypeCode; period: $periodType).";
+        $this->_logger->info($msg);
         /* get calculation type ID by type code */
         $calcTypeId = $this->_repoTypeCalc->getIdByCode($calcTypeCode);
         $reqLatest = new Request\GetLatest();
         $reqLatest->setCalcTypeId($calcTypeId);
-        $data = $this->getLatest($reqLatest);
-        $periodData = $data->getPeriodData();
+        $latestPeriod = $this->getLatest($reqLatest);
+        $periodData = $latestPeriod->getPeriodData();
         if (is_null($periodData)) {
-            /* we should lookup for first PV transaction and calculate first period range */
-            $ts = $this->_repoService->getFirstDateForPvTransactions();
-            if ($ts === false) {
-                $this->_logger->warning("There is no PV transactions yet. Nothing to do.");
-                $result->setErrorCode(Response\GetForPvBasedCalc::ERR_HAS_NO_PV_TRANSACTIONS_YET);
-            } else {
-                $this->_logger->info("First PV transaction was performed at '$ts'.");
-                $periodMonth = $this->_toolPeriod->getPeriodCurrent($ts, $periodType);
-                $dsBegin = $this->_toolPeriod->getPeriodFirstDate($periodMonth);
-                $dsEnd = $this->_toolPeriod->getPeriodLastDate($periodMonth);
-                $reqAddCalc = new Request\AddCalc();
-                $reqAddCalc->setCalcTypeId($calcTypeId);
-                $reqAddCalc->setDateStampBegin($dsBegin);
-                $reqAddCalc->setDateStampEnd($dsEnd);
-                $data = $this->addCalc($reqAddCalc);
-                $result->setPeriodData($data->getPeriod());
-                $result->setCalcData($data->getCalculation());
-                $result->markSucceed();
-            }
+            $result = $this->_subPvBased->getNewPeriodDataForPv($result, $periodType, $calcTypeId);
         } else {
             $result->setPeriodData($periodData);
-            $periodId = $periodData[Period::ATTR_ID];
+            $periodId = $periodData->getId();
             $this->_logger->info("There is registered period #$periodId for '$calcTypeCode' calculation.");
-            $calcData = $data->getCalcData();
-            if (!is_array($calcData)) {
-                $this->_logger->error("There is no calculation data for existing period ($calcTypeCode).");
-                $result->setErrorCode(Response\GetForPvBasedCalc::ERR_NO_CALC_FOR_EXISTING_PERIOD);
-            } else {
-                if (
-                    is_array($calcData) &&
-                    isset($calcData[Calculation::ATTR_STATE]) &&
-                    ($calcData[Calculation::ATTR_STATE] == Cfg::CALC_STATE_COMPLETE)
-                ) {
-                    $this->_logger->info("There is complete calculation for existing period. Create new period.");
-                    $periodEnd = $periodData[Period::ATTR_DSTAMP_END];
-                    /* calculate new period bounds */
-                    $periodNext = $this->_toolPeriod->getPeriodNext($periodEnd, ToolPeriod::TYPE_MONTH);
-                    $dsNextBegin = $this->_toolPeriod->getPeriodFirstDate($periodNext);
-                    $dsNextEnd = $this->_toolPeriod->getPeriodLastDate($periodNext);
-                    /* check "right" bound according to now */
-                    $periodNow = $this->_toolPeriod->getPeriodCurrent(time(), ToolPeriod::TYPE_MONTH);
-                    $dsNowEnd = $this->_toolPeriod->getPeriodLastDate($periodNow);
-                    if ($dsNextEnd < $dsNowEnd) {
-                        /* registry new period */
-                        $reqAddCalc = new Request\AddCalc();
-                        $reqAddCalc->setCalcTypeId($calcTypeId);
-                        $reqAddCalc->setDateStampBegin($dsNextBegin);
-                        $reqAddCalc->setDateStampEnd($dsNextEnd);
-                        $newPeriodData = $this->addCalc($reqAddCalc);
-                        $result->setPeriodData($newPeriodData->getPeriod());
-                        $result->setCalcData($newPeriodData->getCalculation());
-                        $result->markSucceed();
-                    } else {
-                        $this->_logger->warning("New period can be registered in the past only (to register: $dsNextBegin-$dsNextEnd, current end: $dsNowEnd).");
-                        $result->setErrorCode(Response\GetForPvBasedCalc::ERR_PERIOD_CAN_BE_REGISTERED_IN_PAST_ONLY);
-                    }
-                } else {
-                    $this->_logger->info("There is no complete calculation for existing period. Use existing period data.");
-                    $result->setCalcData($calcData);
-                    $result->markSucceed();
-                }
-            }
+            $calcData = $latestPeriod->getCalcData();
+            $result = $this->_subPvBased->checkExistingPeriod(
+                $result, $calcTypeCode, $calcTypeId, $periodData, $calcData
+            );
+        }
+        /* mark succeed if period data exists */
+        if ($result->getPeriodData() && $result->getCalcData()) {
+            $result->markSucceed();
         }
         $this->_logger->info("'Get latest period for PV based calc' operation is completed in bonus base module.");
         return $result;

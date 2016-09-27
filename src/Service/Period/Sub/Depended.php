@@ -51,7 +51,7 @@ class Depended
      * @param string $dependentDsEnd
      */
     public function _analyzeDependedCalc(
-        $result,
+        \Praxigento\BonusBase\Service\Period\Response\GetForDependentCalc $result,
         $dependentCalcTypeCode,
         $dependentCalcTypeId,
         $dependentDsBegin,
@@ -90,7 +90,7 @@ class Depended
      * @param string $dependentDsEnd
      */
     public function _getDependedCalcForExistingPeriod(
-        $result,
+        \Praxigento\BonusBase\Service\Period\Response\GetForDependentCalc $result,
         $baseCalcTypeCode,
         $baseDsBegin,
         $baseDsEnd,
@@ -147,7 +147,7 @@ class Depended
      * @param int $dependentCalcTypeId
      */
     public function _getForCompleteBase(
-        $result,
+        \Praxigento\BonusBase\Service\Period\Response\GetForDependentCalc $result,
         $baseCalcTypeCode,
         $baseDsBegin,
         $baseDsEnd,
@@ -210,7 +210,7 @@ class Depended
      * @return \Praxigento\BonusBase\Service\Period\Response\GetForDependentCalc
      */
     public function getDependedCalc(
-        $result,
+        \Praxigento\BonusBase\Service\Period\Response\GetForDependentCalc $result,
         $basePeriodId,
         $baseCalcTypeCode,
         $baseDsBegin,
