@@ -93,16 +93,16 @@ class Call
     public function getForDependentCalc(Request\GetForDependentCalc $request)
     {
         $result = new Response\GetForDependentCalc();
-        $dependentCalcTypeCode = $request->getDependentCalcTypeCode();
         $baseCalcTypeCode = $request->getBaseCalcTypeCode();
+        $dependentCalcTypeCode = $request->getDependentCalcTypeCode();
         $msg = "'Get latest period for Dependent Calculation' operation is started "
             . "(dependent=$dependentCalcTypeCode, base=$baseCalcTypeCode).";
         $this->_logger->info($msg);
         $def = $this->_manTrans->begin();
         try {
             /* get IDs for calculations codes */
-            $dependentCalcTypeId = $this->_repoTypeCalc->getIdByCode($dependentCalcTypeCode);
             $baseCalcTypeId = $this->_repoTypeCalc->getIdByCode($baseCalcTypeCode);
+            $dependentCalcTypeId = $this->_repoTypeCalc->getIdByCode($dependentCalcTypeCode);
             /* get the last base period data from repo */
             $basePeriodData = $this->_repoService->getLastPeriodByCalcType($baseCalcTypeId);
             if (is_null($basePeriodData)) {
@@ -116,7 +116,7 @@ class Call
                 $baseDsEnd = $basePeriodData->getDstampEnd();
                 /* then get data for depended period & calc */
                 $periodId = $basePeriodData->getId();
-                $this->_subDepended->getDependedCalc(
+                $result = $this->_subDepended->getDependedCalc(
                     $result,
                     $periodId,
                     $baseCalcTypeCode,
@@ -127,7 +127,13 @@ class Call
                 );
             }
             $this->_manTrans->commit($def);
-            $result->markSucceed();
+            /* mark succeed if depended data exists */
+            if (
+                $result->getDependentPeriodData() &&
+                $result->getDependentCalcData()
+            ) {
+                $result->markSucceed();
+            }
         } finally {
             $this->_manTrans->end($def);
         }

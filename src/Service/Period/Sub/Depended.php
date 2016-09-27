@@ -207,6 +207,7 @@ class Depended
      * @param string $baseDsEnd
      * @param string $dependentCalcTypeCode
      * @param int $dependentCalcTypeId
+     * @return \Praxigento\BonusBase\Service\Period\Response\GetForDependentCalc
      */
     public function getDependedCalc(
         $result,
@@ -239,6 +240,7 @@ class Depended
                 . "'$dependentCalcTypeCode' calculation. New period could not be created.";
             $this->_logger->warning($msg);
         }
+        return $result;
     }
 
 }
