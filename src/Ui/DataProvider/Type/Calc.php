@@ -10,13 +10,15 @@ namespace Praxigento\BonusBase\Ui\DataProvider\Type;
 class Calc
     extends \Praxigento\Core\Ui\DataProvider\Base
 {
-
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         \Magento\Framework\UrlInterface $url,
-        \Praxigento\Core\Repo\Query\Criteria\IAdapter $criteriaAdapter,
+        \Praxigento\Core\Repo\Query\Criteria\IAdapter $critAdapter,
         \Praxigento\BonusBase\Repo\Entity\Type\ICalc $repo,
         \Magento\Framework\View\Element\UiComponent\DataProvider\Reporting $reporting,
-        \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCritBuilder,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         $name,
@@ -25,11 +27,11 @@ class Calc
     ) {
         parent::__construct(
             $url,
-            $criteriaAdapter,
+            $critAdapter,
             null,
             $repo,
             $reporting,
-            $searchCriteriaBuilder,
+            $searchCritBuilder,
             $request,
             $filterBuilder,
             $name,
