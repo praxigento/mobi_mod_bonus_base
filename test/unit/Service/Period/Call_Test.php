@@ -125,6 +125,17 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->assertInstanceOf(ECalculation::class, $res->getCalculation());
     }
 
+    public function test_getForPvBasedCalc_null()
+    {
+        /** === Test Data === */
+        $REQ = new \Praxigento\BonusBase\Service\Period\Request\GetForPvBasedCalc();
+        /** === Mock object itself === */
+//        $this->obj = \Mockery::mock(Object::class . '[method1, method2]', $this->objArgs);
+        /** === Setup Mocks === */
+        /** === Call and asserts  === */
+//        $res = $this->obj->getForPvBasedCalc();
+    }
+
     public function test_getForDependentCalc_null()
     {
         /** === Test Data === */

@@ -50,6 +50,7 @@ class PvBased
      *
      * @param \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result
      * @param int $calcTypeId
+     * @param string $periodType see \Praxigento\Core\Tool\IPeriod::TYPE_*
      * @param \Praxigento\BonusBase\Data\Entity\Period $periodData
      * @param \Praxigento\BonusBase\Data\Entity\Calculation $calcData
      * @return \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc
@@ -57,12 +58,13 @@ class PvBased
     public function _checkStateForExistingPeriod(
         \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result,
         $calcTypeId,
+        $periodType,
         \Praxigento\BonusBase\Data\Entity\Period $periodData,
         \Praxigento\BonusBase\Data\Entity\Calculation $calcData
     ) {
         if ($calcData->getState() == Cfg::CALC_STATE_COMPLETE) {
             $this->_logger->info("There is complete calculation for existing period. Create new period.");
-            $result = $this->_registryNextPeriod($result, $calcTypeId, $periodData);
+            $result = $this->_registryNextPeriod($result, $calcTypeId, $periodType, $periodData);
         } else {
             $this->_logger->info("There is no complete calculation for existing period. Use existing period data.");
             $result->setCalcData($calcData);
@@ -75,21 +77,23 @@ class PvBased
      *
      * @param \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result
      * @param int $calcTypeId
+     * @param string $periodType see \Praxigento\Core\Tool\IPeriod::TYPE_*
      * @param \Praxigento\BonusBase\Data\Entity\Period $periodData
      * @return \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc
      */
     public function _registryNextPeriod(
         \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result,
         $calcTypeId,
+        $periodType,
         \Praxigento\BonusBase\Data\Entity\Period $periodData
     ) {
         $periodEnd = $periodData->getDstampEnd();
         /* calculate new period bounds */
-        $periodNext = $this->_toolPeriod->getPeriodNext($periodEnd, self::DEF_PERIOD);
+        $periodNext = $this->_toolPeriod->getPeriodNext($periodEnd, $periodType);
         $dsNextBegin = $this->_toolPeriod->getPeriodFirstDate($periodNext);
         $dsNextEnd = $this->_toolPeriod->getPeriodLastDate($periodNext);
         /* check "right" bound according to now */
-        $periodNow = $this->_toolPeriod->getPeriodCurrent(time(), self::DEF_PERIOD);
+        $periodNow = $this->_toolPeriod->getPeriodCurrent(time(), $periodType);
         $dsNowEnd = $this->_toolPeriod->getPeriodLastDate($periodNow);
         if ($dsNextEnd < $dsNowEnd) {
             /* registry new period */
@@ -124,22 +128,24 @@ class PvBased
      * @param \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result
      * @param string $calcTypeCode
      * @param int $calcTypeId
-     * @param \Praxigento\BonusBase\Data\Entity\Period $periodData
-     * @param \Praxigento\BonusBase\Data\Entity\Calculation $calcData
+     * @param string $periodType see \Praxigento\Core\Tool\IPeriod::TYPE_*
+     * @param \Praxigento\BonusBase\Data\Entity\Period|null $periodData
+     * @param \Praxigento\BonusBase\Data\Entity\Calculation|null $calcData
      * @return \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc
      */
     public function checkExistingPeriod(
         \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result,
         $calcTypeCode,
         $calcTypeId,
-        \Praxigento\BonusBase\Data\Entity\Period $periodData,
-        \Praxigento\BonusBase\Data\Entity\Calculation $calcData
+        $periodType,
+        \Praxigento\BonusBase\Data\Entity\Period $periodData = null,
+        \Praxigento\BonusBase\Data\Entity\Calculation $calcData = null
     ) {
         if (!$calcData) {
             $this->_logger->error("There is no calculation data for existing period ($calcTypeCode).");
             $result->setErrorCode(ResponsePv::ERR_NO_CALC_FOR_EXISTING_PERIOD);
         } else {
-            $result = $this->_checkStateForExistingPeriod($result, $calcTypeId, $periodData, $calcData);
+            $result = $this->_checkStateForExistingPeriod($result, $calcTypeId, $periodType, $periodData, $calcData);
         }
         return $result;
     }

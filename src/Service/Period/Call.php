@@ -155,24 +155,30 @@ class Call
         $this->_logger->info($msg);
         /* get calculation type ID by type code */
         $calcTypeId = $this->_repoTypeCalc->getIdByCode($calcTypeCode);
-        $reqLatest = new Request\GetLatest();
-        $reqLatest->setCalcTypeId($calcTypeId);
-        $latestPeriod = $this->getLatest($reqLatest);
-        $periodData = $latestPeriod->getPeriodData();
-        if (is_null($periodData)) {
-            $result = $this->_subPvBased->getNewPeriodDataForPv($result, $periodType, $calcTypeId);
-        } else {
-            $result->setPeriodData($periodData);
-            $periodId = $periodData->getId();
-            $this->_logger->info("There is registered period #$periodId for '$calcTypeCode' calculation.");
-            $calcData = $latestPeriod->getCalcData();
-            $result = $this->_subPvBased->checkExistingPeriod(
-                $result, $calcTypeCode, $calcTypeId, $periodData, $calcData
-            );
-        }
-        /* mark succeed if period data exists */
-        if ($result->getPeriodData() && $result->getCalcData()) {
-            $result->markSucceed();
+        $def = $this->_manTrans->begin();
+        try {
+            $reqLatest = new Request\GetLatest();
+            $reqLatest->setCalcTypeId($calcTypeId);
+            $latestPeriod = $this->getLatest($reqLatest);
+            $periodData = $latestPeriod->getPeriodData();
+            if (is_null($periodData)) {
+                $result = $this->_subPvBased->getNewPeriodDataForPv($result, $periodType, $calcTypeId);
+            } else {
+                $result->setPeriodData($periodData);
+                $periodId = $periodData->getId();
+                $this->_logger->info("There is registered period #$periodId for '$calcTypeCode' calculation.");
+                $calcData = $latestPeriod->getCalcData();
+                $result = $this->_subPvBased->checkExistingPeriod(
+                    $result, $calcTypeCode, $calcTypeId, $periodType, $periodData, $calcData
+                );
+            }
+            /* mark succeed if period data exists */
+            if ($result->getPeriodData() && $result->getCalcData()) {
+                $this->_manTrans->commit($def);
+                $result->markSucceed();
+            }
+        } finally {
+            $this->_manTrans->end($def);
         }
         $this->_logger->info("'Get latest period for PV based calc' operation is completed in bonus base module.");
         return $result;
