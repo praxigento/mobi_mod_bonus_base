@@ -10,8 +10,7 @@ class Index
     extends \Praxigento\BonusBase\Controller\Adminhtml\Base
 {
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory
+        \Magento\Backend\App\Action\Context $context
     ) {
         $aclResource = Cfg::MODULE . '::' . Cfg::ACL_BONUS_PERIOD;
         $activeMenu = Cfg::MODULE . '::' . Cfg::MENU_BONUS_PERIOD;
@@ -20,7 +19,6 @@ class Index
         $pageTitle = 'Bonus Periods';
         parent::__construct(
             $context,
-            $resultPageFactory,
             $aclResource,
             $activeMenu,
             $breadcrumbLabel,

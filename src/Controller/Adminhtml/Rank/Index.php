@@ -10,8 +10,7 @@ class Index
     extends \Praxigento\BonusBase\Controller\Adminhtml\Base
 {
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory
+        \Magento\Backend\App\Action\Context $context
     ) {
         $aclResource = Cfg::MODULE . '::' . Cfg::ACL_BONUS_RANK;
         $activeMenu = Cfg::MODULE . '::' . Cfg::MENU_BONUS_RANK;
@@ -20,7 +19,6 @@ class Index
         $pageTitle = 'Bonus Ranks';
         parent::__construct(
             $context,
-            $resultPageFactory,
             $aclResource,
             $activeMenu,
             $breadcrumbLabel,
