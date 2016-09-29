@@ -265,14 +265,12 @@ class PvBased_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $mResult = new \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc();
         $mCalcTypeId = 4;
         $mPeriodType = \Praxigento\Core\Tool\IPeriod::TYPE_DAY;
-        /** === Mock object itself === */
-        $this->obj = \Mockery::mock(PvBased::class . '[method1, method2]', $this->objArgs);
         /** === Setup Mocks === */
-        // $ts = $this->_repoService->getFirstDateForPvTransactions();
-        $mTs = false;
+        // $firstDate = $this->_repoService->getFirstDateForPvTransactions();
+        $mFirstDate = false;
         $this->mRepoService
             ->shouldReceive('getFirstDateForPvTransactions')->once()
-            ->andReturn($mTs);
+            ->andReturn($mFirstDate);
         /** === Call and asserts  === */
         $res = $this->obj->getNewPeriodDataForPv($mResult, $mPeriodType, $mCalcTypeId);
         $this->assertEquals(
@@ -287,19 +285,17 @@ class PvBased_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $mResult = new \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc();
         $mCalcTypeId = 4;
         $mPeriodType = \Praxigento\Core\Tool\IPeriod::TYPE_DAY;
-        /** === Mock object itself === */
-        $this->obj = \Mockery::mock(PvBased::class . '[method1, method2]', $this->objArgs);
         /** === Setup Mocks === */
-        // $ts = $this->_repoService->getFirstDateForPvTransactions();
-        $mTs = 'timestamp';
+        // $firstDate = $this->_repoService->getFirstDateForPvTransactions();
+        $mFirstDate = 'timestamp';
         $this->mRepoService
             ->shouldReceive('getFirstDateForPvTransactions')->once()
-            ->andReturn($mTs);
-        // $periodMonth = $this->_toolPeriod->getPeriodCurrent($ts, $periodType);
+            ->andReturn($mFirstDate);
+        // $periodMonth = $this->_toolPeriod->getPeriodCurrent($firstDate, $periodType);
         $mPeriodMonth = 'month';
         $this->mToolPeriod
             ->shouldReceive('getPeriodCurrent')->once()
-            ->with($mTs, $mPeriodType)
+            ->with($mFirstDate, $mPeriodType)
             ->andReturn($mPeriodMonth);
         // $dsBegin = $this->_toolPeriod->getPeriodFirstDate($periodMonth);
         $mDsBegin = 'datestamp begin';

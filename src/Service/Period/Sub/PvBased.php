@@ -165,13 +165,13 @@ class PvBased
         $calcTypeId
     ) {
         /* we should lookup for first PV transaction and calculate first period range */
-        $ts = $this->_repoService->getFirstDateForPvTransactions();
-        if ($ts === false) {
+        $firstDate = $this->_repoService->getFirstDateForPvTransactions();
+        if ($firstDate === false) {
             $this->_logger->warning("There is no PV transactions yet. Nothing to do.");
             $result->setErrorCode($result::ERR_HAS_NO_PV_TRANSACTIONS_YET);
         } else {
-            $this->_logger->info("First PV transaction was performed at '$ts'.");
-            $periodMonth = $this->_toolPeriod->getPeriodCurrent($ts, $periodType);
+            $this->_logger->info("First PV transaction was performed at '$firstDate'.");
+            $periodMonth = $this->_toolPeriod->getPeriodCurrent($firstDate, $periodType);
             $dsBegin = $this->_toolPeriod->getPeriodFirstDate($periodMonth);
             $dsEnd = $this->_toolPeriod->getPeriodLastDate($periodMonth);
             /* create new period for given calculation type */

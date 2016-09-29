@@ -9,7 +9,13 @@ use Praxigento\BonusBase\Data\Entity\Period as EPeriod;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
-class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
+/**
+ * @SuppressWarnings(PHPMD.CamelCaseClassName)
+ * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
+class Call_UnitTest
+    extends \Praxigento\Core\Test\BaseCase\Mockery
 {
     /** @var  \Mockery\MockInterface */
     private $mLogger;
@@ -24,13 +30,13 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
     /** @var  \Mockery\MockInterface */
     private $mRepoTypeCalc;
     /** @var  \Mockery\MockInterface */
-    private $mToolDate;
-    /** @var  \Mockery\MockInterface */
-    private $mToolPeriod;
-    /** @var  \Mockery\MockInterface */
     private $mSubDepended;
     /** @var  \Mockery\MockInterface */
     private $mSubPvBased;
+    /** @var  \Mockery\MockInterface */
+    private $mToolDate;
+    /** @var  \Mockery\MockInterface */
+    private $mToolPeriod;
     /** @var  Call */
     private $obj;
     /** @var array Constructor arguments for object mocking */
@@ -81,9 +87,9 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
     public function test_addCalc()
     {
         /** === Test Data === */
-        $CALC_TYPE_ID = 2;
-        $DS_BEGIN = 'begin';
-        $DS_END = 'end';
+        $mCalcTypeId = 2;
+        $mDsBegin = 'begin';
+        $mDsEnd = 'end';
         /** === Setup Mocks === */
         // $def = $this->_manTrans->begin();
         $mDef = $this->_mockTransactionDefinition();
@@ -115,9 +121,9 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->with($mDef);
         /** === Call and asserts  === */
         $req = new Request\AddCalc();
-        $req->setCalcTypeId($CALC_TYPE_ID);
-        $req->setDateStampBegin($DS_BEGIN);
-        $req->setDateStampEnd($DS_END);
+        $req->setCalcTypeId($mCalcTypeId);
+        $req->setDateStampBegin($mDsBegin);
+        $req->setDateStampEnd($mDsEnd);
         $res = $this->obj->addCalc($req);
         $this->assertTrue($res->isSucceed());
         $this->assertInstanceOf(Response\AddCalc::class, $res);
@@ -125,70 +131,14 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->assertInstanceOf(ECalculation::class, $res->getCalculation());
     }
 
-    public function test_getForPvBasedCalc_null()
-    {
-        /** === Test Data === */
-        $REQ = new \Praxigento\BonusBase\Service\Period\Request\GetForPvBasedCalc();
-        /** === Mock object itself === */
-//        $this->obj = \Mockery::mock(Object::class . '[method1, method2]', $this->objArgs);
-        /** === Setup Mocks === */
-        /** === Call and asserts  === */
-//        $res = $this->obj->getForPvBasedCalc();
-    }
-
-    public function test_getForDependentCalc_null()
-    {
-        /** === Test Data === */
-        $BASE_TYPE_CODE = 'base';
-        $DEP_TYPE_CODE = 'depended';
-        $REQ = new \Praxigento\BonusBase\Service\Period\Request\GetForDependentCalc();
-        $REQ->setBaseCalcTypeCode($BASE_TYPE_CODE);
-        $REQ->setDependentCalcTypeCode($DEP_TYPE_CODE);
-        /** === Mock object itself === */
-        $this->obj = \Mockery::mock(Call::class . '[method1, method2]', $this->objArgs);
-        /** === Setup Mocks === */
-        // $def = $this->_manTrans->begin();
-        $mDef = $this->_mockTransactionDefinition();
-        $this->mManTrans
-            ->shouldReceive('begin')->once()
-            ->andReturn($mDef);
-        // $baseCalcTypeId = $this->_repoTypeCalc->getIdByCode($baseCalcTypeCode);
-        $mBaseCalcTypeId = 2;
-        $this->mRepoTypeCalc
-            ->shouldReceive('getIdByCode')->once()
-            ->with($BASE_TYPE_CODE)
-            ->andReturn($mBaseCalcTypeId);
-        // $dependentCalcTypeId = $this->_repoTypeCalc->getIdByCode($dependentCalcTypeCode);
-        $mDependentCalcTypeId = 4;
-        $this->mRepoTypeCalc
-            ->shouldReceive('getIdByCode')->once()
-            ->with($DEP_TYPE_CODE)
-            ->andReturn($mDependentCalcTypeId);
-        // $basePeriodData = $this->_repoService->getLastPeriodByCalcType($baseCalcTypeId);
-        $this->mRepoService
-            ->shouldReceive('getLastPeriodByCalcType')->once()
-            ->andReturn(null);
-        // $this->_manTrans->commit($def);
-        $this->mManTrans
-            ->shouldReceive('commit')->once()
-            ->with($mDef);
-        // $this->_manTrans->end($def);
-        $this->mManTrans
-            ->shouldReceive('end')->once()
-            ->with($mDef);
-        /** === Call and asserts  === */
-        $res = $this->obj->getForDependentCalc($REQ);
-        $this->assertFalse($res->isSucceed());
-    }
-
     public function test_getForDependentCalc_notNull()
     {
         /** === Test Data === */
-        $BASE_TYPE_CODE = 'base';
-        $DEP_TYPE_CODE = 'depended';
-        $REQ = new \Praxigento\BonusBase\Service\Period\Request\GetForDependentCalc();
-        $REQ->setBaseCalcTypeCode($BASE_TYPE_CODE);
-        $REQ->setDependentCalcTypeCode($DEP_TYPE_CODE);
+        $mBaseTypeCode = 'base';
+        $mDepTypeCode = 'depended';
+        $mRequest = new \Praxigento\BonusBase\Service\Period\Request\GetForDependentCalc();
+        $mRequest->setBaseCalcTypeCode($mBaseTypeCode);
+        $mRequest->setDependentCalcTypeCode($mDepTypeCode);
         /** === Setup Mocks === */
         // $def = $this->_manTrans->begin();
         $mDef = $this->_mockTransactionDefinition();
@@ -199,13 +149,13 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $mBaseCalcTypeId = 2;
         $this->mRepoTypeCalc
             ->shouldReceive('getIdByCode')->once()
-            ->with($BASE_TYPE_CODE)
+            ->with($mBaseTypeCode)
             ->andReturn($mBaseCalcTypeId);
         // $dependentCalcTypeId = $this->_repoTypeCalc->getIdByCode($dependentCalcTypeCode);
         $mDependentCalcTypeId = 4;
         $this->mRepoTypeCalc
             ->shouldReceive('getIdByCode')->once()
-            ->with($DEP_TYPE_CODE)
+            ->with($mDepTypeCode)
             ->andReturn($mDependentCalcTypeId);
         // $basePeriodData = $this->_repoService->getLastPeriodByCalcType($baseCalcTypeId);
         $mBasePeriodData = new EPeriod();
@@ -227,8 +177,8 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->shouldReceive('getDependedCalc')->once()
             ->with(
                 \Mockery::any(), $mPeriodId,
-                $BASE_TYPE_CODE, $mBaseDsBegin, $mBaseDsEnd,
-                $DEP_TYPE_CODE, $mDependentCalcTypeId
+                $mBaseTypeCode, $mBaseDsBegin, $mBaseDsEnd,
+                $mDepTypeCode, $mDependentCalcTypeId
             )
             ->andReturn($mResult);
         //        if (
@@ -246,16 +196,173 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->shouldReceive('end')->once()
             ->with($mDef);
         /** === Call and asserts  === */
-        $res = $this->obj->getForDependentCalc($REQ);
+        $res = $this->obj->getForDependentCalc($mRequest);
+        $this->assertTrue($res->isSucceed());
+    }
+
+    public function test_getForDependentCalc_null()
+    {
+        /** === Test Data === */
+        $mBaseTypeCode = 'base';
+        $mDepTypeCode = 'depended';
+        $mRequest = new \Praxigento\BonusBase\Service\Period\Request\GetForDependentCalc();
+        $mRequest->setBaseCalcTypeCode($mBaseTypeCode);
+        $mRequest->setDependentCalcTypeCode($mDepTypeCode);
+        /** === Mock object itself === */
+        $this->obj = \Mockery::mock(Call::class . '[method1, method2]', $this->objArgs);
+        /** === Setup Mocks === */
+        // $def = $this->_manTrans->begin();
+        $mDef = $this->_mockTransactionDefinition();
+        $this->mManTrans
+            ->shouldReceive('begin')->once()
+            ->andReturn($mDef);
+        // $baseCalcTypeId = $this->_repoTypeCalc->getIdByCode($baseCalcTypeCode);
+        $mBaseCalcTypeId = 2;
+        $this->mRepoTypeCalc
+            ->shouldReceive('getIdByCode')->once()
+            ->with($mBaseTypeCode)
+            ->andReturn($mBaseCalcTypeId);
+        // $dependentCalcTypeId = $this->_repoTypeCalc->getIdByCode($dependentCalcTypeCode);
+        $mDependentCalcTypeId = 4;
+        $this->mRepoTypeCalc
+            ->shouldReceive('getIdByCode')->once()
+            ->with($mDepTypeCode)
+            ->andReturn($mDependentCalcTypeId);
+        // $basePeriodData = $this->_repoService->getLastPeriodByCalcType($baseCalcTypeId);
+        $this->mRepoService
+            ->shouldReceive('getLastPeriodByCalcType')->once()
+            ->andReturn(null);
+        // $this->_manTrans->commit($def);
+        $this->mManTrans
+            ->shouldReceive('commit')->once()
+            ->with($mDef);
+        // $this->_manTrans->end($def);
+        $this->mManTrans
+            ->shouldReceive('end')->once()
+            ->with($mDef);
+        /** === Call and asserts  === */
+        $res = $this->obj->getForDependentCalc($mRequest);
+        $this->assertFalse($res->isSucceed());
+    }
+
+    public function test_getForPvBasedCalc_notNull()
+    {
+        /** === Test Data === */
+        $mRequest = new \Praxigento\BonusBase\Service\Period\Request\GetForPvBasedCalc();
+        /** === Mock object itself === */
+        $this->obj = \Mockery::mock(Call::class . '[getLatest]', $this->objArgs);
+        /** === Setup Mocks === */
+        // $calcTypeCode = $request->getCalcTypeCode();
+        $mCalcTypeCode = 'code';
+        $mRequest->setCalcTypeCode($mCalcTypeCode);
+        // $periodType = $request->getPeriodType() ?? ToolPeriod::TYPE_MONTH;
+        $mPeriodType = \Praxigento\Core\Tool\IPeriod::TYPE_DAY;
+        $mRequest->setPeriodType($mPeriodType);
+        // $calcTypeId = $this->_repoTypeCalc->getIdByCode($calcTypeCode);
+        $mCalcTypeId = 32;
+        $this->mRepoTypeCalc
+            ->shouldReceive('getIdByCode')->once()
+            ->andReturn($mCalcTypeId);
+        // $def = $this->_manTrans->begin();
+        $mDef = $this->_mockTransactionDefinition();
+        $this->mManTrans
+            ->shouldReceive('begin')->once()
+            ->andReturn($mDef);
+        // $latestPeriod = $this->getLatest($reqLatest);
+        $mLatesPeriod = new \Praxigento\BonusBase\Service\Period\Response\GetLatest();
+        $this->obj
+            ->shouldReceive('getLatest')->once()
+            ->andReturn($mLatesPeriod);
+        // $periodData = $latestPeriod->getPeriodData();
+        $mPeriodData = new EPeriod();
+        $mLatesPeriod->setPeriodData($mPeriodData);
+        // $periodId = $periodData->getId();
+        $mPeriodId = 64;
+        $mPeriodData->setId($mPeriodId);
+        // $calcData = $latestPeriod->getCalcData();
+        $mCalcData = new ECalculation();
+        $mLatesPeriod->setCalcData($mCalcData);
+        // $result = $this->_subPvBased->checkExistingPeriod(...)
+        $mResult = new \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc();
+        $this->mSubPvBased
+            ->shouldReceive('checkExistingPeriod')->once()
+            ->with(\Mockery::any(), $mCalcTypeCode, $mCalcTypeId, $mPeriodType, $mPeriodData, $mCalcData)
+            ->andReturn($mResult);
+        // if ($result->getPeriodData() && $result->getCalcData()) {...}
+        $mResult->setPeriodData($mPeriodData);
+        $mResult->setCalcData($mCalcData);
+        // $this->_manTrans->commit($def);
+        $this->mManTrans
+            ->shouldReceive('commit')->once()
+            ->with($mDef);
+        // $this->_manTrans->end($def);
+        $this->mManTrans
+            ->shouldReceive('end')->once()
+            ->with($mDef);
+        /** === Call and asserts  === */
+        $res = $this->obj->getForPvBasedCalc($mRequest);
+        $this->assertTrue($res->isSucceed());
+    }
+
+    public function test_getForPvBasedCalc_null()
+    {
+        /** === Test Data === */
+        $mRequest = new \Praxigento\BonusBase\Service\Period\Request\GetForPvBasedCalc();
+        /** === Mock object itself === */
+        $this->obj = \Mockery::mock(Call::class . '[getLatest]', $this->objArgs);
+        /** === Setup Mocks === */
+        // $calcTypeCode = $request->getCalcTypeCode();
+        $mCalcTypeCode = 'code';
+        $mRequest->setCalcTypeCode($mCalcTypeCode);
+        // $periodType = $request->getPeriodType() ?? ToolPeriod::TYPE_MONTH;
+        $mPeriodType = \Praxigento\Core\Tool\IPeriod::TYPE_DAY;
+        $mRequest->setPeriodType($mPeriodType);
+        // $calcTypeId = $this->_repoTypeCalc->getIdByCode($calcTypeCode);
+        $mCalcTypeId = 32;
+        $this->mRepoTypeCalc
+            ->shouldReceive('getIdByCode')->once()
+            ->andReturn($mCalcTypeId);
+        // $def = $this->_manTrans->begin();
+        $mDef = $this->_mockTransactionDefinition();
+        $this->mManTrans
+            ->shouldReceive('begin')->once()
+            ->andReturn($mDef);
+        // $latestPeriod = $this->getLatest($reqLatest);
+        $mLatesPeriod = new \Praxigento\BonusBase\Service\Period\Response\GetLatest();
+        $this->obj
+            ->shouldReceive('getLatest')->once()
+            ->andReturn($mLatesPeriod);
+        // $periodData = $latestPeriod->getPeriodData();
+        $mPeriodData = null;
+        $mLatesPeriod->setPeriodData($mPeriodData);
+        // $result = $this->_subPvBased->getNewPeriodDataForPv($result, $periodType, $calcTypeId);
+        $mResult = new \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc();
+        $this->mSubPvBased
+            ->shouldReceive('getNewPeriodDataForPv')->once()
+            ->with(\Mockery::any(), $mPeriodType, $mCalcTypeId)
+            ->andReturn($mResult);
+        // if ($result->getPeriodData() && $result->getCalcData()) {...}
+        $mResult->setPeriodData('period');
+        $mResult->setCalcData('calc data');
+        // $this->_manTrans->commit($def);
+        $this->mManTrans
+            ->shouldReceive('commit')->once()
+            ->with($mDef);
+        // $this->_manTrans->end($def);
+        $this->mManTrans
+            ->shouldReceive('end')->once()
+            ->with($mDef);
+        /** === Call and asserts  === */
+        $res = $this->obj->getForPvBasedCalc($mRequest);
         $this->assertTrue($res->isSucceed());
     }
 
     public function test_getLatest()
     {
         /** === Test Data === */
-        $TYPE_CODE = 'code';
-        $REQ = new \Praxigento\BonusBase\Service\Period\Request\GetLatest();
-        $REQ->setCalcTypeCode($TYPE_CODE);
+        $mTypeCode = 'code';
+        $mRequest = new \Praxigento\BonusBase\Service\Period\Request\GetLatest();
+        $mRequest->setCalcTypeCode($mTypeCode);
         /** === Setup Mocks === */
         // $calcTypeId = $this->_repoTypeCalc->getIdByCode($calcTypeCode);
         $mCalcTypeId = 4;
@@ -278,14 +385,14 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->with($mPeriodId)
             ->andReturn($mCalcLatest);
         /** === Call and asserts  === */
-        $res = $this->obj->getLatest($REQ);
+        $res = $this->obj->getLatest($mRequest);
         $this->assertTrue($res->isSucceed());
     }
 
     public function test_registerPeriod()
     {
         /** === Test Data === */
-        $REQ = new \Praxigento\BonusBase\Service\Period\Request\RegisterPeriod();
+        $mRequest = new \Praxigento\BonusBase\Service\Period\Request\RegisterPeriod();
         /** === Mock object itself === */
         $this->obj = \Mockery::mock(Call::class . '[addCalc]', $this->objArgs);
         /** === Setup Mocks === */
@@ -299,7 +406,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->obj->shouldReceive('addCalc')->once()
             ->andReturn($mData);
         /** === Call and asserts  === */
-        $res = $this->obj->registerPeriod($REQ);
+        $res = $this->obj->registerPeriod($mRequest);
         $this->assertTrue($res->isSucceed());
     }
 }
