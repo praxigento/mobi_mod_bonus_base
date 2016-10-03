@@ -4,17 +4,21 @@
  */
 namespace Praxigento\BonusBase\Service\Compress;
 
-
 use Praxigento\BonusBase\Data\Entity\Compress as ECompress;
-use Praxigento\BonusBase\Service\ICompress;
-use Praxigento\Core\Service\Base\Call as BaseCall;
 use Praxigento\Downline\Data\Entity\Customer;
 use Praxigento\Downline\Data\Entity\Snap as ESnap;
 use Praxigento\Downline\Service\Map\Request\ById as DownlineMapByIdRequest;
 use Praxigento\Downline\Service\Map\Request\TreeByDepth as DownlineMapTreeByDepthRequest;
 use Praxigento\Downline\Service\Map\Request\TreeByTeams as DownlineMapTreeByTeamsRequest;
 
-class Call extends BaseCall implements ICompress
+/**
+ * @SuppressWarnings(PHPMD.CamelCasePropertyName)
+ * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
+class Call
+    extends \Praxigento\Core\Service\Base\Call
+    implements \Praxigento\BonusBase\Service\ICompress
 {
     /** @var  \Praxigento\Downline\Service\IMap */
     protected $_callDownlineMap;
@@ -31,13 +35,14 @@ class Call extends BaseCall implements ICompress
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
         \Praxigento\BonusBase\Repo\Entity\ICompress $repoBonusCompress,
         \Praxigento\Downline\Service\IMap $repoDownlineMap,
         \Praxigento\Downline\Service\ISnap $callDownlineSnap,
         \Praxigento\Downline\Tool\ITree $toolDownlineTree
     ) {
-        $this->_logger = $logger;
+        parent::__construct($logger, $manObj);
         $this->_manTrans = $manTrans;
         $this->_repoBonusCompress = $repoBonusCompress;
         $this->_callDownlineMap = $repoDownlineMap;

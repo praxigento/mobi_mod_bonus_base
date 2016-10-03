@@ -10,7 +10,12 @@ use Praxigento\Downline\Data\Entity\Snap;
 
 include_once(__DIR__ . '/../../phpunit_bootstrap.php');
 
-class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
+/**
+ * @SuppressWarnings(PHPMD.CamelCaseClassName)
+ * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ */
+class Call_UnitTest
+    extends \Praxigento\Core\Test\BaseCase\Service\Call
 {
     /** @var  Call */
     private $call;
@@ -18,8 +23,6 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
     private $mCallDownlineMap;
     /** @var  \Mockery\MockInterface */
     private $mCallDownlineSnap;
-    /** @var  \Mockery\MockInterface */
-    private $mLogger;
     /** @var  \Mockery\MockInterface */
     private $mManTrans;
     /** @var  \Mockery\MockInterface */
@@ -30,7 +33,6 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
     protected function setUp()
     {
         parent::setUp();
-        $this->mLogger = $this->_mockLogger();
         $this->mManTrans = $this->_mockTransactionManager();
         $this->mRepoBonusCompress = $this->_mock(\Praxigento\BonusBase\Repo\Entity\ICompress::class);
         $this->mCallDownlineMap = $this->_mock(\Praxigento\Downline\Service\IMap::class);
@@ -38,6 +40,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->mToolDownlineTree = $this->_mock(\Praxigento\Downline\Tool\ITree::class);
         $this->call = new Call(
             $this->mLogger,
+            $this->mManObj,
             $this->mManTrans,
             $this->mRepoBonusCompress,
             $this->mCallDownlineMap,
@@ -53,19 +56,19 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         /**
          * Test data is not real customer tree, just for code coverage.
          */
-        $CALC_ID = 2;
-        $TREE = [];
-        $SHOULD_SKIP_EXPAND = false;
-        $DEPTH_4 = 4;
-        $CUST_4 = 4;
-        $CUST_3 = 3;
-        $CUST_2 = 2;
-        $CUST_1 = 1;
-        $TREE_EXPANDED = [
-            $CUST_1 => [Snap::ATTR_PATH => 'path1'],
-            $CUST_2 => [Snap::ATTR_PATH => 'path2'],
-            $CUST_3 => [Snap::ATTR_PATH => 'path3'],
-            $CUST_4 => [Snap::ATTR_PATH => 'path4']
+        $calcId = 2;
+        $tree = [];
+        $skipExpand = false;
+        $depth4 = 4;
+        $cust4 = 4;
+        $cust3 = 3;
+        $cust2 = 2;
+        $cust1 = 1;
+        $treeExp = [
+            $cust1 => [Snap::ATTR_PATH => 'path1'],
+            $cust2 => [Snap::ATTR_PATH => 'path2'],
+            $cust3 => [Snap::ATTR_PATH => 'path3'],
+            $cust4 => [Snap::ATTR_PATH => 'path4']
         ];
         /** === Setup Mocks === */
         $mQualifier = $this->_mock(\Praxigento\BonusBase\Tool\IQualifyUser::class);
@@ -73,7 +76,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         // $treeExpanded = $this->_toolDownlineTree->expandMinimal($treeFlat, Snap::ATTR_PARENT_ID);
         $this->mToolDownlineTree
             ->shouldReceive('expandMinimal')->once()
-            ->andReturn($TREE_EXPANDED);
+            ->andReturn($treeExp);
         // $resp = $this->_callDownlineSnap->expandMinimal($req);
         $mRespExp = new DataObject();
         $this->mCallDownlineSnap
@@ -81,30 +84,30 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->andReturn($mRespExp);
         // return $resp->getSnapData();
         $mSanpData = [
-            $CUST_1 => [Snap::ATTR_PATH => '/'],
-            $CUST_2 => [Snap::ATTR_PATH => '/1/'],
-            $CUST_3 => [Snap::ATTR_PATH => '/1/2/'],
-            $CUST_4 => [Snap::ATTR_PATH => '/1/2/3/']
+            $cust1 => [Snap::ATTR_PATH => '/'],
+            $cust2 => [Snap::ATTR_PATH => '/1/'],
+            $cust3 => [Snap::ATTR_PATH => '/1/2/'],
+            $cust4 => [Snap::ATTR_PATH => '/1/2/3/']
         ];
         $mRespExp->setSnapData($mSanpData);
         // $mapById = $this->_mapById($treeExpanded);
         // $resp = $this->_callDownlineMap->byId($req);
-        $mRespById = new DataObject([$CUST_1 => []]);
+        $mRespById = new DataObject([$cust1 => []]);
         $this->mCallDownlineMap
             ->shouldReceive('byId')
             ->andReturn($mRespById);
         // return $resp->getMapped();
         $mMapById = [
-            $CUST_4 => [
+            $cust4 => [
                 Customer::ATTR_HUMAN_REF => 'ref4'
             ],
-            $CUST_3 => [
+            $cust3 => [
                 Customer::ATTR_HUMAN_REF => 'ref3'
             ],
-            $CUST_2 => [
+            $cust2 => [
                 Customer::ATTR_HUMAN_REF => 'ref2'
             ],
-            $CUST_1 => [
+            $cust1 => [
                 Customer::ATTR_HUMAN_REF => 'ref1'
             ]
         ];
@@ -117,7 +120,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->andReturn($mRespByDepth);
         // return $resp->getMapped();
         $mMapByDepth = [
-            $DEPTH_4 => [$CUST_4, $CUST_3, $CUST_2]
+            $depth4 => [$cust4, $cust3, $cust2]
         ];
         $mRespByDepth->setMapped($mMapByDepth);
         // $mapTeams = $this->_mapByTeams($treeExpanded);
@@ -128,8 +131,8 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->andReturn($mRespByTeams);
         // return $resp->getMapped();
         $mMapByTeams = [
-            $CUST_3 => [$CUST_4],
-            $CUST_2 => [$CUST_4]
+            $cust3 => [$cust4],
+            $cust2 => [$cust4]
         ];
         $mRespByTeams->setMapped($mMapByTeams);
         // if($qualifier->isQualified($custData)) {
@@ -149,7 +152,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->shouldReceive('isQualified')->once()// 2 parent (1)
             ->andReturn(false);
         // $parents = $this->_toolDownlineTree->getParentsFromPathReversed($path);
-        $mParents = [$CUST_1];
+        $mParents = [$cust1];
         $this->mToolDownlineTree
             ->shouldReceive('getParentsFromPathReversed')
             ->andReturn($mParents);
@@ -171,10 +174,10 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->with($mDef);
         /** === Call and asserts  === */
         $req = new Request\QualifyByUserData();
-        $req->setCalcId($CALC_ID);
-        $req->setFlatTree($TREE);
+        $req->setCalcId($calcId);
+        $req->setFlatTree($tree);
         $req->setQualifier($mQualifier);
-        $req->setSkipTreeExpand($SHOULD_SKIP_EXPAND);
+        $req->setSkipTreeExpand($skipExpand);
         $resp = $this->call->qualifyByUserData($req);
         $this->assertTrue($resp->isSucceed());
     }
@@ -199,7 +202,7 @@ class Call_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         /** === Call and asserts  === */
         $req = new Request\QualifyByUserData();
         $req->setSkipTreeExpand(true);
-        $resp = $this->call->qualifyByUserData($req);
+        $this->call->qualifyByUserData($req);
     }
 
 }

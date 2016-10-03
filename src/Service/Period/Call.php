@@ -36,6 +36,7 @@ class Call
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
         \Praxigento\BonusBase\Repo\Entity\ICalculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\IPeriod $repoPeriod,
@@ -46,7 +47,7 @@ class Call
         \Praxigento\BonusBase\Service\Period\Sub\Depended $subDepended,
         \Praxigento\BonusBase\Service\Period\Sub\PvBased $subPvBased
     ) {
-        $this->_logger = $logger;
+        parent::__construct($logger, $manObj);
         $this->_manTrans = $manTrans;
         $this->_repoCalc = $repoCalc;
         $this->_repoPeriod = $repoPeriod;

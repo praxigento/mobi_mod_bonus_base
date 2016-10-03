@@ -15,10 +15,8 @@ include_once(__DIR__ . '/../../phpunit_bootstrap.php');
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Call_UnitTest
-    extends \Praxigento\Core\Test\BaseCase\Mockery
+    extends \Praxigento\Core\Test\BaseCase\Service\Call
 {
-    /** @var  \Mockery\MockInterface */
-    private $mLogger;
     /** @var  \Mockery\MockInterface */
     private $mManTrans;
     /** @var  \Mockery\MockInterface */
@@ -46,7 +44,6 @@ class Call_UnitTest
     {
         parent::setUp();
         /** create mocks */
-        $this->mLogger = $this->_mockLogger();
         $this->mManTrans = $this->_mockTransactionManager();
         $this->mRepoCalc = $this->_mock(\Praxigento\BonusBase\Repo\Entity\ICalculation::class);
         $this->mRepoPeriod = $this->_mock(\Praxigento\BonusBase\Repo\Entity\IPeriod::class);
@@ -59,6 +56,7 @@ class Call_UnitTest
         /** reset args. to create mock of the tested object */
         $this->objArgs = [
             $this->mLogger,
+            $this->mManObj,
             $this->mManTrans,
             $this->mRepoCalc,
             $this->mRepoPeriod,
@@ -72,6 +70,7 @@ class Call_UnitTest
         /** create object to test */
         $this->obj = new Call(
             $this->mLogger,
+            $this->mManObj,
             $this->mManTrans,
             $this->mRepoCalc,
             $this->mRepoPeriod,
