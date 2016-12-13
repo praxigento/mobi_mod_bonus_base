@@ -34,7 +34,7 @@ class Call
     protected $_toolDownlineTree;
 
     public function __construct(
-        \Psr\Log\LoggerInterface $logger,
+        \Praxigento\Core\Fw\Logger\App $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
         \Praxigento\BonusBase\Repo\Entity\ICompress $repoBonusCompress,

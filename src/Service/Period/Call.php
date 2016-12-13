@@ -35,7 +35,7 @@ class Call
     protected $_toolPeriod;
 
     public function __construct(
-        \Psr\Log\LoggerInterface $logger,
+        \Praxigento\Core\Fw\Logger\App $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
         \Praxigento\BonusBase\Repo\Entity\ICalculation $repoCalc,

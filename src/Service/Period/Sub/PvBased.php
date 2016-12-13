@@ -29,7 +29,7 @@ class PvBased
     const DEF_PERIOD = \Praxigento\Core\Tool\IPeriod::TYPE_MONTH;
 
     public function __construct(
-        \Psr\Log\LoggerInterface $logger,
+        \Praxigento\Core\Fw\Logger\App $logger,
         \Praxigento\BonusBase\Repo\Entity\ICalculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\IPeriod $repoPeriod,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
