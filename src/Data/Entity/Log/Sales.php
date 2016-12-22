@@ -21,7 +21,7 @@ class Sales
      */
     public function getSaleOrderId()
     {
-        $result = parent::getData(self::ATTR_SALE_ORDER_ID);
+        $result = parent::get(self::ATTR_SALE_ORDER_ID);
         return $result;
     }
 
@@ -30,7 +30,7 @@ class Sales
      */
     public function getTransId()
     {
-        $result = parent::getData(self::ATTR_TRANS_ID);
+        $result = parent::get(self::ATTR_TRANS_ID);
         return $result;
     }
 
@@ -39,7 +39,7 @@ class Sales
      */
     public function setSaleOrderId($data)
     {
-        parent::setData(self::ATTR_SALE_ORDER_ID, $data);
+        parent::set(self::ATTR_SALE_ORDER_ID, $data);
     }
 
     /**
@@ -47,6 +47,6 @@ class Sales
      */
     public function setTransId($data)
     {
-        parent::setData(self::ATTR_TRANS_ID, $data);
+        parent::set(self::ATTR_TRANS_ID, $data);
     }
 }

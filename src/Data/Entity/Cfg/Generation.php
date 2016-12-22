@@ -21,7 +21,7 @@ class Generation
      */
     public function getCalcTypeId()
     {
-        $result = parent::getData(self::ATTR_CALC_TYPE_ID);
+        $result = parent::get(self::ATTR_CALC_TYPE_ID);
         return $result;
     }
 
@@ -30,7 +30,7 @@ class Generation
      */
     public function getGeneration()
     {
-        $result = parent::getData(self::ATTR_GENERATION);
+        $result = parent::get(self::ATTR_GENERATION);
         return $result;
     }
 
@@ -39,7 +39,7 @@ class Generation
      */
     public function getPercent()
     {
-        $result = parent::getData(self::ATTR_PERCENT);
+        $result = parent::get(self::ATTR_PERCENT);
         return $result;
     }
 
@@ -53,7 +53,7 @@ class Generation
      */
     public function getRankId()
     {
-        $result = parent::getData(self::ATTR_RANK_ID);
+        $result = parent::get(self::ATTR_RANK_ID);
         return $result;
     }
 
@@ -62,7 +62,7 @@ class Generation
      */
     public function setCalcTypeId($data)
     {
-        parent::setData(self::ATTR_CALC_TYPE_ID, $data);
+        parent::set(self::ATTR_CALC_TYPE_ID, $data);
     }
 
     /**
@@ -70,7 +70,7 @@ class Generation
      */
     public function setGeneration($data)
     {
-        parent::setData(self::ATTR_GENERATION, $data);
+        parent::set(self::ATTR_GENERATION, $data);
     }
 
     /**
@@ -78,7 +78,7 @@ class Generation
      */
     public function setPercent($data)
     {
-        parent::setData(self::ATTR_PERCENT, $data);
+        parent::set(self::ATTR_PERCENT, $data);
     }
 
     /**
@@ -86,6 +86,6 @@ class Generation
      */
     public function setRankId($data)
     {
-        parent::setData(self::ATTR_RANK_ID, $data);
+        parent::set(self::ATTR_RANK_ID, $data);
     }
 }

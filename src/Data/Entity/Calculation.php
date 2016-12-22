@@ -19,7 +19,7 @@ class Calculation
      */
     public function getDateEnded()
     {
-        $result = parent::getData(self::ATTR_DATE_ENDED);
+        $result = parent::get(self::ATTR_DATE_ENDED);
         return $result;
     }
 
@@ -28,7 +28,7 @@ class Calculation
      */
     public function getDateStarted()
     {
-        $result = parent::getData(self::ATTR_DATE_STARTED);
+        $result = parent::get(self::ATTR_DATE_STARTED);
         return $result;
     }
 
@@ -37,7 +37,7 @@ class Calculation
      */
     public function getId()
     {
-        $result = parent::getData(self::ATTR_ID);
+        $result = parent::get(self::ATTR_ID);
         return $result;
     }
 
@@ -46,7 +46,7 @@ class Calculation
      */
     public function getPeriodId()
     {
-        $result = parent::getData(self::ATTR_PERIOD_ID);
+        $result = parent::get(self::ATTR_PERIOD_ID);
         return $result;
     }
 
@@ -60,7 +60,7 @@ class Calculation
      */
     public function getState()
     {
-        $result = parent::getData(self::ATTR_STATE);
+        $result = parent::get(self::ATTR_STATE);
         return $result;
     }
 
@@ -69,7 +69,7 @@ class Calculation
      */
     public function setDateEnded($data)
     {
-        parent::setData(self::ATTR_DATE_ENDED, $data);
+        parent::set(self::ATTR_DATE_ENDED, $data);
     }
 
     /**
@@ -77,7 +77,7 @@ class Calculation
      */
     public function setDateStarted($data)
     {
-        parent::setData(self::ATTR_DATE_STARTED, $data);
+        parent::set(self::ATTR_DATE_STARTED, $data);
     }
 
     /**
@@ -85,7 +85,7 @@ class Calculation
      */
     public function setId($data)
     {
-        parent::setData(self::ATTR_ID, $data);
+        parent::set(self::ATTR_ID, $data);
     }
 
     /**
@@ -93,7 +93,7 @@ class Calculation
      */
     public function setPeriodId($data)
     {
-        parent::setData(self::ATTR_PERIOD_ID, $data);
+        parent::set(self::ATTR_PERIOD_ID, $data);
     }
 
     /**
@@ -101,6 +101,6 @@ class Calculation
      */
     public function setState($data)
     {
-        parent::setData(self::ATTR_STATE, $data);
+        parent::set(self::ATTR_STATE, $data);
     }
 }

@@ -19,7 +19,7 @@ class Compress
      */
     public function getCalcId()
     {
-        $result = parent::getData(self::ATTR_CALC_ID);
+        $result = parent::get(self::ATTR_CALC_ID);
         return $result;
     }
 
@@ -28,7 +28,7 @@ class Compress
      */
     public function getCustomerId()
     {
-        $result = parent::getData(self::ATTR_CUSTOMER_ID);
+        $result = parent::get(self::ATTR_CUSTOMER_ID);
         return $result;
     }
 
@@ -37,7 +37,7 @@ class Compress
      */
     public function getId()
     {
-        $result = parent::getData(self::ATTR_ID);
+        $result = parent::get(self::ATTR_ID);
         return $result;
     }
 
@@ -46,7 +46,7 @@ class Compress
      */
     public function getParentId()
     {
-        $result = parent::getData(self::ATTR_PARENT_ID);
+        $result = parent::get(self::ATTR_PARENT_ID);
         return $result;
     }
 
@@ -60,7 +60,7 @@ class Compress
      */
     public function setCalcId($data)
     {
-        parent::setData(self::ATTR_CALC_ID, $data);
+        parent::set(self::ATTR_CALC_ID, $data);
     }
 
     /**
@@ -68,7 +68,7 @@ class Compress
      */
     public function setCustomerId($data)
     {
-        parent::setData(self::ATTR_CUSTOMER_ID, $data);
+        parent::set(self::ATTR_CUSTOMER_ID, $data);
     }
 
     /**
@@ -76,7 +76,7 @@ class Compress
      */
     public function setId($data)
     {
-        parent::setData(self::ATTR_ID, $data);
+        parent::set(self::ATTR_ID, $data);
     }
 
     /**
@@ -84,6 +84,6 @@ class Compress
      */
     public function setParentId($data)
     {
-        parent::setData(self::ATTR_PARENT_ID, $data);
+        parent::set(self::ATTR_PARENT_ID, $data);
     }
 }

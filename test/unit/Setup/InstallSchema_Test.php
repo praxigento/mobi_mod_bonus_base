@@ -48,7 +48,7 @@ class InstallSchema_UnitTest
             ->shouldReceive('readDemPackage')->once()
             ->withArgs([\Mockery::any(), '/dBEAR/package/Praxigento/package/Bonus/package/Base'])
             ->andReturn($mDemPackage);
-        // $demEntity = $demPackage->getData('package/Type/entity/Asset');
+        // $demEntity = $demPackage->get('package/Type/entity/Asset');
         $mDemPackage->shouldReceive('getData');
         //
         // $this->_toolDem->createEntity($entityAlias, $demEntity);

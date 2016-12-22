@@ -16,7 +16,7 @@ class Opers
      */
     public function getCalcId()
     {
-        $result = parent::getData(self::ATTR_CALC_ID);
+        $result = parent::get(self::ATTR_CALC_ID);
         return $result;
     }
 
@@ -25,7 +25,7 @@ class Opers
      */
     public function getOperId()
     {
-        $result = parent::getData(self::ATTR_OPER_ID);
+        $result = parent::get(self::ATTR_OPER_ID);
         return $result;
     }
 
@@ -39,7 +39,7 @@ class Opers
      */
     public function setCalcId($data)
     {
-        parent::setData(self::ATTR_CALC_ID, $data);
+        parent::set(self::ATTR_CALC_ID, $data);
     }
 
     /**
@@ -47,6 +47,6 @@ class Opers
      */
     public function setOperId($data)
     {
-        parent::setData(self::ATTR_OPER_ID, $data);
+        parent::set(self::ATTR_OPER_ID, $data);
     }
 }

@@ -16,7 +16,7 @@ class Customers
      */
     public function getCustomerId()
     {
-        $result = parent::getData(self::ATTR_CUSTOMER_ID);
+        $result = parent::get(self::ATTR_CUSTOMER_ID);
         return $result;
     }
 
@@ -30,7 +30,7 @@ class Customers
      */
     public function getTransId()
     {
-        $result = parent::getData(self::ATTR_TRANS_ID);
+        $result = parent::get(self::ATTR_TRANS_ID);
         return $result;
     }
 
@@ -39,7 +39,7 @@ class Customers
      */
     public function setCustomerId($data)
     {
-        parent::setData(self::ATTR_CUSTOMER_ID, $data);
+        parent::set(self::ATTR_CUSTOMER_ID, $data);
     }
 
     /**
@@ -47,6 +47,6 @@ class Customers
      */
     public function setTransId($data)
     {
-        parent::setData(self::ATTR_TRANS_ID, $data);
+        parent::set(self::ATTR_TRANS_ID, $data);
     }
 }

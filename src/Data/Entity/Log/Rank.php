@@ -21,7 +21,7 @@ class Rank
      */
     public function getRankRef()
     {
-        $result = parent::getData(self::ATTR_RANK_REF);
+        $result = parent::get(self::ATTR_RANK_REF);
         return $result;
     }
 
@@ -30,7 +30,7 @@ class Rank
      */
     public function getTransRef()
     {
-        $result = parent::getData(self::ATTR_TRANS_REF);
+        $result = parent::get(self::ATTR_TRANS_REF);
         return $result;
     }
 
@@ -39,7 +39,7 @@ class Rank
      */
     public function setRankRef($data)
     {
-        parent::setData(self::ATTR_RANK_REF, $data);
+        parent::set(self::ATTR_RANK_REF, $data);
     }
 
     /**
@@ -47,6 +47,6 @@ class Rank
      */
     public function setTransId($data)
     {
-        parent::setData(self::ATTR_TRANS_REF, $data);
+        parent::set(self::ATTR_TRANS_REF, $data);
     }
 }

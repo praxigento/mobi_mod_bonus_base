@@ -22,7 +22,7 @@ class Call_ManualTest extends \Praxigento\Core\Test\BaseCase\Mockery {
         $reqSnap = new \Praxigento\Downline\Service\Snap\Request\GetStateOnDate();
         $reqSnap->setDatestamp('20201231');
         $respSnap = $callDownlineSnap->getStateOnDate($reqSnap);
-        $flatTree = $respSnap->getData();
+        $flatTree = $respSnap->get();
         /** @var  $call \Praxigento\BonusBase\Service\Compress\Call */
         $call = $obm->get('Praxigento\BonusBase\Service\Compress\Call');
         $request = new Request\QualifyByUserData();

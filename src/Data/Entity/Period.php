@@ -18,7 +18,7 @@ class Period
      */
     public function getCalcTypeId()
     {
-        $result = parent::getData(self::ATTR_CALC_TYPE_ID);
+        $result = parent::get(self::ATTR_CALC_TYPE_ID);
         return $result;
     }
 
@@ -27,7 +27,7 @@ class Period
      */
     public function getDstampBegin()
     {
-        $result = parent::getData(self::ATTR_DSTAMP_BEGIN);
+        $result = parent::get(self::ATTR_DSTAMP_BEGIN);
         return $result;
     }
 
@@ -36,7 +36,7 @@ class Period
      */
     public function getDstampEnd()
     {
-        $result = parent::getData(self::ATTR_DSTAMP_END);
+        $result = parent::get(self::ATTR_DSTAMP_END);
         return $result;
     }
 
@@ -45,7 +45,7 @@ class Period
      */
     public function getId()
     {
-        $result = parent::getData(self::ATTR_ID);
+        $result = parent::get(self::ATTR_ID);
         return $result;
     }
 
@@ -59,7 +59,7 @@ class Period
      */
     public function setCalcTypeId($data)
     {
-        parent::setData(self::ATTR_CALC_TYPE_ID, $data);
+        parent::set(self::ATTR_CALC_TYPE_ID, $data);
     }
 
     /**
@@ -67,7 +67,7 @@ class Period
      */
     public function setDstampBegin($data)
     {
-        parent::setData(self::ATTR_DSTAMP_BEGIN, $data);
+        parent::set(self::ATTR_DSTAMP_BEGIN, $data);
     }
 
     /**
@@ -75,7 +75,7 @@ class Period
      */
     public function setDstampEnd($data)
     {
-        parent::setData(self::ATTR_DSTAMP_END, $data);
+        parent::set(self::ATTR_DSTAMP_END, $data);
     }
 
     /**
@@ -83,6 +83,6 @@ class Period
      */
     public function setId($data)
     {
-        parent::setData(self::ATTR_ID, $data);
+        parent::set(self::ATTR_ID, $data);
     }
 }

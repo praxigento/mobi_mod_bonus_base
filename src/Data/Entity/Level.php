@@ -17,7 +17,7 @@ class Level
      */
     public function getCalcTypeId()
     {
-        $result = parent::getData(self::ATTR_CALC_TYPE_ID);
+        $result = parent::get(self::ATTR_CALC_TYPE_ID);
         return $result;
     }
 
@@ -26,7 +26,7 @@ class Level
      */
     public function getLevel()
     {
-        $result = parent::getData(self::ATTR_LEVEL);
+        $result = parent::get(self::ATTR_LEVEL);
         return $result;
     }
 
@@ -35,7 +35,7 @@ class Level
      */
     public function getPercent()
     {
-        $result = parent::getData(self::ATTR_PERCENT);
+        $result = parent::get(self::ATTR_PERCENT);
         return $result;
     }
 
@@ -49,7 +49,7 @@ class Level
      */
     public function setCalcTypeId($data)
     {
-        parent::setData(self::ATTR_CALC_TYPE_ID, $data);
+        parent::set(self::ATTR_CALC_TYPE_ID, $data);
     }
 
     /**
@@ -57,7 +57,7 @@ class Level
      */
     public function setLevel($data)
     {
-        parent::setData(self::ATTR_LEVEL, $data);
+        parent::set(self::ATTR_LEVEL, $data);
     }
 
     /**
@@ -65,7 +65,7 @@ class Level
      */
     public function setPercent($data)
     {
-        parent::setData(self::ATTR_PERCENT, $data);
+        parent::set(self::ATTR_PERCENT, $data);
     }
 
 }
