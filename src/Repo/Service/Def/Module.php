@@ -39,11 +39,11 @@ class Module
         $asAcc = 'paa';
         $asTrans = 'pat';
         $asType = 'pata';
-        $tblAcc = $this->_resource->getTableName(EAccount::ENTITY_NAME);
-        $tblTrans = $this->_resource->getTableName(ETransaction::ENTITY_NAME);
-        $tblType = $this->_resource->getTableName(ETypeAsset::ENTITY_NAME);
+        $tblAcc = $this->resource->getTableName(EAccount::ENTITY_NAME);
+        $tblTrans = $this->resource->getTableName(ETransaction::ENTITY_NAME);
+        $tblType = $this->resource->getTableName(ETypeAsset::ENTITY_NAME);
         // SELECT FROM prxgt_acc_transaction pat
-        $query = $this->_conn->select();
+        $query = $this->conn->select();
         $query->from([$asTrans => $tblTrans], [ETransaction::ATTR_DATE_APPLIED]);
         // LEFT JOIN prxgt_acc_account paa ON paa.id = pat.debit_acc_id
         $on = $asAcc . '.' . EAccount::ATTR_ID . '=' . $asTrans . '.' . ETransaction::ATTR_DEBIT_ACC_ID;
@@ -52,24 +52,24 @@ class Module
         $on = $asAcc . '.' . EAccount::ATTR_ASSET_TYPE_ID . '=' . $asType . '.' . ETypeAsset::ATTR_ID;
         $query->joinLeft([$asType => $tblType], $on, null);
         // WHERE
-        $where = $asType . '.' . ETypeAsset::ATTR_CODE . '=' . $this->_conn->quote(Cfg::CODE_TYPE_ASSET_PV);
+        $where = $asType . '.' . ETypeAsset::ATTR_CODE . '=' . $this->conn->quote(Cfg::CODE_TYPE_ASSET_PV);
         $query->where($where);
         // ORDER & LIMIT
         $query->order($asTrans . '.' . ETransaction::ATTR_DATE_APPLIED . ' ASC');
         $query->limit(1);
         //
-        $result = $this->_conn->fetchOne($query);
+        $result = $this->conn->fetchOne($query);
         return $result;
     }
 
     public function getLastCalcForPeriodByDates($calcTypeId, $dsBegin, $dsEnd)
     {
         $result = null;
-        $conn = $this->_conn;
+        $conn = $this->conn;
         $asPeriod = 'pbbp';
         $asCalc = 'pbbc';
-        $tblPeriod = $this->_resource->getTableName(EPeriod::ENTITY_NAME);
-        $tblCalc = $this->_resource->getTableName(ECalculation::ENTITY_NAME);
+        $tblPeriod = $this->resource->getTableName(EPeriod::ENTITY_NAME);
+        $tblCalc = $this->resource->getTableName(ECalculation::ENTITY_NAME);
         // SELECT FROM prxgt_bon_base_period pbbp
         $query = $conn->select();
         $query->from([$asPeriod => $tblPeriod], []);
