@@ -401,7 +401,7 @@ class Call_UnitTest
             ->shouldReceive('getIdByCode')->once()
             ->andReturn($mCalcTypeId);
         // $data = $this->addCalc($reqAddCalc);
-        $mData = new \Flancer32\Lib\DataObject(['period' => [], 'calculation' => []]);
+        $mData = new \Flancer32\Lib\Data(['period' => [], 'calculation' => []]);
         $this->obj->shouldReceive('addCalc')->once()
             ->andReturn($mData);
         /** === Call and asserts  === */

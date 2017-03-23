@@ -4,7 +4,7 @@
  */
 namespace Praxigento\BonusBase\Service\Compress;
 
-use Flancer32\Lib\DataObject;
+use Flancer32\Lib\Data as DataObject;
 use Praxigento\Downline\Data\Entity\Customer;
 use Praxigento\Downline\Data\Entity\Snap;
 
