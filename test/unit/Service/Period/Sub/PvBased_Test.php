@@ -126,10 +126,10 @@ class PvBased_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->shouldReceive('getPeriodLastDate')->once()
             ->with($mPeriodNext)
             ->andReturn($mDsNextEnd);
-        // $periodNow = $this->_toolPeriod->getPeriodCurrent(time(), $periodType);
+        // $periodNow = $this->_toolPeriod->getPeriodCurrentOld(time(), $periodType);
         $mPeriodNow = 'now';
         $this->mToolPeriod
-            ->shouldReceive('getPeriodCurrent')->once()
+            ->shouldReceive('getPeriodCurrentOld')->once()
             ->with(\Mockery::any(), $PERIOD_TYPE)
             ->andReturn($mPeriodNow);
         // $dsNowEnd = $this->_toolPeriod->getPeriodLastDate($periodNow);
@@ -175,10 +175,10 @@ class PvBased_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
             ->shouldReceive('getPeriodLastDate')->once()
             ->with($mPeriodNext)
             ->andReturn($mDsNextEnd);
-        // $periodNow = $this->_toolPeriod->getPeriodCurrent(time(), $periodType);
+        // $periodNow = $this->_toolPeriod->getPeriodCurrentOld(time(), $periodType);
         $mPeriodNow = 'now';
         $this->mToolPeriod
-            ->shouldReceive('getPeriodCurrent')->once()
+            ->shouldReceive('getPeriodCurrentOld')->once()
             ->with(\Mockery::any(), $PERIOD_TYPE)
             ->andReturn($mPeriodNow);
         // $dsNowEnd = $this->_toolPeriod->getPeriodLastDate($periodNow);
@@ -291,10 +291,10 @@ class PvBased_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->mRepoService
             ->shouldReceive('getFirstDateForPvTransactions')->once()
             ->andReturn($mFirstDate);
-        // $periodMonth = $this->_toolPeriod->getPeriodCurrent($firstDate, $periodType);
+        // $periodMonth = $this->_toolPeriod->getPeriodCurrentOld($firstDate, $periodType);
         $mPeriodMonth = 'month';
         $this->mToolPeriod
-            ->shouldReceive('getPeriodCurrent')->once()
+            ->shouldReceive('getPeriodCurrentOld')->once()
             ->with($mFirstDate, $mPeriodType)
             ->andReturn($mPeriodMonth);
         // $dsBegin = $this->_toolPeriod->getPeriodFirstDate($periodMonth);

@@ -93,7 +93,7 @@ class PvBased
         $dsNextBegin = $this->_toolPeriod->getPeriodFirstDate($periodNext);
         $dsNextEnd = $this->_toolPeriod->getPeriodLastDate($periodNext);
         /* check "right" bound according to now */
-        $periodNow = $this->_toolPeriod->getPeriodCurrent(time(), $periodType);
+        $periodNow = $this->_toolPeriod->getPeriodCurrentOld(time(), $periodType);
         $dsNowEnd = $this->_toolPeriod->getPeriodLastDate($periodNow);
         if ($dsNextEnd < $dsNowEnd) {
             /* registry new period */
@@ -171,7 +171,7 @@ class PvBased
             $result->setErrorCode($result::ERR_HAS_NO_PV_TRANSACTIONS_YET);
         } else {
             $this->_logger->info("First PV transaction was performed at '$firstDate'.");
-            $periodMonth = $this->_toolPeriod->getPeriodCurrent($firstDate, $periodType);
+            $periodMonth = $this->_toolPeriod->getPeriodCurrentOld($firstDate, $periodType);
             $dsBegin = $this->_toolPeriod->getPeriodFirstDate($periodMonth);
             $dsEnd = $this->_toolPeriod->getPeriodLastDate($periodMonth);
             /* create new period for given calculation type */
