@@ -25,7 +25,7 @@ class Call
     /** @var   \Praxigento\Downline\Service\ISnap */
     protected $_callDownlineSnap;
     /** @var \Psr\Log\LoggerInterface */
-    protected $_logger;
+    protected $logger;
     /** @var  \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
     /** @var \Praxigento\BonusBase\Repo\Entity\ICompress */
@@ -93,7 +93,7 @@ class Call
         $treeFlat = $req->getFlatTree();
         $qualifier = $req->getQualifier();
         $skipExpand = (bool)$req->getSkipTreeExpand();
-        $this->_logger->info("'QualifyByUserData' operation is started.");
+        $this->logger->info("'QualifyByUserData' operation is started.");
         $treeCompressed = [];
         if ($skipExpand) {
             $treeExpanded = $treeFlat;
@@ -109,12 +109,12 @@ class Call
                 $custData = $mapById[$custId];
                 $ref = isset($custData[Customer::ATTR_HUMAN_REF]) ? $custData[Customer::ATTR_HUMAN_REF] : '';
                 if ($qualifier->isQualified($custData)) {
-                    $this->_logger->info("Customer #$custId ($ref) is qualified and added to compressed tree.");
+                    $this->logger->info("Customer #$custId ($ref) is qualified and added to compressed tree.");
                     $treeCompressed[$custId] = $custData;
                 } else {
-                    $this->_logger->info("Customer #$custId ($ref) is not qualified.");
+                    $this->logger->info("Customer #$custId ($ref) is not qualified.");
                     if (isset($mapTeams[$custId])) {
-                        $this->_logger->info("Customer #$custId ($ref) has own front team.");
+                        $this->logger->info("Customer #$custId ($ref) has own front team.");
                         /* Lookup for the closest qualified parent */
                         $path = $treeExpanded[$custId][ESnap::ATTR_PATH];
                         $parents = $this->_toolDownlineTree->getParentsFromPathReversed($path);
@@ -162,7 +162,7 @@ class Call
         }
 
         $result->markSucceed();
-        $this->_logger->info("'QualifyByUserData' operation is completed.");
+        $this->logger->info("'QualifyByUserData' operation is completed.");
         return $result;
     }
 }

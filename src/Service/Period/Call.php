@@ -14,7 +14,7 @@ class Call
     implements \Praxigento\BonusBase\Service\IPeriod
 {
     /** @var \Psr\Log\LoggerInterface */
-    protected $_logger;
+    protected $logger;
     /** @var  \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
     /** @var \Praxigento\BonusBase\Repo\Entity\ICalculation */
@@ -102,7 +102,7 @@ class Call
         $dependentCalcTypeCode = $request->getDependentCalcTypeCode();
         $msg = "'Get latest period for Dependent Calculation' operation is started "
             . "(dependent=$dependentCalcTypeCode, base=$baseCalcTypeCode).";
-        $this->_logger->info($msg);
+        $this->logger->info($msg);
         $def = $this->_manTrans->begin();
         try {
             /* get IDs for calculations codes */
@@ -113,7 +113,7 @@ class Call
             if (is_null($basePeriodData)) {
                 $msg = "There is no period for '$baseCalcTypeCode' calculation yet (base). "
                     . "Depended '$dependentCalcTypeCode' could not be calculated.";
-                $this->_logger->warning($msg);
+                $this->logger->warning($msg);
             } else {
                 /* there is period for base calculation, place base data into response */
                 $result->setBasePeriodData($basePeriodData);
@@ -142,7 +142,7 @@ class Call
         } finally {
             $this->_manTrans->end($def);
         }
-        $this->_logger->info("'Get latest period for Dependent Calculation' operation is completed.");
+        $this->logger->info("'Get latest period for Dependent Calculation' operation is completed.");
         return $result;
     }
 
@@ -153,7 +153,7 @@ class Call
         $periodType = $request->getPeriodType() ?? ToolPeriod::TYPE_MONTH;
         $msg = "'Get latest period for PV based calc' operation is started in bonus base module "
             . "(type code: $calcTypeCode; period: $periodType).";
-        $this->_logger->info($msg);
+        $this->logger->info($msg);
         /* get calculation type ID by type code */
         $calcTypeId = $this->_repoTypeCalc->getIdByCode($calcTypeCode);
         $def = $this->_manTrans->begin();
@@ -167,7 +167,7 @@ class Call
             } else {
                 $result->setPeriodData($periodData);
                 $periodId = $periodData->getId();
-                $this->_logger->info("There is registered period #$periodId for '$calcTypeCode' calculation.");
+                $this->logger->info("There is registered period #$periodId for '$calcTypeCode' calculation.");
                 $calcData = $latestPeriod->getCalcData();
                 $result = $this->_subPvBased->checkExistingPeriod(
                     $result, $calcTypeCode, $calcTypeId, $periodType, $periodData, $calcData
@@ -181,7 +181,7 @@ class Call
         } finally {
             $this->_manTrans->end($def);
         }
-        $this->_logger->info("'Get latest period for PV based calc' operation is completed in bonus base module.");
+        $this->logger->info("'Get latest period for PV based calc' operation is completed in bonus base module.");
         return $result;
     }
 
@@ -191,11 +191,11 @@ class Call
         $calcTypeId = $request->getCalcTypeId();
         $calcTypeCode = $request->getCalcTypeCode();
         $msgParams = is_null($calcTypeId) ? "type code '$calcTypeCode'" : "type ID #$calcTypeId";
-        $this->_logger->info("'Get latest calculation period' operation is started with $msgParams in bonus base module.");
+        $this->logger->info("'Get latest calculation period' operation is started with $msgParams in bonus base module.");
         if (is_null($calcTypeId)) {
             /* get calculation type ID by type code */
             $calcTypeId = $this->_repoTypeCalc->getIdByCode($calcTypeCode);
-            $this->_logger->info("There is only calculation type code ($calcTypeCode) in request, calculation type id = $calcTypeId.");
+            $this->logger->info("There is only calculation type code ($calcTypeCode) in request, calculation type id = $calcTypeId.");
         }
         $periodLatest = $this->_repoService->getLastPeriodByCalcType($calcTypeId);
         if ($periodLatest) {
@@ -206,7 +206,7 @@ class Call
             $result->setCalcData($calcLatest);
         }
         $result->markSucceed();
-        $this->_logger->info("'Get latest calculation period' operation is completed in bonus base module.");
+        $this->logger->info("'Get latest calculation period' operation is completed in bonus base module.");
         return $result;
     }
 
@@ -218,11 +218,11 @@ class Call
         $dsBegin = $request->getDateStampBegin();
         $dsEnd = $request->getDateStampEnd();
         $msgParams = is_null($calcTypeId) ? "type code '$calcTypeCode'" : "type ID #$calcTypeId";
-        $this->_logger->info("'Register Period' operation is started in bonus base module ($msgParams; $dsBegin-$dsEnd).");
+        $this->logger->info("'Register Period' operation is started in bonus base module ($msgParams; $dsBegin-$dsEnd).");
         if (is_null($calcTypeId)) {
             /* get calculation type ID by type code */
             $calcTypeId = $this->_repoTypeCalc->getIdByCode($calcTypeCode);
-            $this->_logger->info("There is only calculation type code ($calcTypeCode) in request, calculation type id = $calcTypeId.");
+            $this->logger->info("There is only calculation type code ($calcTypeCode) in request, calculation type id = $calcTypeId.");
         }
         $reqAddCalc = new Request\AddCalc();
         $reqAddCalc->setCalcTypeId($calcTypeId);
@@ -232,7 +232,7 @@ class Call
         $result->setPeriodData($data->getPeriod());
         $result->setCalcData($data->getCalculation());
         $result->markSucceed();
-        $this->_logger->info("'Register Period' operation is completed in bonus base module.");
+        $this->logger->info("'Register Period' operation is completed in bonus base module.");
         return $result;
     }
 }
