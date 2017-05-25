@@ -15,9 +15,9 @@ class Call_ManualTest
 {
     public function test_addCalc()
     {
-        $def = $this->_manTrans->begin();
+        $def = $this->manTrans->begin();
         /** @var  $call \Praxigento\BonusBase\Service\Period\Call */
-        $call = $this->_manObj->get(\Praxigento\BonusBase\Service\IPeriod::class);
+        $call = $this->manObj->get(\Praxigento\BonusBase\Service\IPeriod::class);
         $req = new Request\AddCalc();
         $req->setCalcTypeId(2);
         $req->setDateStampBegin('20160922');
@@ -29,7 +29,7 @@ class Call_ManualTest
         $calc = $res->getCalculation();
         $this->assertInstanceOf(Calculation::class, $calc);
         // rollback
-        $this->_manTrans->rollback($def);
+        $this->manTrans->rollback($def);
     }
 
     public function test_getForDependentCalc()

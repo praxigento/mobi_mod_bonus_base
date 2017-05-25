@@ -16,7 +16,7 @@ class Module_ManualTest
     public function test_getLastCalcForPeriod()
     {
         /** @var \Praxigento\BonusBase\Repo\Service\Def\Module $obj */
-        $obj = $this->_manObj->get(\Praxigento\BonusBase\Repo\Service\IModule::class);
+        $obj = $this->manObj->get(\Praxigento\BonusBase\Repo\Service\IModule::class);
         $res = $obj->getLastCalcForPeriodById(1);
         $this->assertInstanceOf(ECalculation::class, $res);
     }
@@ -24,7 +24,7 @@ class Module_ManualTest
     public function test_getLastPeriodByCalcType()
     {
         /** @var \Praxigento\BonusBase\Repo\Service\Def\Module $obj */
-        $obj = $this->_manObj->get(\Praxigento\BonusBase\Repo\Service\IModule::class);
+        $obj = $this->manObj->get(\Praxigento\BonusBase\Repo\Service\IModule::class);
         $res = $obj->getLastPeriodByCalcType(2);
         $this->assertInstanceOf(EPeriod::class, $res);
     }
