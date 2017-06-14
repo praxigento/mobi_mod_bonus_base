@@ -19,7 +19,6 @@
     }
   },
   "require": {
-    "praxigento/mobi_mod_mage2_downline": "dev-master",
     "praxigento/mobi_mod_mage2_pv": "dev-master",
     "praxigento/mobi_mod_mage2_wallet": "dev-master"
   }
