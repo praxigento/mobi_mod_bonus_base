@@ -9,7 +9,23 @@ use Praxigento\BonusBase\Data\Entity\Period as Period;
 use Praxigento\BonusBase\Data\Entity\Type\Calc as CalcType;
 
 /**
- * Build query to get period with related calculations data.
+ * Build query to get periods with related calculations data.
+ *
+ * SELECT
+ * `prd`.`id` AS `period_id`,
+ * `prd`.`calc_type_id`,
+ * `prd`.`dstamp_begin`,
+ * `prd`.`dstamp_end`,
+ * `calc`.`date_started`,
+ * `calc`.`date_ended`,
+ * `calc`.`state` AS `calc_state`,
+ * `cType`.`code`,
+ * `cType`.`note`
+ * FROM `prxgt_bon_base_period` AS `prd`
+ * LEFT JOIN `prxgt_bon_base_calc` AS `calc`
+ * ON calc.period_id = prd.id
+ * LEFT JOIN `prxgt_bon_base_type_calc` AS `cType`
+ * ON cType.id = cType.calc_type_id
  */
 class Builder
     extends \Praxigento\Core\Repo\Query\Def\Builder
@@ -31,26 +47,7 @@ class Builder
     const A_DS_END = Period::ATTR_DSTAMP_END;
     const A_PERIOD_ID = 'period_id';
 
-    /**
-     * SELECT
-     * `prd`.`id` AS `period_id`,
-     * `prd`.`calc_type_id`,
-     * `prd`.`dstamp_begin`,
-     * `prd`.`dstamp_end`,
-     * `calc`.`date_started`,
-     * `calc`.`date_ended`,
-     * `calc`.`state` AS `calc_state`,
-     * `cType`.`code`,
-     * `cType`.`note`
-     * FROM `prxgt_bon_base_period` AS `prd`
-     * LEFT JOIN `prxgt_bon_base_calc` AS `calc`
-     * ON calc.period_id = prd.id
-     * LEFT JOIN `prxgt_bon_base_type_calc` AS `cType`
-     * ON cType.id = cType.calc_type_id
-     *
-     * @inheritdoc
-     */
-    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
+    public function build(\Magento\Framework\DB\Select $source = null)
     {
         $result = $this->conn->select(); // this is root builder (not extender)
         /* define tables aliases */
@@ -88,7 +85,12 @@ class Builder
         ];
         $result->joinLeft([$asType => $tbl], $on, $cols);
 
+        return $result;
+    }
 
+    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
+    {
+        $result = $this->build();
         return $result;
     }
 
