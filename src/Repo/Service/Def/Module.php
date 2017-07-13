@@ -104,7 +104,7 @@ class Module
         $rs = $this->_repoCalc->get($where, $order, $limit);
         if (is_array($rs) && count($rs)) {
             $data = reset($rs);
-            $result = new ECalculation($data);
+            $result = $data;
         }
         return $result;
     }
@@ -119,7 +119,7 @@ class Module
         $rs = $this->_repoPeriod->get($where, $order, 1);
         if (is_array($rs) && count($rs)) {
             $data = reset($rs);
-            $result = new EPeriod($data);
+            $result = $data;
         }
         return $result;
     }
