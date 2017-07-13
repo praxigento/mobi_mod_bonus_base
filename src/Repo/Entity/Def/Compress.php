@@ -19,7 +19,7 @@ class Compress
     }
 
     /*
-     * @TODO remove usage of this metod or change call in users to expect return result collection of data objects
+     * @TODO: remove usage of this method or change call in callers to expect return result collection of Entities.
      *
      * @deprecated since MOBI-803
      * @param integer $calcId
