@@ -43,7 +43,7 @@ class Generation
         return $result;
     }
 
-    public function getPrimaryKeyAttrs()
+    public static function getPrimaryKeyAttrs()
     {
         return [self::ATTR_CALC_TYPE_ID, self::ATTR_RANK_ID, self::ATTR_GENERATION];
     }

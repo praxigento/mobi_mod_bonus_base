@@ -50,7 +50,7 @@ class Compress
         return $result;
     }
 
-    public function getPrimaryKeyAttrs()
+    public static function getPrimaryKeyAttrs()
     {
         return [self::ATTR_ID];
     }

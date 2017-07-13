@@ -11,7 +11,7 @@ class Rank
     const ATTR_TRANS_REF = 'trans_ref';
     const ENTITY_NAME = 'prxgt_bon_base_log_rank';
 
-    public function getPrimaryKeyAttrs()
+    public static function getPrimaryKeyAttrs()
     {
         return [self::ATTR_TRANS_REF, self::ATTR_RANK_REF];
     }

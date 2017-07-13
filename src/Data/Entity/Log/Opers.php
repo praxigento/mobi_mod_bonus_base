@@ -29,7 +29,7 @@ class Opers
         return $result;
     }
 
-    public function getPrimaryKeyAttrs()
+    public static function getPrimaryKeyAttrs()
     {
         return [self::ATTR_CALC_ID, self::ATTR_OPER_ID];
     }

@@ -39,7 +39,7 @@ class Level
         return $result;
     }
 
-    public function getPrimaryKeyAttrs()
+    public static function getPrimaryKeyAttrs()
     {
         return [self::ATTR_CALC_TYPE_ID, self::ATTR_LEVEL];
     }

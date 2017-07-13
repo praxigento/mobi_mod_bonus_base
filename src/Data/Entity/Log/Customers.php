@@ -20,7 +20,7 @@ class Customers
         return $result;
     }
 
-    public function getPrimaryKeyAttrs()
+    public static function getPrimaryKeyAttrs()
     {
         return [self::ATTR_TRANS_ID];
     }
