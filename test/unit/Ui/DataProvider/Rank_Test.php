@@ -23,7 +23,7 @@ class Rank_UnitTest
     {
         parent::setUp();
         /** create mocks */
-        $this->mRepo = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Def\Rank::class);
+        $this->mRepo = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Rank::class);
         /** create object to test */
         $this->obj = new Rank(
             $this->mUrl,

@@ -2,7 +2,8 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Repo\Entity\Def;
+
+namespace Praxigento\BonusBase\Repo\Entity;
 
 use Magento\Framework\App\ObjectManager;
 
@@ -17,7 +18,7 @@ class Compress_ManualTest extends \Praxigento\Core\Test\BaseCase\Mockery
     public function setUp()
     {
         parent::setUp();
-        $this->_obj = ObjectManager::getInstance()->create(\Praxigento\BonusBase\Repo\Entity\Def\Compress::class);
+        $this->_obj = ObjectManager::getInstance()->create(\Praxigento\BonusBase\Repo\Entity\Compress::class);
     }
 
     public function test_getTreeByCalcId()

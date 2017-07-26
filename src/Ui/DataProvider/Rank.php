@@ -16,7 +16,7 @@ class Rank
     public function __construct(
         \Magento\Framework\UrlInterface $url,
         \Praxigento\Core\Repo\Query\Criteria\IAdapter $critAdapter,
-        \Praxigento\BonusBase\Repo\Entity\Def\Rank $repo,
+        \Praxigento\BonusBase\Repo\Entity\Rank $repo,
         \Magento\Framework\View\Element\UiComponent\DataProvider\Reporting $reporting,
         \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCritBuilder,
         \Magento\Framework\App\RequestInterface $request,

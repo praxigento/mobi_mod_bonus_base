@@ -26,7 +26,7 @@ class Call
     protected $_callDownlineSnap;
     /** @var  \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Compress */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Compress */
     protected $_repoBonusCompress;
     /** @var  \Praxigento\Downline\Tool\ITree */
     protected $_toolDownlineTree;
@@ -37,7 +37,7 @@ class Call
         \Praxigento\Core\Fw\Logger\App $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
-        \Praxigento\BonusBase\Repo\Entity\Def\Compress $repoBonusCompress,
+        \Praxigento\BonusBase\Repo\Entity\Compress $repoBonusCompress,
         \Praxigento\Downline\Service\IMap $repoDownlineMap,
         \Praxigento\Downline\Service\ISnap $callDownlineSnap,
         \Praxigento\Downline\Tool\ITree $toolDownlineTree

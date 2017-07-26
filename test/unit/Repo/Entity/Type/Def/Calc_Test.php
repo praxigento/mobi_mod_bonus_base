@@ -2,9 +2,10 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Repo\Entity\Type\Def;
 
-use Praxigento\BonusBase\Repo\Entity\Type\Def\Calc as Entity;
+namespace Praxigento\BonusBase\Repo\Entity\Type;
+
+use Praxigento\BonusBase\Repo\Entity\Type\Calc as Entity;
 
 
 include_once(__DIR__ . '/../../../../phpunit_bootstrap.php');

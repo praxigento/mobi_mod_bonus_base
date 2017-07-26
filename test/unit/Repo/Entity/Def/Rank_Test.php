@@ -2,7 +2,8 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Repo\Entity\Def;
+
+namespace Praxigento\BonusBase\Repo\Entity;
 
 use Praxigento\BonusBase\Data\Entity\Rank as Entity;
 
@@ -12,7 +13,7 @@ include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 class Rank_UnitTest
     extends \Praxigento\Core\Test\BaseCase\Repo\Entity
 {
-    /** @var  \Praxigento\BonusBase\Repo\Entity\Def\Rank */
+    /** @var  \Praxigento\BonusBase\Repo\Entity\Rank */
     private $obj;
 
     public function setUp()
@@ -29,6 +30,6 @@ class Rank_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Def\Rank::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Rank::class, $this->obj);
     }
 }

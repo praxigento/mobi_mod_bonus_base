@@ -2,11 +2,12 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Repo\Entity\Log\Def;
 
-use Praxigento\BonusBase\Data\Entity\Log\Opers as Entity;
+namespace Praxigento\BonusBase\Repo\Entity\Log;
 
-class Opers
+use Praxigento\BonusBase\Data\Entity\Log\Rank as Entity;
+
+class Rank
     extends \Praxigento\Core\Repo\Def\Entity
 {
     public function __construct(

@@ -23,7 +23,7 @@ class Calc_UnitTest
     {
         parent::setUp();
         /** create mocks */
-        $this->mRepo = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Def\Calculation::class);
+        $this->mRepo = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Calculation::class);
 
         /** create object to test */
         $this->obj = new Calc(

@@ -10,11 +10,11 @@ class Rank
 
     /** @var array cached IDs accessed by code */
     protected $cachedIds = [];
-    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Rank */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Rank */
     protected $repoRank;
 
     public function __construct(
-        \Praxigento\BonusBase\Repo\Entity\Def\Rank $repoRank
+        \Praxigento\BonusBase\Repo\Entity\Rank $repoRank
     ) {
         $this->repoRank = $repoRank;
     }

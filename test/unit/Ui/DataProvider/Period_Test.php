@@ -23,7 +23,7 @@ class Period_UnitTest
     {
         parent::setUp();
         /** create mocks */
-        $this->mRepo = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Def\Period::class);
+        $this->mRepo = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Period::class);
         /** create object to test */
         $this->obj = new Period(
             $this->mUrl,

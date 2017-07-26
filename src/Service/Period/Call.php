@@ -15,13 +15,13 @@ class Call
 {
     /** @var  \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Calculation */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
     protected $_repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Period */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
     protected $_repoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
     protected $_repoService;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Type\Def\Calc */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Type\Calc */
     protected $_repoTypeCalc;
     /** @var  \Praxigento\BonusBase\Service\Period\Sub\Depended */
     protected $_subDepended;
@@ -38,9 +38,9 @@ class Call
         \Praxigento\Core\Fw\Logger\App $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
-        \Praxigento\BonusBase\Repo\Entity\Def\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Entity\Def\Period $repoPeriod,
-        \Praxigento\BonusBase\Repo\Entity\Type\Def\Calc $repoTypeCalc,
+        \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
+        \Praxigento\BonusBase\Repo\Entity\Type\Calc $repoTypeCalc,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
         \Praxigento\Core\Tool\IDate $toolDate,

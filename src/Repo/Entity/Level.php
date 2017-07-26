@@ -2,11 +2,12 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Repo\Entity\Log\Def;
 
-use Praxigento\BonusBase\Data\Entity\Log\Sales as Entity;
+namespace Praxigento\BonusBase\Repo\Entity;
 
-class Sales
+use Praxigento\BonusBase\Data\Entity\Level as Entity;
+
+class Level
     extends \Praxigento\Core\Repo\Def\Entity
 {
     public function __construct(

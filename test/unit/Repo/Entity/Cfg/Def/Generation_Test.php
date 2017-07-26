@@ -2,7 +2,8 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Repo\Entity\Cfg\Def;
+
+namespace Praxigento\BonusBase\Repo\Entity\Cfg;
 
 use Praxigento\BonusBase\Data\Entity\Cfg\Generation as Entity;
 
@@ -29,6 +30,6 @@ class Generation_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Cfg\Def\Generation::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Cfg\Generation::class, $this->obj);
     }
 }

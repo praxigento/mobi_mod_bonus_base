@@ -7,7 +7,7 @@ namespace Praxigento\BonusBase\Helper;
 interface IRank
 {
     /**
-     * Cached variant of the repo-operation (\Praxigento\BonusBase\Repo\Entity\Def\Rank::getIdByCode).
+     * Cached variant of the repo-operation (\Praxigento\BonusBase\Repo\Entity\Rank::getIdByCode).
      *
      * @param string $rankCode
      * @return int|null

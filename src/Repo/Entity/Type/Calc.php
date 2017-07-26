@@ -2,7 +2,8 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Repo\Entity\Type\Def;
+
+namespace Praxigento\BonusBase\Repo\Entity\Type;
 
 class Calc
     extends \Praxigento\Core\Repo\Entity\Def\Type

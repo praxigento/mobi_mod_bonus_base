@@ -2,7 +2,8 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Repo\Entity\Def;
+
+namespace Praxigento\BonusBase\Repo\Entity;
 
 use Praxigento\BonusBase\Data\Entity\Level as Entity;
 
@@ -29,6 +30,6 @@ class Level_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Def\Level::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Level::class, $this->obj);
     }
 }

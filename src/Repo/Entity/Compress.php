@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\BonusBase\Repo\Entity\Def;
+namespace Praxigento\BonusBase\Repo\Entity;
 
 use Praxigento\BonusBase\Data\Entity\Compress as Entity;
 

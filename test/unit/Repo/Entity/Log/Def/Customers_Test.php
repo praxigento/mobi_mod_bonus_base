@@ -2,7 +2,8 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Repo\Entity\Log\Def;
+
+namespace Praxigento\BonusBase\Repo\Entity\Log;
 
 use Praxigento\BonusBase\Data\Entity\Log\Customers as Entity;
 
@@ -29,6 +30,6 @@ class Customers_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Log\Def\Customers::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Log\Customers::class, $this->obj);
     }
 }
