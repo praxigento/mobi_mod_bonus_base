@@ -29,6 +29,6 @@ class Calculation_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\ICalculation::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Def\Calculation::class, $this->obj);
     }
 }

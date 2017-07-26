@@ -8,7 +8,6 @@ use Praxigento\BonusBase\Data\Entity\Log\Customers as Entity;
 
 class Customers
     extends \Praxigento\Core\Repo\Def\Entity
-    implements \Praxigento\BonusBase\Repo\Entity\Log\ICustomers
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,

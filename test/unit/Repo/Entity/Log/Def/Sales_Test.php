@@ -29,6 +29,6 @@ class Sales_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Log\ISales::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Log\Def\Sales::class, $this->obj);
     }
 }

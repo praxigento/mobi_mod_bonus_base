@@ -4,8 +4,7 @@
  */
 namespace Praxigento\BonusBase\Repo\Entity\Type\Def;
 
-use Praxigento\BonusBase\Data\Entity\Type\Calc as Entity;
-use Praxigento\BonusBase\Repo\Entity\Type\ICalc;
+use Praxigento\BonusBase\Repo\Entity\Type\Def\Calc as Entity;
 
 
 include_once(__DIR__ . '/../../../../phpunit_bootstrap.php');

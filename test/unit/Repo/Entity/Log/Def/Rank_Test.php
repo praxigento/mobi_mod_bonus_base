@@ -29,6 +29,6 @@ class Rank_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Log\IRank::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Log\Def\Rank::class, $this->obj);
     }
 }

@@ -8,7 +8,6 @@ use Praxigento\BonusBase\Data\Entity\Log\Rank as Entity;
 
 class Rank
     extends \Praxigento\Core\Repo\Def\Entity
-    implements \Praxigento\BonusBase\Repo\Entity\Log\IRank
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,

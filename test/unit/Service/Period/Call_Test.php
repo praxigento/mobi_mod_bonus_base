@@ -45,9 +45,9 @@ class Call_UnitTest
         parent::setUp();
         /** create mocks */
         $this->mManTrans = $this->_mockTransactionManager();
-        $this->mRepoCalc = $this->_mock(\Praxigento\BonusBase\Repo\Entity\ICalculation::class);
-        $this->mRepoPeriod = $this->_mock(\Praxigento\BonusBase\Repo\Entity\IPeriod::class);
-        $this->mRepoTypeCalc = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Type\ICalc::class);
+        $this->mRepoCalc = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Def\Calculation::class);
+        $this->mRepoPeriod = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Def\Period::class);
+        $this->mRepoTypeCalc = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Type\Def\Calc::class);
         $this->mRepoService = $this->_mock(\Praxigento\BonusBase\Repo\Service\IModule::class);
         $this->mToolPeriod = $this->_mock(\Praxigento\Core\Tool\IPeriod::class);
         $this->mToolDate = $this->_mock(\Praxigento\Core\Tool\IDate::class);

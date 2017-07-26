@@ -13,17 +13,15 @@ class Call
     extends \Praxigento\Core\Service\Base\Call
     implements \Praxigento\BonusBase\Service\IPeriod
 {
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
     /** @var  \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
-    /** @var \Praxigento\BonusBase\Repo\Entity\ICalculation */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Calculation */
     protected $_repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\IPeriod */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Period */
     protected $_repoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
     protected $_repoService;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Type\ICalc */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Type\Def\Calc */
     protected $_repoTypeCalc;
     /** @var  \Praxigento\BonusBase\Service\Period\Sub\Depended */
     protected $_subDepended;
@@ -33,14 +31,16 @@ class Call
     protected $_toolDate;
     /** @var  \Praxigento\Core\Tool\IPeriod */
     protected $_toolPeriod;
+    /** @var \Psr\Log\LoggerInterface */
+    protected $logger;
 
     public function __construct(
         \Praxigento\Core\Fw\Logger\App $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
-        \Praxigento\BonusBase\Repo\Entity\ICalculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Entity\IPeriod $repoPeriod,
-        \Praxigento\BonusBase\Repo\Entity\Type\ICalc $repoTypeCalc,
+        \Praxigento\BonusBase\Repo\Entity\Def\Calculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Entity\Def\Period $repoPeriod,
+        \Praxigento\BonusBase\Repo\Entity\Type\Def\Calc $repoTypeCalc,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Tool\IPeriod $toolPeriod,
         \Praxigento\Core\Tool\IDate $toolDate,

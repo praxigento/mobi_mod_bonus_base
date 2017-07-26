@@ -29,6 +29,6 @@ class Opers_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Log\IOpers::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Log\Def\Opers::class, $this->obj);
     }
 }

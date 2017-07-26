@@ -29,6 +29,6 @@ class Generation_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Cfg\IGeneration::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Cfg\Def\Generation::class, $this->obj);
     }
 }

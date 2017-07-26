@@ -5,7 +5,6 @@
 namespace Praxigento\BonusBase\Service\Period\Sub;
 
 use Praxigento\BonusBase\Config as Cfg;
-use Praxigento\Core\Test\BaseCase\Mockery;
 
 include_once(__DIR__ . '/../../../phpunit_bootstrap.php');
 
@@ -33,8 +32,8 @@ class PvBased_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         /** create mocks */
         parent::setUp();
         $this->mLogger = $this->_mockLogger();
-        $this->mRepoCalc = $this->_mock(\Praxigento\BonusBase\Repo\Entity\ICalculation::class);
-        $this->mRepoPeriod = $this->_mock(\Praxigento\BonusBase\Repo\Entity\IPeriod::class);
+        $this->mRepoCalc = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Def\Calculation::class);
+        $this->mRepoPeriod = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Def\Period::class);
         $this->mRepoService = $this->_mock(\Praxigento\BonusBase\Repo\Service\IModule::class);
         $this->mToolDate = $this->_mock(\Praxigento\Core\Tool\IDate::class);
         $this->mToolPeriod = $this->_mock(\Praxigento\Core\Tool\IPeriod::class);
@@ -259,26 +258,6 @@ class PvBased_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $this->assertInstanceOf(PvBased::class, $this->obj);
     }
 
-    public function test_getNewPeriodDataForPv_noDate()
-    {
-        /** === Test Data === */
-        $mResult = new \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc();
-        $mCalcTypeId = 4;
-        $mPeriodType = \Praxigento\Core\Tool\IPeriod::TYPE_DAY;
-        /** === Setup Mocks === */
-        // $firstDate = $this->_repoService->getFirstDateForPvTransactions();
-        $mFirstDate = false;
-        $this->mRepoService
-            ->shouldReceive('getFirstDateForPvTransactions')->once()
-            ->andReturn($mFirstDate);
-        /** === Call and asserts  === */
-        $res = $this->obj->getNewPeriodDataForPv($mResult, $mPeriodType, $mCalcTypeId);
-        $this->assertEquals(
-            \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc::ERR_HAS_NO_PV_TRANSACTIONS_YET,
-            $res->getErrorCode()
-        );
-    }
-
     public function test_getNewPeriodDataForPv_date()
     {
         /** === Test Data === */
@@ -328,5 +307,25 @@ class PvBased_UnitTest extends \Praxigento\Core\Test\BaseCase\Mockery
         $res = $this->obj->getNewPeriodDataForPv($mResult, $mPeriodType, $mCalcTypeId);
         $this->assertEquals($mPeriodId, $res->getPeriodData()->getId());
         $this->assertEquals($mCalcId, $res->getCalcData()->getId());
+    }
+
+    public function test_getNewPeriodDataForPv_noDate()
+    {
+        /** === Test Data === */
+        $mResult = new \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc();
+        $mCalcTypeId = 4;
+        $mPeriodType = \Praxigento\Core\Tool\IPeriod::TYPE_DAY;
+        /** === Setup Mocks === */
+        // $firstDate = $this->_repoService->getFirstDateForPvTransactions();
+        $mFirstDate = false;
+        $this->mRepoService
+            ->shouldReceive('getFirstDateForPvTransactions')->once()
+            ->andReturn($mFirstDate);
+        /** === Call and asserts  === */
+        $res = $this->obj->getNewPeriodDataForPv($mResult, $mPeriodType, $mCalcTypeId);
+        $this->assertEquals(
+            \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc::ERR_HAS_NO_PV_TRANSACTIONS_YET,
+            $res->getErrorCode()
+        );
     }
 }

@@ -15,17 +15,17 @@ class Module
     extends \Praxigento\Core\Repo\Def\Db
     implements \Praxigento\BonusBase\Repo\Service\IModule
 {
-    /** @var \Praxigento\BonusBase\Repo\Entity\ICalculation */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Calculation */
     protected $_repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\IPeriod */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Period */
     protected $_repoPeriod;
     /** @var \Praxigento\Core\Tool\IDate */
     protected $_toolDate;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\BonusBase\Repo\Entity\ICalculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Entity\IPeriod $repoPeriod,
+        \Praxigento\BonusBase\Repo\Entity\Def\Calculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Entity\Def\Period $repoPeriod,
         \Praxigento\Core\Tool\IDate $toolDate
     ) {
         parent::__construct($resource);

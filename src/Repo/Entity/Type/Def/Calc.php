@@ -6,7 +6,6 @@ namespace Praxigento\BonusBase\Repo\Entity\Type\Def;
 
 class Calc
     extends \Praxigento\Core\Repo\Entity\Def\Type
-    implements \Praxigento\BonusBase\Repo\Entity\Type\ICalc
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,

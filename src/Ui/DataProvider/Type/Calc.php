@@ -16,7 +16,7 @@ class Calc
     public function __construct(
         \Magento\Framework\UrlInterface $url,
         \Praxigento\Core\Repo\Query\Criteria\IAdapter $critAdapter,
-        \Praxigento\BonusBase\Repo\Entity\Type\ICalc $repo,
+        \Praxigento\BonusBase\Repo\Entity\Type\Def\Calc $repo,
         \Magento\Framework\View\Element\UiComponent\DataProvider\Reporting $reporting,
         \Magento\Framework\Api\Search\SearchCriteriaBuilder $searchCritBuilder,
         \Magento\Framework\App\RequestInterface $request,

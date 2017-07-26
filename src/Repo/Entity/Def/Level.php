@@ -8,7 +8,6 @@ use Praxigento\BonusBase\Data\Entity\Level as Entity;
 
 class Level
     extends \Praxigento\Core\Repo\Def\Entity
-    implements \Praxigento\BonusBase\Repo\Entity\ILevel
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,

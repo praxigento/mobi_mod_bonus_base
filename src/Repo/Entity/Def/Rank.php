@@ -6,7 +6,6 @@ namespace Praxigento\BonusBase\Repo\Entity\Def;
 
 class Rank
     extends \Praxigento\Core\Repo\Entity\Def\Type
-    implements \Praxigento\BonusBase\Repo\Entity\IRank
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,

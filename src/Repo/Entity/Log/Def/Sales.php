@@ -8,7 +8,6 @@ use Praxigento\BonusBase\Data\Entity\Log\Sales as Entity;
 
 class Sales
     extends \Praxigento\Core\Repo\Def\Entity
-    implements \Praxigento\BonusBase\Repo\Entity\Log\ISales
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,

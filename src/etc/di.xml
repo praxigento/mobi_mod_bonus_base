@@ -11,28 +11,6 @@
     <!-- **** -->
     <!-- Repo -->
     <!-- **** -->
-    <preference for="Praxigento\BonusBase\Repo\Entity\Cfg\IGeneration"
-            type="Praxigento\BonusBase\Repo\Entity\Cfg\Def\Generation"/>
-    <preference for="Praxigento\BonusBase\Repo\Entity\Log\ICustomers"
-            type="Praxigento\BonusBase\Repo\Entity\Log\Def\Customers"/>
-    <preference for="Praxigento\BonusBase\Repo\Entity\Log\IOpers"
-            type="Praxigento\BonusBase\Repo\Entity\Log\Def\Opers"/>
-    <preference for="Praxigento\BonusBase\Repo\Entity\Log\IRank"
-            type="Praxigento\BonusBase\Repo\Entity\Log\Def\Rank"/>
-    <preference for="Praxigento\BonusBase\Repo\Entity\Log\ISales"
-            type="Praxigento\BonusBase\Repo\Entity\Log\Def\Sales"/>
-    <preference for="Praxigento\BonusBase\Repo\Entity\Type\ICalc"
-            type="Praxigento\BonusBase\Repo\Entity\Type\Def\Calc"/>
-    <preference for="Praxigento\BonusBase\Repo\Entity\ICalculation"
-            type="Praxigento\BonusBase\Repo\Entity\Def\Calculation"/>
-    <preference for="Praxigento\BonusBase\Repo\Entity\ICompress"
-            type="Praxigento\BonusBase\Repo\Entity\Def\Compress"/>
-    <preference for="Praxigento\BonusBase\Repo\Entity\ILevel"
-            type="Praxigento\BonusBase\Repo\Entity\Def\Level"/>
-    <preference for="Praxigento\BonusBase\Repo\Entity\IPeriod"
-            type="Praxigento\BonusBase\Repo\Entity\Def\Period"/>
-    <preference for="Praxigento\BonusBase\Repo\Entity\IRank"
-            type="Praxigento\BonusBase\Repo\Entity\Def\Rank"/>
     <preference for="\Praxigento\BonusBase\Repo\Service\IModule"
             type="\Praxigento\BonusBase\Repo\Service\Def\Module"/>
 

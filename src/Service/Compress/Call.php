@@ -24,20 +24,20 @@ class Call
     protected $_callDownlineMap;
     /** @var   \Praxigento\Downline\Service\ISnap */
     protected $_callDownlineSnap;
-    /** @var \Psr\Log\LoggerInterface */
-    protected $logger;
     /** @var  \Praxigento\Core\Transaction\Database\IManager */
     protected $_manTrans;
-    /** @var \Praxigento\BonusBase\Repo\Entity\ICompress */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Compress */
     protected $_repoBonusCompress;
     /** @var  \Praxigento\Downline\Tool\ITree */
     protected $_toolDownlineTree;
+    /** @var \Psr\Log\LoggerInterface */
+    protected $logger;
 
     public function __construct(
         \Praxigento\Core\Fw\Logger\App $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Transaction\Database\IManager $manTrans,
-        \Praxigento\BonusBase\Repo\Entity\ICompress $repoBonusCompress,
+        \Praxigento\BonusBase\Repo\Entity\Def\Compress $repoBonusCompress,
         \Praxigento\Downline\Service\IMap $repoDownlineMap,
         \Praxigento\Downline\Service\ISnap $callDownlineSnap,
         \Praxigento\Downline\Tool\ITree $toolDownlineTree

@@ -14,11 +14,12 @@ use Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc as ResponsePv
  */
 class PvBased
 {
+    const DEF_PERIOD = \Praxigento\Core\Tool\IPeriod::TYPE_MONTH;
     /** @var \Psr\Log\LoggerInterface */
     protected $_logger;
-    /** @var \Praxigento\BonusBase\Repo\Entity\ICalculation */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Calculation */
     protected $_repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\IPeriod */
+    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Period */
     protected $_repoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
     protected $_repoService;
@@ -26,12 +27,11 @@ class PvBased
     protected $_toolDate;
     /** @var \Praxigento\Core\Tool\IPeriod */
     protected $_toolPeriod;
-    const DEF_PERIOD = \Praxigento\Core\Tool\IPeriod::TYPE_MONTH;
 
     public function __construct(
         \Praxigento\Core\Fw\Logger\App $logger,
-        \Praxigento\BonusBase\Repo\Entity\ICalculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Entity\IPeriod $repoPeriod,
+        \Praxigento\BonusBase\Repo\Entity\Def\Calculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Entity\Def\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Tool\IDate $toolDate,
         \Praxigento\Core\Tool\IPeriod $toolPeriod

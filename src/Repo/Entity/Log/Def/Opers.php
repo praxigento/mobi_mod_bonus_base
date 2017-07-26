@@ -8,7 +8,6 @@ use Praxigento\BonusBase\Data\Entity\Log\Opers as Entity;
 
 class Opers
     extends \Praxigento\Core\Repo\Def\Entity
-    implements \Praxigento\BonusBase\Repo\Entity\Log\IOpers
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,

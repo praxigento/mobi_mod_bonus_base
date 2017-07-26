@@ -25,8 +25,8 @@ class Module_UnitTest
     {
         parent::setUp();
         /** create mocks */
-        $this->mRepoCalc = $this->_mock(\Praxigento\BonusBase\Repo\Entity\ICalculation::class);
-        $this->mRepoPeriod = $this->_mock(\Praxigento\BonusBase\Repo\Entity\IPeriod::class);
+        $this->mRepoCalc = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Def\Calculation::class);
+        $this->mRepoPeriod = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Def\Period::class);
         $this->mToolDate = $this->_mock(\Praxigento\Core\Tool\IDate::class);
         /** create object to test */
         $this->obj = new Module(

@@ -8,13 +8,13 @@ class Rank
     implements IRank
 {
 
-    /** @var \Praxigento\BonusBase\Repo\Entity\IRank */
-    protected $repoRank;
     /** @var array cached IDs accessed by code */
     protected $cachedIds = [];
+    /** @var \Praxigento\BonusBase\Repo\Entity\Def\Rank */
+    protected $repoRank;
 
     public function __construct(
-        \Praxigento\BonusBase\Repo\Entity\IRank $repoRank
+        \Praxigento\BonusBase\Repo\Entity\Def\Rank $repoRank
     ) {
         $this->repoRank = $repoRank;
     }

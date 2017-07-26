@@ -34,7 +34,7 @@ class Call_UnitTest
     {
         parent::setUp();
         $this->mManTrans = $this->_mockTransactionManager();
-        $this->mRepoBonusCompress = $this->_mock(\Praxigento\BonusBase\Repo\Entity\ICompress::class);
+        $this->mRepoBonusCompress = $this->_mock(\Praxigento\BonusBase\Repo\Entity\Def\Compress::class);
         $this->mCallDownlineMap = $this->_mock(\Praxigento\Downline\Service\IMap::class);
         $this->mCallDownlineSnap = $this->_mock(\Praxigento\Downline\Service\ISnap::class);
         $this->mToolDownlineTree = $this->_mock(\Praxigento\Downline\Tool\ITree::class);

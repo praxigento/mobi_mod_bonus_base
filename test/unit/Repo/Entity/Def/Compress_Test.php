@@ -37,7 +37,7 @@ class Compress_UnitTest
     public function test_constructor()
     {
         /** === Call and asserts  === */
-        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\ICompress::class, $this->obj);
+        $this->assertInstanceOf(\Praxigento\BonusBase\Repo\Entity\Def\Compress::class, $this->obj);
     }
 
     public function test_getTreeByCalcId()

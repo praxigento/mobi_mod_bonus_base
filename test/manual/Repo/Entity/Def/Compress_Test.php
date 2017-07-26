@@ -17,7 +17,7 @@ class Compress_ManualTest extends \Praxigento\Core\Test\BaseCase\Mockery
     public function setUp()
     {
         parent::setUp();
-        $this->_obj = ObjectManager::getInstance()->create(\Praxigento\BonusBase\Repo\Entity\ICompress::class);
+        $this->_obj = ObjectManager::getInstance()->create(\Praxigento\BonusBase\Repo\Entity\Def\Compress::class);
     }
 
     public function test_getTreeByCalcId()
