@@ -37,6 +37,8 @@ interface IPeriod
      * @param Request\GetLatest $request
      *
      * @return Response\GetLatest
+     *
+     * @deprecated use \Praxigento\BonusBase\Repo\Query\Period\Calcs\GetLast\...
      */
     public function getLatest(Request\GetLatest $request);
 

@@ -5,8 +5,6 @@
 
 namespace Praxigento\BonusBase\Repo\Entity;
 
-use Praxigento\BonusBase\Data\Entity\Period as Entity;
-
 class Period
     extends \Praxigento\Core\Repo\Def\Entity
 {
@@ -14,7 +12,10 @@ class Period
         \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\Core\Repo\IGeneric $repoGeneric
     ) {
-        parent::__construct($resource, $repoGeneric, Entity::class);
+        parent::__construct(
+            $resource,
+            $repoGeneric,
+            \Praxigento\BonusBase\Data\Entity\Period::class);
     }
 
 }

@@ -11,7 +11,7 @@ use Praxigento\BonusBase\Data\Entity\Type\Calc as ECalcType;
 use Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder as QBBase;
 
 /**
- * Build query to get periods with related calculations data by DATE & CALC_TYPE_CODE.
+ * Build query to get periods with related calculations data by DATE, CALC_TYPE_CODE & CALC_STATE.
  */
 class Builder
     extends \Praxigento\Core\Repo\Query\Def\Builder
