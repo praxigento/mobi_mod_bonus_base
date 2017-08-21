@@ -7,6 +7,8 @@ namespace Praxigento\BonusBase\Repo\Service;
 
 /**
  * Common repo service for BonusBase module.
+ *
+ * @deprecated this functionality should be split to Repo & Services classes.
  */
 interface IModule
 {
@@ -47,6 +49,8 @@ interface IModule
      *
      * @param int $calcId
      * @return null
+     *
+     * @deprecated see \Praxigento\BonusBase\Repo\Entity\Calculation::markComplete
      */
     public function markCalcComplete($calcId);
 }
