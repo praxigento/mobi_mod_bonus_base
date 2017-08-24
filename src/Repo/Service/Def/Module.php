@@ -11,6 +11,9 @@ use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Data\Entity\Calculation as ECalculation;
 use Praxigento\BonusBase\Data\Entity\Period as EPeriod;
 
+/**
+ * @deprecated this class should be transformed into set of Query/Repo classes/methods.
+ */
 class Module
     extends \Praxigento\Core\Repo\Def\Db
     implements \Praxigento\BonusBase\Repo\Service\IModule
@@ -124,6 +127,9 @@ class Module
         return $result;
     }
 
+    /**
+     * @deprecated see \Praxigento\BonusBase\Repo\Entity\Calculation::markComplete
+     */
     public function markCalcComplete($calcId)
     {
         $tsEnded = $this->_toolDate->getUtcNowForDb();

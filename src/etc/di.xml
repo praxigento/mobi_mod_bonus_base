@@ -20,7 +20,11 @@
     <preference for="Praxigento\BonusBase\Service\ICompress"
             type="Praxigento\BonusBase\Service\Compress\Call"/>
     <preference for="Praxigento\BonusBase\Service\IPeriod"
-            type="Praxigento\BonusBase\Service\Period\Call"/>
+                type="Praxigento\BonusBase\Service\Period\Call"/>
+    <preference for="\Praxigento\BonusBase\Service\Period\Calc\IAdd"
+                type="\Praxigento\BonusBase\Service\Period\Calc\Add"/>
+    <preference for="\Praxigento\BonusBase\Service\Period\Get\IBasis"
+                type="\Praxigento\BonusBase\Service\Period\Get\Basis"/>
 
     <!-- ***** -->
     <!-- Tools -->

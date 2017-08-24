@@ -7,6 +7,9 @@ namespace Praxigento\BonusBase\Service;
 use Praxigento\BonusBase\Service\Period\Request;
 use Praxigento\BonusBase\Service\Period\Response;
 
+/**
+ * @deprecated this service should be split to the set of standalone operations.
+ */
 interface IPeriod
 {
     /**

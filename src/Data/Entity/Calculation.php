@@ -11,7 +11,7 @@ class Calculation
     const ATTR_DATE_STARTED = 'date_started';
     const ATTR_ID = 'id';
     const ATTR_PERIOD_ID = 'period_id';
-    const ATTR_STATE = 'state';
+    const ATTR_STATE = 'state'; // see \Praxigento\BonusBase\Config::CALC_STATE_...
     const ENTITY_NAME = 'prxgt_bon_base_calc';
 
     /**

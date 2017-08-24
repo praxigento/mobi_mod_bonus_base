@@ -16,12 +16,12 @@ use Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder as QBBase;
 class Builder
     extends \Praxigento\Core\Repo\Query\Def\Builder
 {
-    /** Tables aliases */
+    /** Tables aliases for external usage ('camelCase' naming) */
     const AS_CALC = QBBase::AS_CALC;
     const AS_CALC_TYPE = QBBase::AS_CALC_TYPE;
     const AS_PERIOD = QBBase::AS_PERIOD;
 
-    /** Columns aliases */
+    /** Columns/expressions aliases for external usage ('underscore' naming for database fields; 'camelCase' naming for aliases) */
     const A_CALC_ID = QBBase::A_CALC_ID;
     const A_CALC_STATE = QBBase::A_CALC_STATE;
     const A_CALC_TYPE_CODE = QBBase::A_CALC_TYPE_CODE;
