@@ -12,6 +12,8 @@ use Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder as QBBase;
 
 /**
  * Build query to get periods with related calculations data by DATE, CALC_TYPE_CODE & CALC_STATE.
+ *
+ * TODO: should we extends \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder here ?
  */
 class Builder
     extends \Praxigento\Core\Repo\Query\Def\Builder

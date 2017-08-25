@@ -29,4 +29,6 @@ class Config extends \Praxigento\Core\Config
     const MENU_BONUS_TYPE_CALC = 'bonus_type_calc';
 
     const MODULE = 'Praxigento_BonusBase';
+
+    const DEF_MAX_DATESTAMP = '29991231';
 }
