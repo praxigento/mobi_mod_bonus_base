@@ -54,57 +54,6 @@ class Call
         $this->_subPvBased = $subPvBased;
     }
 
-    public function getForDependentCalc(Request\GetForDependentCalc $request)
-    {
-        $result = new Response\GetForDependentCalc();
-        $baseCalcTypeCode = $request->getBaseCalcTypeCode();
-        $dependentCalcTypeCode = $request->getDependentCalcTypeCode();
-        $msg = "'Get latest period for Dependent Calculation' operation is started "
-            . "(dependent=$dependentCalcTypeCode, base=$baseCalcTypeCode).";
-        $this->logger->info($msg);
-        $def = $this->_manTrans->begin();
-        try {
-            /* get IDs for calculations codes */
-            $baseCalcTypeId = $this->_repoTypeCalc->getIdByCode($baseCalcTypeCode);
-            $dependentCalcTypeId = $this->_repoTypeCalc->getIdByCode($dependentCalcTypeCode);
-            /* get the last base period data from repo */
-            $basePeriodData = $this->_repoService->getLastPeriodByCalcType($baseCalcTypeId);
-            if (is_null($basePeriodData)) {
-                $msg = "There is no period for '$baseCalcTypeCode' calculation yet (base). "
-                    . "Depended '$dependentCalcTypeCode' could not be calculated.";
-                $this->logger->warning($msg);
-            } else {
-                /* there is period for base calculation, place base data into response */
-                $result->setBasePeriodData($basePeriodData);
-                $baseDsBegin = $basePeriodData->getDstampBegin();
-                $baseDsEnd = $basePeriodData->getDstampEnd();
-                /* then get data for depended period & calc */
-                $periodId = $basePeriodData->getId();
-                $result = $this->_subDepended->getDependedCalc(
-                    $result,
-                    $periodId,
-                    $baseCalcTypeCode,
-                    $baseDsBegin,
-                    $baseDsEnd,
-                    $dependentCalcTypeCode,
-                    $dependentCalcTypeId
-                );
-            }
-            $this->_manTrans->commit($def);
-            /* mark succeed if depended data exists */
-            if (
-                $result->getDependentPeriodData() &&
-                $result->getDependentCalcData()
-            ) {
-                $result->markSucceed();
-            }
-        } finally {
-            $this->_manTrans->end($def);
-        }
-        $this->logger->info("'Get latest period for Dependent Calculation' operation is completed.");
-        return $result;
-    }
-
     public function getLatest(Request\GetLatest $request)
     {
         $result = new Response\GetLatest();
