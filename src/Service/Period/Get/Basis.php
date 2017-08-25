@@ -9,7 +9,6 @@ use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Data\Entity\Calculation as ECalc;
 use Praxigento\BonusBase\Data\Entity\Type\Calc as ECalcType;
 use Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder as QBGetCalc;
-use Praxigento\Core\Tool\IPeriod as HPeriod;
 
 class Basis
     implements IBasis
@@ -40,12 +39,48 @@ class Basis
         $this->procCalcAdd = $procCalcAdd;
     }
 
+    /**
+     * Registry new period and related calculation.
+     *
+     * @param $dateFirst
+     * @param $periodType
+     * @param $calcTypeCode
+     * @return [$periodId, $calcId, $err]
+     */
+    private function addPeriodCalc($dateFirst, $periodType, $calcTypeCode)
+    {
+        /* define period begin/end */
+        $periodMonth = $this->hlpPeriod->getPeriodCurrent($dateFirst, +1, $periodType);
+        $dsBegin = $this->hlpPeriod->getPeriodFirstDate($periodMonth);
+        $dsEnd = $this->hlpPeriod->getPeriodLastDate($periodMonth);
+
+        /* register new period & calc */
+        $ctxAdd = new \Praxigento\Core\Data();
+        $ctxAdd->set($this->procCalcAdd::CTX_IN_CALC_TYPE_CODE, $calcTypeCode);
+        $ctxAdd->set($this->procCalcAdd::CTX_IN_DSTAMP_BEGIN, $dsBegin);
+        $ctxAdd->set($this->procCalcAdd::CTX_IN_DSTAMP_END, $dsEnd);
+        $this->procCalcAdd->exec($ctxAdd);
+        $success = $ctxAdd->get($this->procCalcAdd::CTX_OUT_SUCCESS);
+        if ($success) {
+            $periodId = $ctxAdd->get($this->procCalcAdd::CTX_OUT_PERIOD_ID);
+            $calcId = $ctxAdd->get($this->procCalcAdd::CTX_OUT_CALC_ID);
+            $this->logger->info("New period (#$periodId) and related calculation (#$calcId) are created.");
+        } else {
+            $err = $ctxAdd->get($this->procCalcAdd::ERR_PERIOD_END_IS_IN_FUTURE);
+            if ($err) {
+                $this->logger->warning("End of the adding period ($dsEnd) is in the future.");
+            }
+        }
+        /* return results as array */
+        return [$periodId, $calcId, $err];
+    }
+
     public function exec(\Praxigento\Core\Data $ctx)
     {
         /* get working data from context */
         $calcTypeCode = $ctx->get(self::CTX_IN_CALC_CODE);
         $assetTypeCode = $ctx->get(self::CTX_IN_ASSET_TYPE_CODE);
-
+        $periodType = $ctx->get(self::CTX_IN_PERIOD_TYPE) ?? \Praxigento\Core\Tool\IPeriod::TYPE_MONTH;
         /**
          * perform processing
          */
@@ -62,25 +97,14 @@ class Basis
                 $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_NO_TRANS_YET);
             } else {
                 $this->logger->info("First '$assetTypeCode' transaction was performed at '$dateFirst'.");
-                /* define period begin/end */
-                $periodMonth = $this->hlpPeriod->getPeriodCurrent($dateFirst, +1, HPeriod::TYPE_MONTH);
-                $dsBegin = $this->hlpPeriod->getPeriodFirstDate($periodMonth);
-                $dsEnd = $this->hlpPeriod->getPeriodLastDate($periodMonth);
-
-                /* register new period & calc */
-                $ctxAdd = new \Praxigento\Core\Data();
-                $ctxAdd->set($this->procCalcAdd::CTX_IN_CALC_TYPE_CODE, $calcTypeCode);
-                $ctxAdd->set($this->procCalcAdd::CTX_IN_DSTAMP_BEGIN, $dsBegin);
-                $ctxAdd->set($this->procCalcAdd::CTX_IN_DSTAMP_END, $dsEnd);
-                $this->procCalcAdd->exec($ctxAdd);
-                $periodId = $ctxAdd->get($this->procCalcAdd::CTX_OUT_PERIOD_ID);
-                $calcId = $ctxAdd->get($this->procCalcAdd::CTX_OUT_CALC_ID);
-                $this->logger->info("New period (#$periodId) and related calculation (#$calcId) are created.");
+                list($periodId, $calcId, $err) = $this->addPeriodCalc($dateFirst, $periodType, $calcTypeCode);
 
                 /* put result data into context */
-                $ctx->set(self::CTX_OUT_PERIOD_ID, $periodId);
-                $ctx->set(self::CTX_OUT_CALC_ID, $calcId);
-                $ctx->set(self::CTX_OUT_SUCCESS, true);
+                if (!$err) {
+                    $ctx->set(self::CTX_OUT_PERIOD_ID, $periodId);
+                    $ctx->set(self::CTX_OUT_CALC_ID, $calcId);
+                    $ctx->set(self::CTX_OUT_SUCCESS, true);
+                }
             }
         } else {
             $periodId = $periodLast[QBGetCalc::A_PERIOD_ID];
@@ -93,8 +117,16 @@ class Basis
                 $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_CALC_NOT_COMPLETE);
             } else {
                 /* there is complete calculation for the last period, start new period if it is possible */
+                $periodEnd = $periodLast[QBGetCalc::A_DS_END];
+                $dateNext = $this->hlpPeriod->getTimestampNextFrom($periodEnd, $periodType);
+                list($periodId, $calcId, $err) = $this->addPeriodCalc($dateNext, $periodType, $calcTypeCode);
+                /* put result data into context */
+                if (!$err) {
+                    $ctx->set(self::CTX_OUT_PERIOD_ID, $periodId);
+                    $ctx->set(self::CTX_OUT_CALC_ID, $calcId);
+                    $ctx->set(self::CTX_OUT_SUCCESS, true);
+                }
             }
-
         }
         $this->logger->info("'Get basis period calculation' processing is completed ($calcTypeCode).");
     }
@@ -105,7 +137,7 @@ class Basis
      * @param string $assetTypeCode
      * @return string|bool '2017-01-31 20:59:59' if data exists or 'false'.
      */
-    protected function queryFirstDate($assetTypeCode)
+    private function queryFirstDate($assetTypeCode)
     {
         $query = $this->qbGetFirstDate->build();
         $bind = [
@@ -122,7 +154,7 @@ class Basis
      * @param $calcCode
      * @return array see \Praxigento\BonusBase\Repo\Query\Period\Calcs\GetLast\ByCalcTypeCode\Builder
      */
-    protected function queryLastPeriod($calcCode)
+    private function queryLastPeriod($calcCode)
     {
         $query = $this->qbGetPeriod->build();
         /* modify query to get the last calculation by type code */

@@ -15,10 +15,10 @@ interface IBasis
 {
     const CTX_IN_ASSET_TYPE_CODE = 'inAssetTypeCode';
     const CTX_IN_CALC_CODE = 'inCalcCode';
+    const CTX_IN_PERIOD_TYPE = 'inPeriodType';
     const CTX_OUT_CALC_ID = 'outCalcId';
     const CTX_OUT_ERROR_CODE = 'outErrCode';
     const CTX_OUT_PERIOD_ID = 'outPeriodId';
-    const CTX_OUT_SUCCESS = 'outSuccess';
 
     /**
      * Error codes for self::CTX_OUT_ERROR_CODE

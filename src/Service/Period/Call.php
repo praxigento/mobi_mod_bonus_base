@@ -4,11 +4,6 @@
  */
 namespace Praxigento\BonusBase\Service\Period;
 
-use Praxigento\BonusBase\Config as Cfg;
-use Praxigento\BonusBase\Data\Entity\Calculation;
-use Praxigento\BonusBase\Data\Entity\Period;
-use Praxigento\Core\Tool\IPeriod as ToolPeriod;
-
 class Call
     extends \Praxigento\Core\Service\Base\Call
     implements \Praxigento\BonusBase\Service\IPeriod
@@ -57,42 +52,6 @@ class Call
         $this->_toolDate = $toolDate;
         $this->_subDepended = $subDepended;
         $this->_subPvBased = $subPvBased;
-    }
-
-    public function addCalc(Request\AddCalc $request)
-    {
-        $result = new Response\AddCalc();
-        $calcTypeId = $request->getCalcTypeId();
-        $dsBegin = $request->getDateStampBegin();
-        $dsEnd = $request->getDateStampEnd();
-        $def = $this->_manTrans->begin();
-        try {
-            /* create new period for given calculation type */
-            $periodData = [
-                Period::ATTR_CALC_TYPE_ID => $calcTypeId,
-                Period::ATTR_DSTAMP_BEGIN => $dsBegin,
-                Period::ATTR_DSTAMP_END => $dsEnd
-            ];
-            $periodId = $this->_repoPeriod->create($periodData);
-            /* create new calculation for the period */
-            $dateStarted = $this->_toolDate->getUtcNowForDb();
-            $calcData = [
-                Calculation::ATTR_PERIOD_ID => $periodId,
-                Calculation::ATTR_DATE_STARTED => $dateStarted,
-                Calculation::ATTR_STATE => Cfg::CALC_STATE_STARTED
-            ];
-            $calcId = $this->_repoCalc->create($calcData);
-            $this->_manTrans->commit($def);
-            /* compose response */
-            $periodData[Period::ATTR_ID] = $periodId;
-            $calcData[Calculation::ATTR_ID] = $calcId;
-            $result->setPeriod($periodData);
-            $result->setCalculation($calcData);
-            $result->markSucceed();
-        } finally {
-            $this->_manTrans->end($def);
-        }
-        return $result;
     }
 
     public function getForDependentCalc(Request\GetForDependentCalc $request)
@@ -146,45 +105,6 @@ class Call
         return $result;
     }
 
-    public function getForPvBasedCalc(Request\GetForPvBasedCalc $request)
-    {
-        $result = new Response\GetForPvBasedCalc();
-        $calcTypeCode = $request->getCalcTypeCode();
-        $periodType = $request->getPeriodType() ?? ToolPeriod::TYPE_MONTH;
-        $msg = "'Get latest period for PV based calc' operation is started in bonus base module "
-            . "(type code: $calcTypeCode; period: $periodType).";
-        $this->logger->info($msg);
-        /* get calculation type ID by type code */
-        $calcTypeId = $this->_repoTypeCalc->getIdByCode($calcTypeCode);
-        $def = $this->_manTrans->begin();
-        try {
-            $reqLatest = new Request\GetLatest();
-            $reqLatest->setCalcTypeId($calcTypeId);
-            $latestPeriod = $this->getLatest($reqLatest);
-            $periodData = $latestPeriod->getPeriodData();
-            if (is_null($periodData)) {
-                $result = $this->_subPvBased->getNewPeriodDataForPv($result, $periodType, $calcTypeId);
-            } else {
-                $result->setPeriodData($periodData);
-                $periodId = $periodData->getId();
-                $this->logger->info("There is registered period #$periodId for '$calcTypeCode' calculation.");
-                $calcData = $latestPeriod->getCalcData();
-                $result = $this->_subPvBased->checkExistingPeriod(
-                    $result, $calcTypeCode, $calcTypeId, $periodType, $periodData, $calcData
-                );
-            }
-            /* mark succeed if period data exists */
-            if ($result->getPeriodData() && $result->getCalcData()) {
-                $this->_manTrans->commit($def);
-                $result->markSucceed();
-            }
-        } finally {
-            $this->_manTrans->end($def);
-        }
-        $this->logger->info("'Get latest period for PV based calc' operation is completed in bonus base module.");
-        return $result;
-    }
-
     public function getLatest(Request\GetLatest $request)
     {
         $result = new Response\GetLatest();
@@ -207,32 +127,6 @@ class Call
         }
         $result->markSucceed();
         $this->logger->info("'Get latest calculation period' operation is completed in bonus base module.");
-        return $result;
-    }
-
-    public function registerPeriod(Request\RegisterPeriod $request)
-    {
-        $result = new Response\RegisterPeriod();
-        $calcTypeId = $request->getCalcTypeId();
-        $calcTypeCode = $request->getCalcTypeCode();
-        $dsBegin = $request->getDateStampBegin();
-        $dsEnd = $request->getDateStampEnd();
-        $msgParams = is_null($calcTypeId) ? "type code '$calcTypeCode'" : "type ID #$calcTypeId";
-        $this->logger->info("'Register Period' operation is started in bonus base module ($msgParams; $dsBegin-$dsEnd).");
-        if (is_null($calcTypeId)) {
-            /* get calculation type ID by type code */
-            $calcTypeId = $this->_repoTypeCalc->getIdByCode($calcTypeCode);
-            $this->logger->info("There is only calculation type code ($calcTypeCode) in request, calculation type id = $calcTypeId.");
-        }
-        $reqAddCalc = new Request\AddCalc();
-        $reqAddCalc->setCalcTypeId($calcTypeId);
-        $reqAddCalc->setDateStampBegin($dsBegin);
-        $reqAddCalc->setDateStampEnd($dsEnd);
-        $data = $this->addCalc($reqAddCalc);
-        $result->setPeriodData($data->getPeriod());
-        $result->setCalcData($data->getCalculation());
-        $result->markSucceed();
-        $this->logger->info("'Register Period' operation is completed in bonus base module.");
         return $result;
     }
 }
