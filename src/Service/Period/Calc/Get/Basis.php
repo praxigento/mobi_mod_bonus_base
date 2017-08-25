@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\BonusBase\Service\Period\Get;
+namespace Praxigento\BonusBase\Service\Period\Calc\Get;
 
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Data\Entity\Calculation as ECalc;

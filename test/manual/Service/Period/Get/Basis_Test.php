@@ -6,7 +6,7 @@
 namespace Praxigento\BonusBase\Service\Period;
 
 /* WARNING: reverse dependency, just for tests; hyb module depends on base, not vice versa. */
-use Praxigento\BonusBase\Service\Period\Get\IBasis as IBasis;
+use Praxigento\BonusBase\Service\Period\Calc\Get\IBasis as IBasis;
 use Praxigento\BonusHybrid\Config as CfgHyb;
 
 
@@ -18,8 +18,8 @@ class Basis_Test
     public function test_exec()
     {
         $def = $this->manTrans->begin();
-        /** @var  $proc \Praxigento\BonusBase\Service\Period\Get\IBasis */
-        $proc = $this->manObj->get(\Praxigento\BonusBase\Service\Period\Get\IBasis::class);
+        /** @var  $proc \Praxigento\BonusBase\Service\Period\Calc\Get\IBasis */
+        $proc = $this->manObj->get(\Praxigento\BonusBase\Service\Period\Calc\Get\IBasis::class);
         /* prepare execution context */
         $ctx = new \Praxigento\Core\Data();
         $ctx->set(IBasis::CTX_IN_CALC_CODE, CfgHyb::CODE_TYPE_CALC_BONUS_SIGNUP_DEBIT);

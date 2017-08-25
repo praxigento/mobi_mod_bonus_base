@@ -23,8 +23,8 @@
                 type="Praxigento\BonusBase\Service\Period\Call"/>
     <preference for="\Praxigento\BonusBase\Service\Period\Calc\IAdd"
                 type="\Praxigento\BonusBase\Service\Period\Calc\Add"/>
-    <preference for="\Praxigento\BonusBase\Service\Period\Get\IBasis"
-                type="\Praxigento\BonusBase\Service\Period\Get\Basis"/>
+    <preference for="\Praxigento\BonusBase\Service\Period\Calc\Get\IBasis"
+                type="\Praxigento\BonusBase\Service\Period\Calc\Get\Basis"/>
 
     <!-- ***** -->
     <!-- Tools -->

@@ -3,12 +3,14 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\BonusBase\Service\Period\Get;
+namespace Praxigento\BonusBase\Service\Period\Calc\Get;
 
 /**
  * Get period for first calculation in the chain.
  *
  * This service registers new calculation if it is possible.
+ *
+ * TODO: move under "\Praxigento\BonusBase\Service\Period\Calc\Get" namespace.
  */
 interface IBasis
     extends \Praxigento\Core\Service\IProcess
