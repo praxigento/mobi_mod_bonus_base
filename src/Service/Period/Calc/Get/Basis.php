@@ -179,7 +179,7 @@ class Basis
     /**
      * Perform query to get the last calculation by type.
      *
-     * @param $calcCode
+     * @param string $calcCode
      * @return array see \Praxigento\BonusBase\Repo\Query\Period\Calcs\GetLast\ByCalcTypeCode\Builder
      */
     private function queryLastPeriod($calcCode)
