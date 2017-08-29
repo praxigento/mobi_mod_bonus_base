@@ -23,10 +23,16 @@ class Basis
     protected $qbGetFirstDate;
     /** @var \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder */
     protected $qbGetPeriod;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
+    protected $repoCalc;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
+    protected $repoPeriod;
 
     public function __construct(
         \Praxigento\Core\Fw\Logger\App $logger,
         \Praxigento\Core\Tool\IPeriod $hlpPeriod,
+        \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder $qbGetPeriod,
         \Praxigento\Accounting\Repo\Query\Trans\Get\FirstDate\ByAssetType\Builder $qbGetFirstDate,
         \Praxigento\BonusBase\Service\Period\Calc\IAdd $procCalcAdd
@@ -34,6 +40,8 @@ class Basis
     {
         $this->logger = $logger;
         $this->hlpPeriod = $hlpPeriod;
+        $this->repoCalc = $repoCalc;
+        $this->repoPeriod = $repoPeriod;
         $this->qbGetPeriod = $qbGetPeriod;
         $this->qbGetFirstDate = $qbGetFirstDate;
         $this->procCalcAdd = $procCalcAdd;
@@ -54,6 +62,8 @@ class Basis
         $dsBegin = $this->hlpPeriod->getPeriodFirstDate($periodMonth);
         $dsEnd = $this->hlpPeriod->getPeriodLastDate($periodMonth);
 
+        /* result data */
+        $periodId = $calcId = $err = null;
         /* register new period & calc */
         $ctxAdd = new \Praxigento\Core\Data();
         $ctxAdd->set($this->procCalcAdd::CTX_IN_CALC_TYPE_CODE, $calcTypeCode);
@@ -81,6 +91,7 @@ class Basis
         $calcTypeCode = $ctx->get(self::CTX_IN_CALC_CODE);
         $assetTypeCode = $ctx->get(self::CTX_IN_ASSET_TYPE_CODE);
         $periodType = $ctx->get(self::CTX_IN_PERIOD_TYPE) ?? \Praxigento\Core\Tool\IPeriod::TYPE_MONTH;
+
         /**
          * perform processing
          */
@@ -98,12 +109,9 @@ class Basis
             } else {
                 $this->logger->info("First '$assetTypeCode' transaction was performed at '$dateFirst'.");
                 list($periodId, $calcId, $err) = $this->addPeriodCalc($dateFirst, $periodType, $calcTypeCode);
-
                 /* put result data into context */
                 if (!$err) {
-                    $ctx->set(self::CTX_OUT_PERIOD_ID, $periodId);
-                    $ctx->set(self::CTX_OUT_CALC_ID, $calcId);
-                    $ctx->set(self::CTX_OUT_SUCCESS, true);
+                    $this->populateContext($ctx, $periodId, $calcId);
                 }
             }
         } else {
@@ -122,13 +130,33 @@ class Basis
                 list($periodId, $calcId, $err) = $this->addPeriodCalc($dateNext, $periodType, $calcTypeCode);
                 /* put result data into context */
                 if (!$err) {
-                    $ctx->set(self::CTX_OUT_PERIOD_ID, $periodId);
-                    $ctx->set(self::CTX_OUT_CALC_ID, $calcId);
-                    $ctx->set(self::CTX_OUT_SUCCESS, true);
+                    $this->populateContext($ctx, $periodId, $calcId);
                 }
             }
         }
         $this->logger->info("'Get basis period calculation' processing is completed ($calcTypeCode).");
+    }
+
+    /**
+     * Populate execution context with result data if no error.
+     *
+     * @param $ctx
+     * @param int $periodId
+     * @param int $calcId
+     */
+    private function populateContext($ctx, $periodId, $calcId)
+    {
+        $loadData = $ctx->get(self::CTX_IN_LOAD_DATA) ?? true;
+
+        $ctx->set(self::CTX_OUT_PERIOD_ID, $periodId);
+        $ctx->set(self::CTX_OUT_CALC_ID, $calcId);
+        $ctx->set(self::CTX_OUT_SUCCESS, true);
+        if ($loadData) {
+            $periodData = $this->repoPeriod->getById($periodId);
+            $calcData = $this->repoCalc->getById($calcId);
+            $ctx->set(self::CTX_OUT_PERIOD_DATA, $periodData);
+            $ctx->set(self::CTX_OUT_CALC_DATA, $calcData);
+        }
     }
 
     /**
@@ -151,7 +179,7 @@ class Basis
     /**
      * Perform query to get the last calculation by type.
      *
-     * @param $calcCode
+     * @param string $calcCode
      * @return array see \Praxigento\BonusBase\Repo\Query\Period\Calcs\GetLast\ByCalcTypeCode\Builder
      */
     private function queryLastPeriod($calcCode)

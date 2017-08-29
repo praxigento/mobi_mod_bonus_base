@@ -25,6 +25,8 @@
                 type="\Praxigento\BonusBase\Service\Period\Calc\Add"/>
     <preference for="\Praxigento\BonusBase\Service\Period\Calc\Get\IBasis"
                 type="\Praxigento\BonusBase\Service\Period\Calc\Get\Basis"/>
+    <preference for="\Praxigento\BonusBase\Service\Period\Calc\Get\IDependent"
+                type="\Praxigento\BonusBase\Service\Period\Calc\Get\Dependent"/>
 
     <!-- ***** -->
     <!-- Tools -->

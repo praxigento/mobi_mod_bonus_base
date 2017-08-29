@@ -6,30 +6,28 @@
 namespace Praxigento\BonusBase\Service\Period\Calc\Get;
 
 /**
- * Get period for the first calculation in the chain.
+ * Get period for the next calculation in the chain dependent on the other calculation.
  *
  * This service registers new calculation if it is possible.
  */
-interface IBasis
+interface IDependent
     extends \Praxigento\Core\Service\IProcess
 {
-    const CTX_IN_ASSET_TYPE_CODE = 'in.assetTypeCode';
-    const CTX_IN_CALC_CODE = 'in.calcCode';
-    /** bool - if 'true' then period & calc data will be loaded from repo (periodData & calcData in out) */
-    const CTX_IN_LOAD_DATA = 'in.loadData';
+    /** string code of the calculation type to load/register */
+    const CTX_IN_BASE_TYPE_CODE = 'in.baseCalcTypeCode';
+    /** string - code of the depended calculation type */
+    const CTX_IN_DEP_TYPE_CODE = 'in.depCalcTypeCode';
+    /** string - see \Praxigento\Core\Tool\IPeriod::TYPE_... */
     const CTX_IN_PERIOD_TYPE = 'in.periodType';
     /** \Praxigento\BonusBase\Data\Entity\Calculation */
     const CTX_OUT_CALC_DATA = 'out.calcData';
-    const CTX_OUT_CALC_ID = 'out.calcId';
+    /** string - see self::ERR_... */
     const CTX_OUT_ERROR_CODE = 'out.errCode';
     /** \Praxigento\BonusBase\Data\Entity\Period */
     const CTX_OUT_PERIOD_DATA = 'out.periodData';
-    const CTX_OUT_PERIOD_ID = 'out.periodId';
 
     /**
      * Error codes for self::CTX_OUT_ERROR_CODE
      */
     const ERR_CALC_NOT_COMPLETE = 'errCalcNotComplete';
-    const ERR_NO_TRANS_YET = 'errNoTransYet';
-
 }
