@@ -6,8 +6,8 @@
 namespace Praxigento\BonusBase\Service\Period\Calc;
 
 use Praxigento\BonusBase\Config as Cfg;
-use Praxigento\BonusBase\Data\Entity\Calculation as ECalc;
-use Praxigento\BonusBase\Data\Entity\Period as EPeriod;
+use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalc;
+use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
 
 class Add
     implements IAdd

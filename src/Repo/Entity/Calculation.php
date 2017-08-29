@@ -6,7 +6,7 @@
 namespace Praxigento\BonusBase\Repo\Entity;
 
 use Praxigento\BonusBase\Config as Cfg;
-use Praxigento\BonusBase\Data\Entity\Calculation as ECalculation;
+use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
 
 class Calculation
     extends \Praxigento\Core\Repo\Def\Entity
@@ -22,7 +22,7 @@ class Calculation
         parent::__construct(
             $resource,
             $repoGeneric,
-            \Praxigento\BonusBase\Data\Entity\Calculation::class
+            \Praxigento\BonusBase\Repo\Entity\Data\Calculation::class
         );
         $this->toolDate = $toolDate;
     }

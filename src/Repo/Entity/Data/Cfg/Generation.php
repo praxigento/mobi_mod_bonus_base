@@ -2,7 +2,8 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
-namespace Praxigento\BonusBase\Data\Entity\Cfg;
+
+namespace Praxigento\BonusBase\Repo\Entity\Data\Cfg;
 
 /**
  * Configuration for ranks by generations in downline tree.

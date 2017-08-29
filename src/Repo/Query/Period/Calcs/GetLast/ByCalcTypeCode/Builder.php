@@ -5,9 +5,9 @@
 
 namespace Praxigento\BonusBase\Repo\Query\Period\Calcs\GetLast\ByCalcTypeCode;
 
-use Praxigento\BonusBase\Data\Entity\Calculation as ECalc;
-use Praxigento\BonusBase\Data\Entity\Period as EPeriod;
-use Praxigento\BonusBase\Data\Entity\Type\Calc as ECalcType;
+use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalc;
+use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
+use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as ECalcType;
 use Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder as QBBase;
 
 /**

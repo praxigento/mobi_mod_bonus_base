@@ -5,7 +5,7 @@
 
 namespace Praxigento\BonusBase\Repo\Entity\Log;
 
-use Praxigento\BonusBase\Data\Entity\Log\Rank as Entity;
+use Praxigento\BonusBase\Repo\Entity\Data\Log\Rank as Entity;
 
 class Rank
     extends \Praxigento\Core\Repo\Def\Entity

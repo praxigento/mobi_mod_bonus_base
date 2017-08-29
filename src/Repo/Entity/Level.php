@@ -5,7 +5,7 @@
 
 namespace Praxigento\BonusBase\Repo\Entity;
 
-use Praxigento\BonusBase\Data\Entity\Level as Entity;
+use Praxigento\BonusBase\Repo\Entity\Data\Level as Entity;
 
 class Level
     extends \Praxigento\Core\Repo\Def\Entity

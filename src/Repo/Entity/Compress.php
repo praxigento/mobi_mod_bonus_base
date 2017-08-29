@@ -5,7 +5,7 @@
 
 namespace Praxigento\BonusBase\Repo\Entity;
 
-use Praxigento\BonusBase\Data\Entity\Compress as Entity;
+use Praxigento\BonusBase\Repo\Entity\Data\Compress as Entity;
 
 class Compress
     extends \Praxigento\Core\Repo\Def\Entity

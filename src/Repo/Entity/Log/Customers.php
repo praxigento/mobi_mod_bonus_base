@@ -5,7 +5,7 @@
 
 namespace Praxigento\BonusBase\Repo\Entity\Log;
 
-use Praxigento\BonusBase\Data\Entity\Log\Customers as Entity;
+use Praxigento\BonusBase\Repo\Entity\Data\Log\Customers as Entity;
 
 class Customers
     extends \Praxigento\Core\Repo\Def\Entity

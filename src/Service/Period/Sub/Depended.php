@@ -5,8 +5,8 @@
 namespace Praxigento\BonusBase\Service\Period\Sub;
 
 use Praxigento\BonusBase\Config as Cfg;
-use Praxigento\BonusBase\Data\Entity\Calculation as ECalculation;
-use Praxigento\BonusBase\Data\Entity\Period as EPeriod;
+use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
+use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
 
 /**
  * Period service's internal code for depended calculations.

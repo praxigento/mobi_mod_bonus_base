@@ -5,17 +5,17 @@
  */
 namespace Praxigento\BonusBase\Setup;
 
-use Praxigento\BonusBase\Data\Entity\Calculation;
-use Praxigento\BonusBase\Data\Entity\Cfg\Generation as CfgGeneration;
-use Praxigento\BonusBase\Data\Entity\Compress;
-use Praxigento\BonusBase\Data\Entity\Level;
-use Praxigento\BonusBase\Data\Entity\Log\Customers as LogCustomers;
-use Praxigento\BonusBase\Data\Entity\Log\Opers as LogOpers;
-use Praxigento\BonusBase\Data\Entity\Log\Rank as LogRank;
-use Praxigento\BonusBase\Data\Entity\Log\Sales as LogSales;
-use Praxigento\BonusBase\Data\Entity\Period;
-use Praxigento\BonusBase\Data\Entity\Rank;
-use Praxigento\BonusBase\Data\Entity\Type\Calc as TypeCalc;
+use Praxigento\BonusBase\Repo\Entity\Data\Calculation;
+use Praxigento\BonusBase\Repo\Entity\Data\Cfg\Generation as CfgGeneration;
+use Praxigento\BonusBase\Repo\Entity\Data\Compress;
+use Praxigento\BonusBase\Repo\Entity\Data\Level;
+use Praxigento\BonusBase\Repo\Entity\Data\Log\Customers as LogCustomers;
+use Praxigento\BonusBase\Repo\Entity\Data\Log\Opers as LogOpers;
+use Praxigento\BonusBase\Repo\Entity\Data\Log\Rank as LogRank;
+use Praxigento\BonusBase\Repo\Entity\Data\Log\Sales as LogSales;
+use Praxigento\BonusBase\Repo\Entity\Data\Period;
+use Praxigento\BonusBase\Repo\Entity\Data\Rank;
+use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as TypeCalc;
 
 class InstallSchema extends \Praxigento\Core\Setup\Schema\Base
 {

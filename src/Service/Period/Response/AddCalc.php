@@ -5,12 +5,12 @@
 namespace Praxigento\BonusBase\Service\Period\Response;
 
 
-use Praxigento\BonusBase\Data\Entity\Calculation as ECalculation;
-use Praxigento\BonusBase\Data\Entity\Period as EPeriod;
+use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
+use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
 
 /**
- * @method \Praxigento\BonusBase\Data\Entity\Period getPeriod()
- * @method \Praxigento\BonusBase\Data\Entity\Calculation getCalculation()
+ * @method \Praxigento\BonusBase\Repo\Entity\Data\Period getPeriod()
+ * @method \Praxigento\BonusBase\Repo\Entity\Data\Calculation getCalculation()
  */
 class AddCalc
     extends \Praxigento\Core\Service\Base\Response

@@ -5,7 +5,7 @@
 
 namespace Praxigento\BonusBase\Repo\Entity\Cfg;
 
-use Praxigento\BonusBase\Data\Entity\Cfg\Generation as Entity;
+use Praxigento\BonusBase\Repo\Entity\Data\Cfg\Generation as Entity;
 
 class Generation
     extends \Praxigento\Core\Repo\Def\Entity

@@ -5,7 +5,7 @@
 
 namespace Praxigento\BonusBase\Repo\Entity\Log;
 
-use Praxigento\BonusBase\Data\Entity\Log\Sales as Entity;
+use Praxigento\BonusBase\Repo\Entity\Data\Log\Sales as Entity;
 
 class Sales
     extends \Praxigento\Core\Repo\Def\Entity
