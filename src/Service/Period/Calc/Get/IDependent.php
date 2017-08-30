@@ -21,11 +21,11 @@ interface IDependent
     const CTX_IN_LOAD_DATA = 'in.loadData';
     /** string - see \Praxigento\Core\Tool\IPeriod::TYPE_... */
     const CTX_IN_PERIOD_TYPE = 'in.periodType';
-    /** \Praxigento\BonusBase\Data\Entity\Calculation */
+    /** \Praxigento\BonusBase\Repo\Entity\Data\Calculation */
     const CTX_OUT_CALC_DATA = 'out.calcData';
     /** string - see self::ERR_... */
     const CTX_OUT_ERROR_CODE = 'out.errCode';
-    /** \Praxigento\BonusBase\Data\Entity\Period */
+    /** \Praxigento\BonusBase\Repo\Entity\Data\Period */
     const CTX_OUT_PERIOD_DATA = 'out.periodData';
     /**
      * Error codes for self::CTX_OUT_ERROR_CODE

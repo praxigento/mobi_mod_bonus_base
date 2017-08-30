@@ -18,11 +18,11 @@ interface IBasis
     /** bool - if 'true' then period & calc data will be loaded from repo (periodData & calcData in out) */
     const CTX_IN_LOAD_DATA = 'in.loadData';
     const CTX_IN_PERIOD_TYPE = 'in.periodType';
-    /** \Praxigento\BonusBase\Data\Entity\Calculation */
+    /** \Praxigento\BonusBase\Repo\Entity\Data\Calculation */
     const CTX_OUT_CALC_DATA = 'out.calcData';
     const CTX_OUT_CALC_ID = 'out.calcId';
     const CTX_OUT_ERROR_CODE = 'out.errCode';
-    /** \Praxigento\BonusBase\Data\Entity\Period */
+    /** \Praxigento\BonusBase\Repo\Entity\Data\Period */
     const CTX_OUT_PERIOD_DATA = 'out.periodData';
     const CTX_OUT_PERIOD_ID = 'out.periodId';
 

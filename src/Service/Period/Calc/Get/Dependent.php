@@ -5,8 +5,8 @@
 
 namespace Praxigento\BonusBase\Service\Period\Calc\Get;
 
-use Praxigento\BonusBase\Data\Entity\Calculation as ECalc;
-use Praxigento\BonusBase\Data\Entity\Type\Calc as ECalcType;
+use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalc;
+use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as ECalcType;
 use Praxigento\BonusBase\Repo\Query\Period\Calcs\GetLast\ByCalcTypeCode\Builder as QBGetLast;
 use Praxigento\BonusHybrid\Config as Cfg;
 

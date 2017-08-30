@@ -15,7 +15,7 @@ class Period
         parent::__construct(
             $resource,
             $repoGeneric,
-            \Praxigento\BonusBase\Data\Entity\Period::class);
+            \Praxigento\BonusBase\Repo\Entity\Data\Period::class);
     }
 
 }
