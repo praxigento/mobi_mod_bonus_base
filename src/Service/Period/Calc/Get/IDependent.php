@@ -17,6 +17,8 @@ interface IDependent
     const CTX_IN_BASE_TYPE_CODE = 'in.baseCalcTypeCode';
     /** string - code of the depended calculation type */
     const CTX_IN_DEP_TYPE_CODE = 'in.depCalcTypeCode';
+    /** bool - if 'true' then period & calc data will be loaded from repo (periodData & calcData in out) */
+    const CTX_IN_LOAD_DATA = 'in.loadData';
     /** string - see \Praxigento\Core\Tool\IPeriod::TYPE_... */
     const CTX_IN_PERIOD_TYPE = 'in.periodType';
     /** \Praxigento\BonusBase\Data\Entity\Calculation */
@@ -25,9 +27,11 @@ interface IDependent
     const CTX_OUT_ERROR_CODE = 'out.errCode';
     /** \Praxigento\BonusBase\Data\Entity\Period */
     const CTX_OUT_PERIOD_DATA = 'out.periodData';
-
     /**
      * Error codes for self::CTX_OUT_ERROR_CODE
      */
-    const ERR_CALC_NOT_COMPLETE = 'errCalcNotComplete';
+    const ERR_ADD_NEW_PERIOD = 'errAddNewPeriod';
+    const ERR_BASE_CALC_NOT_COMPLETE = 'errBaseCalcNotComplete';
+    const ERR_BASE_CALC_NOT_EXIST = 'errBaseCalcNotExist';
+    const ERR_DEP_CALC_COMPLETE = 'errDepCalcComplete';
 }
