@@ -140,7 +140,7 @@ class Basis
     /**
      * Populate execution context with result data if no error.
      *
-     * @param $ctx
+     * @param \Praxigento\Core\Data $ctx
      * @param int $periodId
      * @param int $calcId
      */
