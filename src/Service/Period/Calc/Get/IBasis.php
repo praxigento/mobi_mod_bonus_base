@@ -29,7 +29,7 @@ interface IBasis
     /**
      * Error codes for self::CTX_OUT_ERROR_CODE
      */
-    const ERR_CALC_NOT_COMPLETE = 'errCalcNotComplete';
-    const ERR_NO_TRANS_YET = 'errNoTransYet';
+    const ERR_CALC_NOT_COMPLETE = 'err.calcNotComplete';
+    const ERR_NO_TRANS_YET = 'err.noTransYet';
 
 }

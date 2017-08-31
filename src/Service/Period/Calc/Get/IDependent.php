@@ -30,8 +30,8 @@ interface IDependent
     /**
      * Error codes for self::CTX_OUT_ERROR_CODE
      */
-    const ERR_ADD_NEW_PERIOD = 'errAddNewPeriod';
-    const ERR_BASE_CALC_NOT_COMPLETE = 'errBaseCalcNotComplete';
-    const ERR_BASE_CALC_NOT_EXIST = 'errBaseCalcNotExist';
-    const ERR_DEP_CALC_COMPLETE = 'errDepCalcComplete';
+    const ERR_ADD_NEW_PERIOD = 'err.addNewPeriod';
+    const ERR_BASE_CALC_NOT_COMPLETE = 'err.baseCalcNotComplete';
+    const ERR_BASE_CALC_NOT_EXIST = 'err.baseCalcNotExist';
+    const ERR_DEP_CALC_COMPLETE = 'err.depCalcComplete';
 }
