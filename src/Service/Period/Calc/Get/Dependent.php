@@ -82,7 +82,7 @@ class Dependent
          * perform processing
          */
         $ctx->set(self::CTX_OUT_SUCCESS, false);
-        $this->logger->info("'Get dependent period calculation' processing is started "
+        $this->logger->info("'Dependent period' processing is started "
             . "(base: $calcTypeCodeBase; dep: $calcTypeCodeDep).");
         /* get the last period data for given calculation type */
         $periodLastBase = $this->queryLastPeriod($calcTypeCodeBase);
@@ -97,7 +97,7 @@ class Dependent
                 $periodLastDep = $this->queryLastPeriod($calcTypeCodeDep);
                 if (!$periodLastDep) {
                     /* there is no dependent period, registry new one */
-                    $this->logger->warning("There is no period data for calculation '$calcTypeCodeDep'. New period and related calculation will be created.");
+                    $this->logger->info("There is no period data for calculation '$calcTypeCodeDep'. New period and related calculation will be created.");
                     list($depPeriodId, $depCalcId, $err) = $this->addPeriodCalc($baseDsBegin, $baseDsEnd, $calcTypeCodeDep);
                     $this->populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err);
                 } else {
@@ -117,7 +117,7 @@ class Dependent
                             $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_DEP_CALC_COMPLETE);
                         } else {
                             /* incomplete dependent period for complete base period */
-                            $this->logger->warning("There is '$calcTypeCodeDep' period without complete calculation. Continue calculation for this period.");
+                            $this->logger->info("There is '$calcTypeCodeDep' period without complete calculation. Continue calculation for this period.");
                             $depPeriodId = $periodLastDep[QBGetLast::A_PERIOD_ID];
                             $depCalcId = $periodLastDep[QBGetLast::A_CALC_ID];
                             $this->populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId);
@@ -140,7 +140,7 @@ class Dependent
             $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_BASE_CALC_NOT_EXIST);
         }
 
-        $this->logger->info("'Get basis period calculation' processing is completed "
+        $this->logger->info("'Dependent period' processing is completed "
             . "(base: $calcTypeCodeBase; dep: $calcTypeCodeDep).");
     }
 
