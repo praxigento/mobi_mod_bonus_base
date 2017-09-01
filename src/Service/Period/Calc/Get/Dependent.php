@@ -91,14 +91,15 @@ class Dependent
             $baseDsBegin = $periodLastBase[QBGetLast::A_DS_BEGIN];
             $baseDsEnd = $periodLastBase[QBGetLast::A_DS_END];
             $basePeriodId = $periodLastBase[QBGetLast::A_PERIOD_ID];
+            $baseCalcId = $periodLastBase[QBGetLast::A_CALC_ID];
             if ($baseCalcState == Cfg::CALC_STATE_COMPLETE) {
                 /* base calculation is complete, get the last dependent calc */
                 $periodLastDep = $this->queryLastPeriod($calcTypeCodeDep);
                 if (!$periodLastDep) {
                     /* there is no dependent period, registry new one */
                     $this->logger->warning("There is no period data for calculation '$calcTypeCodeDep'. New period and related calculation will be created.");
-                    list($periodId, $calcId, $err) = $this->addPeriodCalc($baseDsBegin, $baseDsEnd, $calcTypeCodeDep);
-                    $this->populateContext($ctx, $periodId, $calcId, $err);
+                    list($depPeriodId, $depCalcId, $err) = $this->addPeriodCalc($baseDsBegin, $baseDsEnd, $calcTypeCodeDep);
+                    $this->populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err);
                 } else {
                     /* there is dependent period */
                     $depDsBegin = $periodLastDep[QBGetLast::A_DS_BEGIN];
@@ -117,14 +118,15 @@ class Dependent
                         } else {
                             /* incomplete dependent period for complete base period */
                             $this->logger->warning("There is '$calcTypeCodeDep' period without complete calculation. Continue calculation for this period.");
-                            $baseCalcId = $periodLastDep[QBGetLast::A_CALC_ID];
-                            $this->populateContext($ctx, $basePeriodId, $baseCalcId);
+                            $depPeriodId = $periodLastDep[QBGetLast::A_PERIOD_ID];
+                            $depCalcId = $periodLastDep[QBGetLast::A_CALC_ID];
+                            $this->populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId);
                         }
                     } else {
                         /* dependent period has different begin/end then related base period */
                         $this->logger->warning("There is no period for '$calcTypeCodeDep' calculation based on '$calcTypeCodeBase' ($baseDsBegin-$baseDsEnd). New period and related calculation will be created.");
-                        list($periodId, $calcId, $err) = $this->addPeriodCalc($baseDsBegin, $baseDsEnd, $calcTypeCodeDep);
-                        $this->populateContext($ctx, $periodId, $calcId, $err);
+                        list($depPeriodId, $depCalcId, $err) = $this->addPeriodCalc($baseDsBegin, $baseDsEnd, $calcTypeCodeDep);
+                        $this->populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err);
                     }
                 }
             } else {
@@ -146,21 +148,24 @@ class Dependent
      * Populate execution context with result data if no error.
      *
      * @param \Praxigento\Core\Data $ctx
-     * @param int $periodId
-     * @param int $calcId
+     * @param int $basePeriodId
+     * @param int $baseCalcId
+     * @param int $depPeriodId
+     * @param int $depCalcId
      * @param bool $err error code from self::addPeriodCalc()
      */
-    private function populateContext($ctx, $periodId, $calcId, $err = null)
+    private function populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err = null)
     {
-        $loadData = $ctx->get(self::CTX_IN_LOAD_DATA) ?? true;
         if (!$err) {
             $ctx->set(self::CTX_OUT_SUCCESS, true);
-            if ($loadData) {
-                $periodData = $this->repoPeriod->getById($periodId);
-                $calcData = $this->repoCalc->getById($calcId);
-                $ctx->set(self::CTX_OUT_PERIOD_DATA, $periodData);
-                $ctx->set(self::CTX_OUT_CALC_DATA, $calcData);
-            }
+            $basePeriodData = $this->repoPeriod->getById($basePeriodId);
+            $baseCalcData = $this->repoCalc->getById($baseCalcId);
+            $depPeriodData = $this->repoPeriod->getById($depPeriodId);
+            $depCalcData = $this->repoCalc->getById($depCalcId);
+            $ctx->set(self::CTX_OUT_BASE_PERIOD_DATA, $basePeriodData);
+            $ctx->set(self::CTX_OUT_BASE_CALC_DATA, $baseCalcData);
+            $ctx->set(self::CTX_OUT_DEP_PERIOD_DATA, $depPeriodData);
+            $ctx->set(self::CTX_OUT_DEP_CALC_DATA, $depCalcData);
         } else {
             $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_ADD_NEW_PERIOD);
         }
