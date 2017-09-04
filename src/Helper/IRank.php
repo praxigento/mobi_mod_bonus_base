@@ -11,6 +11,8 @@ interface IRank
      *
      * @param string $rankCode
      * @return int|null
+     *
+     * @deprecated use \Praxigento\BonusBase\Repo\Entity\Rank (w/o cache but nonetheless)
      */
     public function getIdByCode($rankCode);
 }
