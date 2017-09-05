@@ -15,6 +15,8 @@ interface IDependent
 {
     /** string code of the calculation type to load/register */
     const CTX_IN_BASE_TYPE_CODE = 'in.baseCalcTypeCode';
+    /** bool - 'true' ignore complete state for depended calculations */
+    const CTX_IN_DEP_IGNORE_COMPLETE = 'in.depIgnoreComplete';
     /** string - code of the depended calculation type */
     const CTX_IN_DEP_TYPE_CODE = 'in.depCalcTypeCode';
     /** string - see \Praxigento\Core\Tool\IPeriod::TYPE_... */

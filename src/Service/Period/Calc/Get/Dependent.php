@@ -77,6 +77,7 @@ class Dependent
         /* get working data from context */
         $calcTypeCodeBase = $ctx->get(self::CTX_IN_BASE_TYPE_CODE);
         $calcTypeCodeDep = $ctx->get(self::CTX_IN_DEP_TYPE_CODE);
+        $ignoreCompleteState = (bool)$ctx->get(self::CTX_IN_DEP_IGNORE_COMPLETE);
 
         /**
          * perform processing
@@ -111,13 +112,18 @@ class Dependent
                         /* dependent period has the same begin/end as related base period */
                         $this->logger->info("There is base '$calcTypeCodeBase' period for dependent '$calcTypeCodeDep' period ($depDsBegin-$depDsEnd).");
                         $depCalcState = $periodLastDep[QBGetLast::A_CALC_STATE];
-                        if ($depCalcState == Cfg::CALC_STATE_COMPLETE) {
+                        if (
+                            ($depCalcState == Cfg::CALC_STATE_COMPLETE) &&
+                            (!$ignoreCompleteState)
+                        ) {
                             /* complete dependent period for complete base period */
                             $this->logger->warning("There is '$calcTypeCodeDep' period with complete calculation. No more '$calcTypeCodeDep' could be calculated.");
                             $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_DEP_CALC_COMPLETE);
                         } else {
-                            /* incomplete dependent period for complete base period */
-                            $this->logger->info("There is '$calcTypeCodeDep' period without complete calculation. Continue calculation for this period.");
+                            /* incomplete dependent period (or state is ignored) for complete base period */
+                            if (!$ignoreCompleteState) {
+                                $this->logger->info("There is '$calcTypeCodeDep' period without complete calculation. Continue calculation for this period.");
+                            }
                             $depPeriodId = $periodLastDep[QBGetLast::A_PERIOD_ID];
                             $depCalcId = $periodLastDep[QBGetLast::A_CALC_ID];
                             $this->populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId);
