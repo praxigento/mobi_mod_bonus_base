@@ -73,10 +73,9 @@ class Level
         /* perform query, parse result set */
         $bind = [$bndCode => $calcTypeCode];
         $rs = $this->conn->fetchAll($query, $bind);
-        /** @var \Praxigento\BonusBase\Repo\Entity\Data\Level $one */
         foreach ($rs as $one) {
-            $level = $one->getLevel();
-            $percent = $one->getPercent();
+            $level = $one[ELevel::ATTR_LEVEL];
+            $percent = $one[ELevel::ATTR_PERCENT];
             $result[$level] = $percent;
         }
         return $result;
