@@ -127,18 +127,4 @@ class Module
         return $result;
     }
 
-    /**
-     * @deprecated see \Praxigento\BonusBase\Repo\Entity\Calculation::markComplete
-     */
-    public function markCalcComplete($calcId)
-    {
-        $tsEnded = $this->_toolDate->getUtcNowForDb();
-        $bind = [
-            ECalculation::ATTR_DATE_ENDED => $tsEnded,
-            ECalculation::ATTR_STATE => Cfg::CALC_STATE_COMPLETE
-        ];
-        $where = ECalculation::ATTR_ID . '=' . $calcId;
-        $result = $this->_repoCalc->update($bind, $where);
-        return $result;
-    }
 }

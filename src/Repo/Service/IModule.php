@@ -44,13 +44,4 @@ interface IModule
      */
     public function getLastPeriodByCalcType($calcTypeId);
 
-    /**
-     * Set complete state for given calculation and save 'date_ended' as current UTC date.
-     *
-     * @param int $calcId
-     * @return null
-     *
-     * @deprecated see \Praxigento\BonusBase\Repo\Entity\Calculation::markComplete
-     */
-    public function markCalcComplete($calcId);
 }
