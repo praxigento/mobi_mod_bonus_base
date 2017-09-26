@@ -15,10 +15,6 @@
     <!-- Data Source definition -->
     <!-- **************************************************** -->
     <dataSource name="bonus_rank_grid_data_source">
-        <!--<argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">\Praxigento\BonusBase\Ui\DataProvider\Rank</argument>
-            <argument name="name" xsi:type="string">bonus_rank_grid_data_source</argument>
-        </argument>-->
         <argument name="dataProvider" xsi:type="configurableObject">
             <argument name="class" xsi:type="string">\Praxigento\Core\Ui\DataProvider\Grid\Base</argument>
             <argument name="name" xsi:type="string">bonus_rank_grid_data_source</argument>
