@@ -15,9 +15,14 @@
     <!-- Data Source definition -->
     <!-- **************************************************** -->
     <dataSource name="bonus_period_grid_data_source">
-        <argument name="dataProvider" xsi:type="configurableObject">
+        <!--<argument name="dataProvider" xsi:type="configurableObject">
             <argument name="class" xsi:type="string">\Praxigento\BonusBase\Ui\DataProvider\Period</argument>
             <argument name="name" xsi:type="string">bonus_period_grid_data_source</argument>
+        </argument>-->
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">\Praxigento\Core\Ui\DataProvider\Grid\Base</argument>
+            <argument name="name" xsi:type="string">bonus_period_grid_data_source</argument>
+            <argument name="gridQueryBuilder" xsi:type="object">\Praxigento\BonusBase\Ui\DataProvider\Grid\Period\QueryBuilder</argument>
         </argument>
         <argument name="data" xsi:type="array">
             <item name="js_config" xsi:type="array">
@@ -111,7 +116,7 @@
                 </item>
             </argument>
         </column>
-        <column name="calc_type_id">
+        <column name="calcTypeId">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="dataType" xsi:type="string">number</item>
@@ -120,7 +125,7 @@
                 </item>
             </argument>
         </column>
-        <column name="dstamp_begin">
+        <column name="dstampBegin">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="dataType" xsi:type="string">text</item>
@@ -129,7 +134,7 @@
                 </item>
             </argument>
         </column>
-        <column name="dstamp_end">
+        <column name="dstampEnd">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="dataType" xsi:type="string">text</item>
