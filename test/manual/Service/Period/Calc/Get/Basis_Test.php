@@ -22,7 +22,7 @@ class Basis_Test
         $proc = $this->manObj->get(\Praxigento\BonusBase\Service\Period\Calc\Get\IBasis::class);
         /* prepare execution context */
         $ctx = new \Praxigento\Core\Data();
-        $ctx->set(IBasis::CTX_IN_CALC_CODE, CfgHyb::CODE_TYPE_CALC_BONUS_SIGNUP_DEBIT);
+        $ctx->set(IBasis::CTX_IN_CALC_CODE, CfgHyb::CODE_TYPE_CALC_BONUS_SIGN_UP_DEBIT);
         $ctx->set(IBasis::CTX_IN_ASSET_TYPE_CODE, CfgHyb::CODE_TYPE_ASSET_PV);
         /* processing */
         $proc->exec($ctx);

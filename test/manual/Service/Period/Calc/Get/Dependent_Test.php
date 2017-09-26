@@ -22,7 +22,7 @@ class Dependent_Test
         $proc = $this->manObj->get(\Praxigento\BonusBase\Service\Period\Calc\Get\IDependent::class);
         /* prepare execution context */
         $ctx = new \Praxigento\Core\Data();
-        $ctx->set(IDep::CTX_IN_BASE_TYPE_CODE, CfgHyb::CODE_TYPE_CALC_BONUS_SIGNUP_DEBIT);
+        $ctx->set(IDep::CTX_IN_BASE_TYPE_CODE, CfgHyb::CODE_TYPE_CALC_BONUS_SIGN_UP_DEBIT);
         $ctx->set(IDep::CTX_IN_DEP_TYPE_CODE, CfgHyb::CODE_TYPE_CALC_PV_WRITE_OFF);
         /* processing */
         $proc->exec($ctx);
