@@ -11,11 +11,6 @@
                 sortOrder="100" parent="Praxigento_BonusBase::bonus"
                 action="bonus/calc"
                 resource="Praxigento_BonusBase::admin_bonus"/>
-        <add id="Praxigento_BonusBase::bonus_period"
-                title="Periods" translate="title" module="Praxigento_BonusBase"
-                sortOrder="200" parent="Praxigento_BonusBase::bonus"
-                action="bonus/period"
-                resource="Praxigento_BonusBase::admin_bonus"/>
         <add id="Praxigento_BonusBase::bonus_rank"
                 title="Ranks" translate="title" module="Praxigento_BonusBase"
                 sortOrder="300" parent="Praxigento_BonusBase::bonus"
