@@ -10,14 +10,13 @@ class QueryBuilder
 
 
     /**#@+ Tables aliases for external usage ('camelCase' naming) */
-    const AS_BON_BASE_TYPE_CALC = 'bbr';
+    const AS_BON_BASE_TYPE_CALC = 'bbtc';
     /**#@- */
-
+    const A_CODE = 'code';
     /**#@+
      * Aliases for data attributes.
      */
     const A_ID_CALC = 'id';
-    const A_CODE = 'code';
     const A_NOTE = 'note';
     /**#@- */
 

@@ -112,12 +112,12 @@
                 </item>
             </argument>
         </column>
-        <column name="calcTypeId">
+        <column name="calcTypeCode">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="dataType" xsi:type="string">number</item>
                     <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Calc.Type ID</item>
+                    <item name="label" xsi:type="string" translate="true">Calc.Type Code</item>
                 </item>
             </argument>
         </column>

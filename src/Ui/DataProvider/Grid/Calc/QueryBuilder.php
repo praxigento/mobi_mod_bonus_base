@@ -4,6 +4,7 @@ namespace Praxigento\BonusBase\Ui\DataProvider\Grid\Calc;
 
 use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
 use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
+use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as ETypeCalc;
 
 class QueryBuilder
     extends \Praxigento\Core\Ui\DataProvider\Grid\Query\Builder
@@ -11,8 +12,9 @@ class QueryBuilder
     /**#@+ Tables aliases for external usage ('camelCase' naming) */
     const AS_BON_BASE_CALC = 'bbc';
     const AS_BON_BASE_PERIOD = 'bbp';
+    const AS_BON_BASE_TYPE_CALC = 'bbtc';
     /**#@- */
-    const A_CALC_TYPE_ID = 'calcTypeId';
+    const A_CALC_TYPE_CODE = 'calcTypeCode';
     const A_DATE_ENDED = 'dateEnded';
     /**#@+
      * Aliases for data attributes.
@@ -37,7 +39,7 @@ class QueryBuilder
         if (is_null($this->mapper)) {
             $map = [
                 self::A_PERIOD > self::AS_BON_BASE_PERIOD . '.' . $this->getExpForPeriod(),
-                self::A_CALC_TYPE_ID > self::AS_BON_BASE_PERIOD . '.' . EPeriod::ATTR_CALC_TYPE_ID,
+                self::A_CALC_TYPE_CODE > self::AS_BON_BASE_PERIOD . '.' . ETypeCalc::ATTR_CODE,
                 self::A_DATE_STARTED => self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_DATE_STARTED,
                 self::A_DATE_ENDED => self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_DATE_ENDED,
                 self::A_STATE => self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_STATE
@@ -70,12 +72,20 @@ class QueryBuilder
         $as = $asPeriod;
         $exp = $this->getExpForPeriod();
         $cols = [
-            self::A_PERIOD => $exp,
-            self::A_CALC_TYPE_ID => EPeriod::ATTR_CALC_TYPE_ID
+            self::A_PERIOD => $exp
         ];
         $cond = $as . '.' . EPeriod::ATTR_ID . '=' . $asCalc . '.' . ECalculation::ATTR_PERIOD_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
+        /* LEFT JOIN Type Calc*/
+        $asTypeCalc = self::AS_BON_BASE_TYPE_CALC;
+        $tbl = $this->resource->getTableName(ETypeCalc::ENTITY_NAME);
+        $as = $asTypeCalc;
+        $cols = [
+            self::A_CALC_TYPE_CODE => ETypeCalc::ATTR_CODE
+        ];
+        $cond = $as . '.' . ETypeCalc::ATTR_ID . '=' . $asPeriod . '.' . EPeriod::ATTR_CALC_TYPE_ID;
+        $result->joinLeft([$as => $tbl], $cond, $cols);
 
         return $result;
     }
