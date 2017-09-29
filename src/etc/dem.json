@@ -289,7 +289,7 @@
                       "DateStarted": {
                         "alias": "date_started",
                         "comment": "UTC timestamp for calculation start.",
-                        "nullable": false,
+                        "nullable": true,
                         "type": {"datetime": {}}
                       },
                       "DatestampStartEnd": {
