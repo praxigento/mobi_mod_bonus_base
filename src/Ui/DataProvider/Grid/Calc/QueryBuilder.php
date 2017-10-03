@@ -14,12 +14,13 @@ class QueryBuilder
     const AS_BON_BASE_PERIOD = 'bbp';
     const AS_BON_BASE_TYPE_CALC = 'bbtc';
     /**#@- */
-    const A_CALC_TYPE_CODE = 'calcTypeCode';
-    const A_CALC_TYPE_ID = 'calcTypeId';
-    const A_DATE_ENDED = 'dateEnded';
+
     /**#@+
      * Aliases for data attributes.
      */
+    const A_CALC_TYPE_CODE = 'calcTypeCode';
+    const A_CALC_TYPE_ID = 'calcTypeId';
+    const A_DATE_ENDED = 'dateEnded';
     const A_DATE_STARTED = 'dateStarted';
     const A_PERIOD = 'period';
     const A_STATE = 'state';
