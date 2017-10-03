@@ -15,6 +15,7 @@ class QueryBuilder
     const AS_BON_BASE_TYPE_CALC = 'bbtc';
     /**#@- */
     const A_CALC_TYPE_CODE = 'calcTypeCode';
+    const A_CALC_TYPE_ID = 'calcTypeId';
     const A_DATE_ENDED = 'dateEnded';
     /**#@+
      * Aliases for data attributes.
@@ -39,7 +40,8 @@ class QueryBuilder
         if (is_null($this->mapper)) {
             $map = [
                 self::A_PERIOD > self::AS_BON_BASE_PERIOD . '.' . $this->getExpForPeriod(),
-                self::A_CALC_TYPE_CODE > self::AS_BON_BASE_PERIOD . '.' . ETypeCalc::ATTR_CODE,
+                self::A_CALC_TYPE_CODE > self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::ATTR_CODE,
+                self::A_CALC_TYPE_ID > self::AS_BON_BASE_PERIOD . '.' . EPeriod::ATTR_CALC_TYPE_ID,
                 self::A_DATE_STARTED => self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_DATE_STARTED,
                 self::A_DATE_ENDED => self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_DATE_ENDED,
                 self::A_STATE => self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_STATE
@@ -72,7 +74,8 @@ class QueryBuilder
         $as = $asPeriod;
         $exp = $this->getExpForPeriod();
         $cols = [
-            self::A_PERIOD => $exp
+            self::A_PERIOD => $exp,
+            self::A_CALC_TYPE_ID => EPeriod::ATTR_CALC_TYPE_ID
         ];
         $cond = $as . '.' . EPeriod::ATTR_ID . '=' . $asCalc . '.' . ECalculation::ATTR_PERIOD_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
