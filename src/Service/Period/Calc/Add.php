@@ -51,7 +51,7 @@ class Add
          * perform processing
          */
         $dsToday = $this->hlpPeriod->getPeriodCurrent();
-        if ($dsEnd < $dsToday) {
+        if ($dsEnd <= $dsToday) {
             /* the end of the new period is not in the future */
             $calcTypeId = $this->repoTypeCalc->getIdByCode($calcTypeCode);
             /* registry new period */
