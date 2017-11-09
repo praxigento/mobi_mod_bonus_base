@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\BonusBase\Repo\Query\Period\Calcs;
 
 use Praxigento\BonusBase\Repo\Entity\Data\Calculation as Calc;
@@ -85,12 +86,6 @@ class Builder
         ];
         $result->joinLeft([$asType => $tbl], $on, $cols);
 
-        return $result;
-    }
-
-    public function getSelectQuery(\Praxigento\Core\Repo\Query\IBuilder $qbuild = null)
-    {
-        $result = $this->build();
         return $result;
     }
 
