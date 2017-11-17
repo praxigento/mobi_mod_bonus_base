@@ -107,7 +107,7 @@ class Call
         foreach ($mapDepth as $depth => $levelCustomers) {
             foreach ($levelCustomers as $custId) {
                 $custData = $mapById[$custId];
-                $ref = isset($custData[Customer::ATTR_HUMAN_REF]) ? $custData[Customer::ATTR_HUMAN_REF] : '';
+                $ref = isset($custData[Customer::ATTR_MLM_ID]) ? $custData[Customer::ATTR_MLM_ID] : '';
                 if ($qualifier->isQualified($custData)) {
                     $this->logger->info("Customer #$custId ($ref) is qualified and added to compressed tree.");
                     $treeCompressed[$custId] = $custData;
