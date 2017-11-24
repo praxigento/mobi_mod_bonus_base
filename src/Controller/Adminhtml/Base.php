@@ -11,7 +11,7 @@ namespace Praxigento\BonusBase\Controller\Adminhtml;
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 abstract class Base
-    extends \Praxigento\Core\Controller\Adminhtml\Base
+    extends \Praxigento\Core\App\Action\Back\Base
 {
 
 }
