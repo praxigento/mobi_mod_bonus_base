@@ -13,7 +13,6 @@ namespace Praxigento\BonusBase\Service\Period\Calc;
 interface IAdd
     extends \Praxigento\Core\Service\IProcess
 {
-    const CTX_IN_BASE_PERIOD_ID = 'in.periodId';
     const CTX_IN_CALC_TYPE_CODE = 'in.calcTypeCode';
     const CTX_IN_DSTAMP_BEGIN = 'in.dstampBegin';
     const CTX_IN_DSTAMP_END = 'in.dstampEnd';

@@ -44,7 +44,6 @@ class Add
         $calcTypeCode = $ctx->get(self::CTX_IN_CALC_TYPE_CODE);
         $dsBegin = $ctx->get(self::CTX_IN_DSTAMP_BEGIN);
         $dsEnd = $ctx->get(self::CTX_IN_DSTAMP_END);
-        $periodId = $ctx->get(self::CTX_IN_BASE_PERIOD_ID);
         /* reset 'success processing' flag */
         $ctx->set(self::CTX_OUT_SUCCESS, false);
 
@@ -55,14 +54,12 @@ class Add
         if ($dsEnd <= $dsToday) {
             /* the end of the new period is not in the future */
             $calcTypeId = $this->repoTypeCalc->getIdByCode($calcTypeCode);
-            if (!$periodId) {
-                /* registry new period */
-                $period = new EPeriod();
-                $period->setCalcTypeId($calcTypeId);
-                $period->setDstampBegin($dsBegin);
-                $period->setDstampEnd($dsEnd);
-                $periodId = $this->repoPeriod->create($period);
-            }
+            /* registry new period */
+            $period = new EPeriod();
+            $period->setCalcTypeId($calcTypeId);
+            $period->setDstampBegin($dsBegin);
+            $period->setDstampEnd($dsEnd);
+            $periodId = $this->repoPeriod->create($period);
             /* registry new calculation for the period */
             $dateStarted = $this->hlpDate->getUtcNowForDb();
             $calc = new ECalc();

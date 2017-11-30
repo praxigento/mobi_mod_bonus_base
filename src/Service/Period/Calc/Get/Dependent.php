@@ -44,13 +44,12 @@ class Dependent
     /**
      * Registry new period and related calculation.
      *
-     * @param int $basePeriodId ID of the period if new calculation for existing period is created.
      * @param string $dsBegin
      * @param string $dsEnd
      * @param $calcTypeCode
      * @return [$periodId, $calcId, $err]
      */
-    private function addPeriodCalc($basePeriodId, $dsBegin, $dsEnd, $calcTypeCode)
+    private function addPeriodCalc($dsBegin, $dsEnd, $calcTypeCode)
     {
         /* result data */
         $periodId = $calcId = $err = null;
@@ -59,7 +58,6 @@ class Dependent
         $ctxAdd->set(SCalcAdd::CTX_IN_CALC_TYPE_CODE, $calcTypeCode);
         $ctxAdd->set(SCalcAdd::CTX_IN_DSTAMP_BEGIN, $dsBegin);
         $ctxAdd->set(SCalcAdd::CTX_IN_DSTAMP_END, $dsEnd);
-        $ctxAdd->set(SCalcAdd::CTX_IN_BASE_PERIOD_ID, $basePeriodId);
         $this->procCalcAdd->exec($ctxAdd);
         $success = $ctxAdd->get(SCalcAdd::CTX_OUT_SUCCESS);
         if ($success) {
@@ -104,7 +102,7 @@ class Dependent
                 if (!$periodLastDep) {
                     /* there is no dependent period, registry new one */
                     $this->logger->info("There is no period data for calculation '$calcTypeCodeDep'. New period and related calculation will be created.");
-                    list($depPeriodId, $depCalcId, $err) = $this->addPeriodCalc($basePeriodId, $baseDsBegin, $baseDsEnd, $calcTypeCodeDep);
+                    list($depPeriodId, $depCalcId, $err) = $this->addPeriodCalc($baseDsBegin, $baseDsEnd, $calcTypeCodeDep);
                     $this->populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err);
                 } else {
                     /* there is dependent period */
