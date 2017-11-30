@@ -6,8 +6,10 @@
 namespace Praxigento\BonusBase\Service\Period\Calc\Get;
 
 use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalc;
+use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
 use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as ECalcType;
-use Praxigento\BonusBase\Repo\Query\Period\Calcs\GetLast\ByCalcTypeCode\Builder as QBGetLast;
+use Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder as QBGetLast;
+use Praxigento\BonusBase\Service\Period\Calc\IAdd as SCalcAdd;
 use Praxigento\BonusHybrid\Config as Cfg;
 
 class Dependent
@@ -42,28 +44,30 @@ class Dependent
     /**
      * Registry new period and related calculation.
      *
+     * @param int $basePeriodId ID of the period if new calculation for existing period is created.
      * @param string $dsBegin
      * @param string $dsEnd
      * @param $calcTypeCode
      * @return [$periodId, $calcId, $err]
      */
-    private function addPeriodCalc($dsBegin, $dsEnd, $calcTypeCode)
+    private function addPeriodCalc($basePeriodId, $dsBegin, $dsEnd, $calcTypeCode)
     {
         /* result data */
         $periodId = $calcId = $err = null;
         /* register new period & calc */
         $ctxAdd = new \Praxigento\Core\Data();
-        $ctxAdd->set($this->procCalcAdd::CTX_IN_CALC_TYPE_CODE, $calcTypeCode);
-        $ctxAdd->set($this->procCalcAdd::CTX_IN_DSTAMP_BEGIN, $dsBegin);
-        $ctxAdd->set($this->procCalcAdd::CTX_IN_DSTAMP_END, $dsEnd);
+        $ctxAdd->set(SCalcAdd::CTX_IN_CALC_TYPE_CODE, $calcTypeCode);
+        $ctxAdd->set(SCalcAdd::CTX_IN_DSTAMP_BEGIN, $dsBegin);
+        $ctxAdd->set(SCalcAdd::CTX_IN_DSTAMP_END, $dsEnd);
+        $ctxAdd->set(SCalcAdd::CTX_IN_BASE_PERIOD_ID, $basePeriodId);
         $this->procCalcAdd->exec($ctxAdd);
-        $success = $ctxAdd->get($this->procCalcAdd::CTX_OUT_SUCCESS);
+        $success = $ctxAdd->get(SCalcAdd::CTX_OUT_SUCCESS);
         if ($success) {
-            $periodId = $ctxAdd->get($this->procCalcAdd::CTX_OUT_PERIOD_ID);
-            $calcId = $ctxAdd->get($this->procCalcAdd::CTX_OUT_CALC_ID);
+            $periodId = $ctxAdd->get(SCalcAdd::CTX_OUT_PERIOD_ID);
+            $calcId = $ctxAdd->get(SCalcAdd::CTX_OUT_CALC_ID);
             $this->logger->info("New period (#$periodId) and related calculation (#$calcId) are created.");
         } else {
-            $err = $ctxAdd->get($this->procCalcAdd::ERR_PERIOD_END_IS_IN_FUTURE);
+            $err = $ctxAdd->get(SCalcAdd::ERR_PERIOD_END_IS_IN_FUTURE);
             if ($err) {
                 $this->logger->warning("End of the adding period ($dsEnd) is in the future.");
             }
@@ -77,6 +81,7 @@ class Dependent
         /* get working data from context */
         $calcTypeCodeBase = $ctx->get(self::CTX_IN_BASE_TYPE_CODE);
         $calcTypeCodeDep = $ctx->get(self::CTX_IN_DEP_TYPE_CODE);
+        $maxPeriodEnd = $ctx->get(self::CTX_IN_PERIOD_END);
         $ignoreCompleteState = (bool)$ctx->get(self::CTX_IN_DEP_IGNORE_COMPLETE);
 
         /**
@@ -86,7 +91,7 @@ class Dependent
         $this->logger->info("'Dependent period' processing is started "
             . "(base: $calcTypeCodeBase; dep: $calcTypeCodeDep).");
         /* get the last period data for given calculation type */
-        $periodLastBase = $this->queryLastPeriod($calcTypeCodeBase);
+        $periodLastBase = $this->queryLastPeriod($calcTypeCodeBase, $maxPeriodEnd);
         if ($periodLastBase) {
             $baseCalcState = $periodLastBase[QBGetLast::A_CALC_STATE];
             $baseDsBegin = $periodLastBase[QBGetLast::A_DS_BEGIN];
@@ -95,11 +100,11 @@ class Dependent
             $baseCalcId = $periodLastBase[QBGetLast::A_CALC_ID];
             if ($baseCalcState == Cfg::CALC_STATE_COMPLETE) {
                 /* base calculation is complete, get the last dependent calc */
-                $periodLastDep = $this->queryLastPeriod($calcTypeCodeDep);
+                $periodLastDep = $this->queryLastPeriod($calcTypeCodeDep, $maxPeriodEnd);
                 if (!$periodLastDep) {
                     /* there is no dependent period, registry new one */
                     $this->logger->info("There is no period data for calculation '$calcTypeCodeDep'. New period and related calculation will be created.");
-                    list($depPeriodId, $depCalcId, $err) = $this->addPeriodCalc($baseDsBegin, $baseDsEnd, $calcTypeCodeDep);
+                    list($depPeriodId, $depCalcId, $err) = $this->addPeriodCalc($basePeriodId, $baseDsBegin, $baseDsEnd, $calcTypeCodeDep);
                     $this->populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err);
                 } else {
                     /* there is dependent period */
@@ -181,21 +186,29 @@ class Dependent
      * Perform query to get the last calculation by type.
      *
      * @param string $calcCode
+     * @param string $maxPeriodEnd datestamp for the maximal end of the period (YYYMMDD)
      * @return array|bool see \Praxigento\BonusBase\Repo\Query\Period\Calcs\GetLast\ByCalcTypeCode\Builder
      */
-    private function queryLastPeriod($calcCode)
+    private function queryLastPeriod($calcCode, $maxPeriodEnd)
     {
         $query = $this->qbGetPeriod->build();
         /* modify query to get the last calculation by type code */
-        $bindTypeCode = 'code';
-        $whereType = $this->qbGetPeriod::AS_CALC_TYPE . '.' . ECalcType::ATTR_CODE . "=:$bindTypeCode";
-        $query->where($whereType);
+        $bndTypeCode = 'code';
+        $where = QBGetLast::AS_CALC_TYPE . '.' . ECalcType::ATTR_CODE . "=:$bndTypeCode";
+        $bind = [$bndTypeCode => $calcCode];
+        if ($maxPeriodEnd) {
+            /* we should limit selection by period end */
+            $bndEnd = 'end';
+            $whereLast = QBGetLast::AS_PERIOD . '.' . EPeriod::ATTR_DSTAMP_END . "=:$bndEnd";
+            $where = "($where) AND ($whereLast)";
+            $bind[$bndEnd] = $maxPeriodEnd;
+        }
+        $query->where($where);
         /* sort desc by calcId and limit results if there are more than one calculations for the period */
-        $query->order($this->qbGetPeriod::AS_CALC . '.' . ECalc::ATTR_ID . ' DESC');
+        $query->order(QBGetLast::AS_CALC . '.' . ECalc::ATTR_ID . ' DESC');
         $query->limit(1);
 
         /* bind query parameters and get result set */
-        $bind = [$bindTypeCode => $calcCode];
         $conn = $query->getConnection();
         $result = $conn->fetchRow($query, $bind);
         return $result;

@@ -19,8 +19,8 @@ interface IDependent
     const CTX_IN_DEP_IGNORE_COMPLETE = 'in.depIgnoreComplete';
     /** string - code of the depended calculation type */
     const CTX_IN_DEP_TYPE_CODE = 'in.depCalcTypeCode';
-    /** string - see \Praxigento\Core\Tool\IPeriod::TYPE_... */
-    const CTX_IN_PERIOD_TYPE = 'in.periodType';
+    /** string - (optional) datestamp for the last date of the period end to search (including) */
+    const CTX_IN_PERIOD_END = 'in.periodEnd';
     /** \Praxigento\BonusBase\Repo\Entity\Data\Calculation */
     const CTX_OUT_BASE_CALC_DATA = 'out.baseCalcData';
     /** \Praxigento\BonusBase\Repo\Entity\Data\Period */
