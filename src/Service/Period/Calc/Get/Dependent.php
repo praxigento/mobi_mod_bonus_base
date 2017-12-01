@@ -197,7 +197,7 @@ class Dependent
         if ($maxPeriodEnd) {
             /* we should limit selection by period end */
             $bndEnd = 'end';
-            $whereLast = QBGetLast::AS_PERIOD . '.' . EPeriod::ATTR_DSTAMP_END . "=:$bndEnd";
+            $whereLast = QBGetLast::AS_PERIOD . '.' . EPeriod::ATTR_DSTAMP_END . "<=:$bndEnd";
             $where = "($where) AND ($whereLast)";
             $bind[$bndEnd] = $maxPeriodEnd;
         }
