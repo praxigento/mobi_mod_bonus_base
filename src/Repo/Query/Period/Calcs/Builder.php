@@ -29,7 +29,7 @@ use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as CalcType;
  * ON cType.id = cType.calc_type_id
  */
 class Builder
-    extends \Praxigento\Core\Repo\Query\Def\Builder
+    extends \Praxigento\Core\App\Repo\Query\Def\Builder
 {
     /** Tables aliases */
     const AS_CALC = 'calc';

@@ -14,6 +14,6 @@ namespace Praxigento\BonusBase\Service\Period\Request;
  * @method string getDateStampEnd() 'YYYYMMDD'
  * @method void setDateStampEnd(string $data)
  */
-class RegisterPeriod extends \Praxigento\Core\Service\Base\Request {
+class RegisterPeriod extends \Praxigento\Core\App\Service\Base\Request {
 
 }

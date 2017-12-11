@@ -7,7 +7,7 @@ use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
 use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as ETypeCalc;
 
 class QueryBuilder
-    extends \Praxigento\Core\Ui\DataProvider\Grid\Query\Builder
+    extends \Praxigento\Core\App\Ui\DataProvider\Grid\Query\Builder
 {
     /**#@+ Tables aliases for external usage ('camelCase' naming) */
     const AS_BON_BASE_CALC = 'bbc';
@@ -32,7 +32,7 @@ class QueryBuilder
     public function getExpForPeriod()
     {
         $value = 'SUBSTR(`' . self::AS_BON_BASE_PERIOD . '`.`' . EPeriod::ATTR_DSTAMP_BEGIN . '`, 1, 6)';
-        $result = new \Praxigento\Core\Repo\Query\Expression($value);
+        $result = new \Praxigento\Core\App\Repo\Query\Expression($value);
         return $result;
     }
 
@@ -47,7 +47,7 @@ class QueryBuilder
                 self::A_DATE_ENDED => self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_DATE_ENDED,
                 self::A_STATE => self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_STATE
             ];
-            $this->mapper = new \Praxigento\Core\Repo\Query\Criteria\Def\Mapper($map);
+            $this->mapper = new \Praxigento\Core\App\Repo\Query\Criteria\Def\Mapper($map);
         }
         $result = $this->mapper;
         return $result;
@@ -108,7 +108,7 @@ class QueryBuilder
         /**
          * if ($column instanceof \Zend_Db_Expr) {...}
          */
-        $exp = new \Praxigento\Core\Repo\Query\Expression($value);
+        $exp = new \Praxigento\Core\App\Repo\Query\Expression($value);
         /**
          *  list($correlationName, $column, $alias) = $columnEntry;
          */

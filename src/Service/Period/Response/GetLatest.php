@@ -10,7 +10,7 @@ namespace Praxigento\BonusBase\Service\Period\Response;
  * @method \Praxigento\BonusBase\Repo\Entity\Data\Period|null getPeriodData()
  * @method void setPeriodData(\Praxigento\BonusBase\Repo\Entity\Data\Calculation | array $data)
  */
-class GetLatest extends \Praxigento\Core\Service\Base\Response
+class GetLatest extends \Praxigento\Core\App\Service\Base\Response
 {
 
 }

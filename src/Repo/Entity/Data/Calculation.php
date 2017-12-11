@@ -6,7 +6,7 @@ namespace Praxigento\BonusBase\Repo\Entity\Data;
  * User: Alex Gusev <alex@flancer64.com>
  */
 class Calculation
-    extends \Praxigento\Core\Data\Entity\Base
+    extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const ATTR_DATE_ENDED = 'date_ended';
     const ATTR_DATE_STARTED = 'date_started';

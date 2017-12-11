@@ -10,7 +10,7 @@ namespace Praxigento\BonusBase\Service\Period\Request;
  * @method string getPeriodType()
  * @method void setPeriodType(string $data)
  */
-class GetForPvBasedCalc extends \Praxigento\Core\Service\Base\Request
+class GetForPvBasedCalc extends \Praxigento\Core\App\Service\Base\Request
 {
 
 }

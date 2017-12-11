@@ -15,7 +15,7 @@ use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
  * @deprecated this class should be transformed into set of Query/Repo classes/methods.
  */
 class Module
-    extends \Praxigento\Core\Repo\Def\Db
+    extends \Praxigento\Core\App\Repo\Def\Db
     implements \Praxigento\BonusBase\Repo\Service\IModule
 {
     /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */

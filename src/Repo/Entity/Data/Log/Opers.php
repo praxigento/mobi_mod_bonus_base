@@ -6,7 +6,7 @@ namespace Praxigento\BonusBase\Repo\Entity\Data\Log;
  * User: Alex Gusev <alex@flancer64.com>
  */
 class Opers
-    extends \Praxigento\Core\Data\Entity\Base
+    extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const ATTR_CALC_ID = 'calc_id';
     const ATTR_OPER_ID = 'oper_id';

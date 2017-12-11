@@ -16,7 +16,7 @@ namespace Praxigento\BonusBase\Service\Period\Response;
  * @method \Praxigento\BonusBase\Repo\Entity\Data\Period getDependentPeriodData()
  * @method void setDependentPeriodData(\Praxigento\BonusBase\Repo\Entity\Data\Period|array $data)
  */
-class GetForDependentCalc extends \Praxigento\Core\Service\Base\Response
+class GetForDependentCalc extends \Praxigento\Core\App\Service\Base\Response
 {
 
 }

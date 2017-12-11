@@ -9,7 +9,7 @@ namespace Praxigento\BonusBase\Repo\Entity\Data\Cfg;
  * Configuration for ranks by generations in downline tree.
  */
 class Generation
-    extends \Praxigento\Core\Data\Entity\Base
+    extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const ATTR_CALC_TYPE_ID = 'calc_type_id';
     const ATTR_GENERATION = 'generation';

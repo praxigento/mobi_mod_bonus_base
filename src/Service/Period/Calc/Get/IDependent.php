@@ -11,7 +11,7 @@ namespace Praxigento\BonusBase\Service\Period\Calc\Get;
  * This service registers new calculation if it is possible.
  */
 interface IDependent
-    extends \Praxigento\Core\Service\IProcess
+    extends \Praxigento\Core\App\Service\IProcess
 {
     /** string code of the calculation type to load/register */
     const CTX_IN_BASE_TYPE_CODE = 'in.baseCalcTypeCode';

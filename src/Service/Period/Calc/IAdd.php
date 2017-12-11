@@ -11,7 +11,7 @@ namespace Praxigento\BonusBase\Service\Period\Calc;
  * Set error if end of the requested period is in the future.
  */
 interface IAdd
-    extends \Praxigento\Core\Service\IProcess
+    extends \Praxigento\Core\App\Service\IProcess
 {
     const CTX_IN_CALC_TYPE_CODE = 'in.calcTypeCode';
     const CTX_IN_DSTAMP_BEGIN = 'in.dstampBegin';

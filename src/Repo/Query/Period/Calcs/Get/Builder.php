@@ -13,7 +13,7 @@ use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as ECalcType;
  * Build query to get periods with related calculations data by DATE_BEGIN, DATE_END & CALC_STATE.
  */
 class Builder
-    extends \Praxigento\Core\Repo\Query\Builder
+    extends \Praxigento\Core\App\Repo\Query\Builder
 {
     /** Tables aliases for external usage ('camelCase' naming) */
     const AS_CALC = 'calc';

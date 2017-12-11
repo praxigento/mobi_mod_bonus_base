@@ -17,14 +17,14 @@ use Praxigento\Downline\Service\Map\Request\TreeByTeams as DownlineMapTreeByTeam
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Call
-    extends \Praxigento\Core\Service\Base\Call
+    extends \Praxigento\Core\App\Service\Base\Call
     implements \Praxigento\BonusBase\Service\ICompress
 {
     /** @var  \Praxigento\Downline\Service\IMap */
     protected $_callDownlineMap;
     /** @var   \Praxigento\Downline\Service\ISnap */
     protected $_callDownlineSnap;
-    /** @var  \Praxigento\Core\Transaction\Database\IManager */
+    /** @var  \Praxigento\Core\App\Transaction\Database\IManager */
     protected $_manTrans;
     /** @var \Praxigento\BonusBase\Repo\Entity\Compress */
     protected $_repoBonusCompress;
@@ -34,9 +34,9 @@ class Call
     protected $logger;
 
     public function __construct(
-        \Praxigento\Core\Fw\Logger\App $logger,
+        \Praxigento\Core\App\Logger\App $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
-        \Praxigento\Core\Transaction\Database\IManager $manTrans,
+        \Praxigento\Core\App\Transaction\Database\IManager $manTrans,
         \Praxigento\BonusBase\Repo\Entity\Compress $repoBonusCompress,
         \Praxigento\Downline\Service\IMap $repoDownlineMap,
         \Praxigento\Downline\Service\ISnap $callDownlineSnap,

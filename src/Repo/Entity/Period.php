@@ -6,11 +6,11 @@
 namespace Praxigento\BonusBase\Repo\Entity;
 
 class Period
-    extends \Praxigento\Core\Repo\Def\Entity
+    extends \Praxigento\Core\App\Repo\Def\Entity
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\Core\Repo\IGeneric $repoGeneric
+        \Praxigento\Core\App\Repo\IGeneric $repoGeneric
     ) {
         parent::__construct(
             $resource,

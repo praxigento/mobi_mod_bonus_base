@@ -6,7 +6,7 @@ namespace Praxigento\BonusBase\Repo\Entity\Data;
  * User: Alex Gusev <alex@flancer64.com>
  */
 class Period
-    extends \Praxigento\Core\Data\Entity\Base
+    extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const ATTR_CALC_TYPE_ID = 'calc_type_id';
     const ATTR_DSTAMP_BEGIN = 'dstamp_begin';

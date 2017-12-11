@@ -6,7 +6,7 @@ namespace Praxigento\BonusBase\Repo\Entity\Data\Log;
  * User: Alex Gusev <alex@flancer64.com>
  */
 class Customers
-    extends \Praxigento\Core\Data\Entity\Base
+    extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const ATTR_CUSTOMER_ID = 'customer_id';
     const ATTR_TRANS_ID = 'trans_id';

@@ -17,7 +17,7 @@ use Praxigento\BonusBase\Repo\Entity\Data\Period;
 use Praxigento\BonusBase\Repo\Entity\Data\Rank;
 use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as TypeCalc;
 
-class InstallSchema extends \Praxigento\Core\Setup\Schema\Base
+class InstallSchema extends \Praxigento\Core\App\Setup\Schema\Base
 {
 
     protected function _setup()

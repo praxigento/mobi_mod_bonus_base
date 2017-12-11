@@ -7,7 +7,7 @@ namespace Praxigento\BonusBase\Repo\Entity\Data;
  * User: Alex Gusev <alex@flancer64.com>
  */
 class Compress
-    extends \Praxigento\Core\Data\Entity\Base
+    extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const ATTR_CALC_ID = 'calc_id';
     const ATTR_CUSTOMER_ID = 'customer_id';

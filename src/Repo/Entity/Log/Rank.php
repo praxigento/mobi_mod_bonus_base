@@ -8,11 +8,11 @@ namespace Praxigento\BonusBase\Repo\Entity\Log;
 use Praxigento\BonusBase\Repo\Entity\Data\Log\Rank as Entity;
 
 class Rank
-    extends \Praxigento\Core\Repo\Def\Entity
+    extends \Praxigento\Core\App\Repo\Def\Entity
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\Core\Repo\IGeneric $repoGeneric
+        \Praxigento\Core\App\Repo\IGeneric $repoGeneric
     ) {
         parent::__construct($resource, $repoGeneric, Entity::class);
     }

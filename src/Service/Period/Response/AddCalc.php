@@ -13,7 +13,7 @@ use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
  * @method \Praxigento\BonusBase\Repo\Entity\Data\Calculation getCalculation()
  */
 class AddCalc
-    extends \Praxigento\Core\Service\Base\Response
+    extends \Praxigento\Core\App\Service\Base\Response
 {
 
     public function setCalculation($data)

@@ -9,14 +9,14 @@ use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
 
 class Calculation
-    extends \Praxigento\Core\Repo\Def\Entity
+    extends \Praxigento\Core\App\Repo\Def\Entity
 {
     /** @var \Praxigento\Core\Tool\IDate */
     protected $toolDate;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\Core\Repo\IGeneric $repoGeneric,
+        \Praxigento\Core\App\Repo\IGeneric $repoGeneric,
         \Praxigento\Core\Tool\IDate $toolDate
     ) {
         parent::__construct(

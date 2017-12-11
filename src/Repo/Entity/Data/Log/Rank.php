@@ -6,7 +6,7 @@ namespace Praxigento\BonusBase\Repo\Entity\Data\Log;
  * User: Alex Gusev <alex@flancer64.com>
  */
 class Rank
-    extends \Praxigento\Core\Data\Entity\Base
+    extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
     const ATTR_RANK_REF = 'rank_ref';
     const ATTR_TRANS_REF = 'trans_ref';
