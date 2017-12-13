@@ -27,7 +27,7 @@ class Dependent
     protected $repoPeriod;
 
     public function __construct(
-        \Praxigento\Core\App\Logger\App $logger,
+        \Psr\Log\LoggerInterface $logger,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder $qbGetPeriod,

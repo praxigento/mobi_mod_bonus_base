@@ -34,7 +34,7 @@ class Call
     protected $logger;
 
     public function __construct(
-        \Praxigento\Core\App\Logger\App $logger,
+        \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\App\Transaction\Database\IManager $manTrans,
         \Praxigento\BonusBase\Repo\Entity\Compress $repoBonusCompress,
