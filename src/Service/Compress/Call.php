@@ -28,7 +28,7 @@ class Call
     protected $_manTrans;
     /** @var \Praxigento\BonusBase\Repo\Entity\Compress */
     protected $_repoBonusCompress;
-    /** @var  \Praxigento\Downline\Tool\ITree */
+    /** @var  \Praxigento\Downline\Api\Helper\Downline */
     protected $_toolDownlineTree;
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
@@ -40,7 +40,7 @@ class Call
         \Praxigento\BonusBase\Repo\Entity\Compress $repoBonusCompress,
         \Praxigento\Downline\Service\IMap $repoDownlineMap,
         \Praxigento\Downline\Service\ISnap $callDownlineSnap,
-        \Praxigento\Downline\Tool\ITree $toolDownlineTree
+        \Praxigento\Downline\Api\Helper\Downline $toolDownlineTree
     ) {
         parent::__construct($logger, $manObj);
         $this->_manTrans = $manTrans;
