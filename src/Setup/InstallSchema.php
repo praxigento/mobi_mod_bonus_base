@@ -3,6 +3,7 @@
  * Create DB schema.
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\BonusBase\Setup;
 
 use Praxigento\BonusBase\Repo\Entity\Data\Calculation;
@@ -20,66 +21,55 @@ use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as TypeCalc;
 class InstallSchema extends \Praxigento\Core\App\Setup\Schema\Base
 {
 
-    protected function _setup()
+    protected function setup()
     {
         /** Read and parse JSON schema. */
         $pathToFile = __DIR__ . '/../etc/dem.json';
         $pathToNode = '/dBEAR/package/Praxigento/package/Bonus/package/Base';
-        $demPackage = $this->_toolDem->readDemPackage($pathToFile, $pathToNode);
+        $demPackage = $this->toolDem->readDemPackage($pathToFile, $pathToNode);
 
         /* Type Calculation */
-        $entityAlias = TypeCalc::ENTITY_NAME;
         $demEntity = $demPackage->get('package/Type/entity/Calculation');
-        $this->_toolDem->createEntity($entityAlias, $demEntity);
+        $this->toolDem->createEntity(TypeCalc::ENTITY_NAME, $demEntity);
 
         /* Period */
-        $entityAlias = Period::ENTITY_NAME;
         $demEntity = $demPackage->get('entity/Period');
-        $this->_toolDem->createEntity($entityAlias, $demEntity);
+        $this->toolDem->createEntity(Period::ENTITY_NAME, $demEntity);
 
         /* Calculation */
-        $entityAlias = Calculation::ENTITY_NAME;
         $demEntity = $demPackage->get('entity/Calculation');
-        $this->_toolDem->createEntity($entityAlias, $demEntity);
+        $this->toolDem->createEntity(Calculation::ENTITY_NAME, $demEntity);
 
         /* Compression */
-        $entityAlias = Compress::ENTITY_NAME;
         $demEntity = $demPackage->get('entity/Compression');
-        $this->_toolDem->createEntity($entityAlias, $demEntity);
+        $this->toolDem->createEntity(Compress::ENTITY_NAME, $demEntity);
 
         /* Level */
-        $entityAlias = Level::ENTITY_NAME;
         $demEntity = $demPackage->get('entity/Level');
-        $this->_toolDem->createEntity($entityAlias, $demEntity);
+        $this->toolDem->createEntity(Level::ENTITY_NAME, $demEntity);
 
         /* Rank */
-        $entityAlias = Rank::ENTITY_NAME;
         $demEntity = $demPackage->get('entity/Rank');
-        $this->_toolDem->createEntity($entityAlias, $demEntity);
+        $this->toolDem->createEntity(Rank::ENTITY_NAME, $demEntity);
 
         /* Cfg Generation */
-        $entityAlias = CfgGeneration::ENTITY_NAME;
         $demEntity = $demPackage->get('package/Config/entity/Generation');
-        $this->_toolDem->createEntity($entityAlias, $demEntity);
+        $this->toolDem->createEntity(CfgGeneration::ENTITY_NAME, $demEntity);
 
         /* Log LogCustomers */
-        $entityAlias = LogCustomers::ENTITY_NAME;
         $demEntity = $demPackage->get('package/Log/entity/Customer');
-        $this->_toolDem->createEntity($entityAlias, $demEntity);
+        $this->toolDem->createEntity(LogCustomers::ENTITY_NAME, $demEntity);
 
         /* Log Operations */
-        $entityAlias = LogOpers::ENTITY_NAME;
         $demEntity = $demPackage->get('package/Log/entity/Operation');
-        $this->_toolDem->createEntity($entityAlias, $demEntity);
+        $this->toolDem->createEntity(LogOpers::ENTITY_NAME, $demEntity);
 
         /* Log Rank */
-        $entityAlias = LogRank::ENTITY_NAME;
         $demEntity = $demPackage->get('package/Log/entity/Rank');
-        $this->_toolDem->createEntity($entityAlias, $demEntity);
+        $this->toolDem->createEntity(LogRank::ENTITY_NAME, $demEntity);
 
         /* Log Sales*/
-        $entityAlias = LogSales::ENTITY_NAME;
         $demEntity = $demPackage->get('package/Log/entity/SaleOrder');
-        $this->_toolDem->createEntity($entityAlias, $demEntity);
+        $this->toolDem->createEntity(LogSales::ENTITY_NAME, $demEntity);
     }
 }
