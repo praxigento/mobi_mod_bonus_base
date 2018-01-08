@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\BonusBase\Service\Period\Sub;
 
 use Praxigento\BonusBase\Config as Cfg;
@@ -15,34 +16,34 @@ use Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc as ResponsePv
 class PvBased
 {
     const DEF_PERIOD = \Praxigento\Core\Api\Helper\Period::TYPE_MONTH;
-    /** @var \Psr\Log\LoggerInterface */
-    protected $_logger;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
-    protected $_repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
-    protected $_repoPeriod;
-    /** @var \Praxigento\BonusBase\Repo\Service\IModule */
-    protected $_repoService;
     /** @var \Praxigento\Core\Api\Helper\Date */
-    protected $_toolDate;
+    private $hlpDate;
     /** @var \Praxigento\Core\Api\Helper\Period */
-    protected $_toolPeriod;
+    private $hlpPeriod;
+    /** @var \Psr\Log\LoggerInterface */
+    private $logger;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
+    private $repoCalc;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
+    private $repoPeriod;
+    /** @var \Praxigento\BonusBase\Repo\Service\IModule */
+    private $repoService;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
-        \Praxigento\Core\Api\Helper\Date $toolDate,
-        \Praxigento\Core\Api\Helper\Period $toolPeriod
+        \Praxigento\Core\Api\Helper\Date $hlpDate,
+        \Praxigento\Core\Api\Helper\Period $hlpPeriod
 
     ) {
-        $this->_logger = $logger;
-        $this->_repoCalc = $repoCalc;
-        $this->_repoPeriod = $repoPeriod;
-        $this->_repoService = $repoService;
-        $this->_toolDate = $toolDate;
-        $this->_toolPeriod = $toolPeriod;
+        $this->logger = $logger;
+        $this->repoCalc = $repoCalc;
+        $this->repoPeriod = $repoPeriod;
+        $this->repoService = $repoService;
+        $this->hlpDate = $hlpDate;
+        $this->hlpPeriod = $hlpPeriod;
     }
 
     /**
@@ -63,10 +64,10 @@ class PvBased
         \Praxigento\BonusBase\Repo\Entity\Data\Calculation $calcData
     ) {
         if ($calcData->getState() == Cfg::CALC_STATE_COMPLETE) {
-            $this->_logger->info("There is complete calculation for existing period. Create new period.");
+            $this->logger->info("There is complete calculation for existing period. Create new period.");
             $result = $this->_registryNextPeriod($result, $calcTypeId, $periodType, $periodData);
         } else {
-            $this->_logger->info("There is no complete calculation for existing period. Use existing period data.");
+            $this->logger->info("There is no complete calculation for existing period. Use existing period data.");
             $result->setCalcData($calcData);
         }
         return $result;
@@ -89,12 +90,12 @@ class PvBased
     ) {
         $periodEnd = $periodData->getDstampEnd();
         /* calculate new period bounds */
-        $periodNext = $this->_toolPeriod->getPeriodNext($periodEnd, $periodType);
-        $dsNextBegin = $this->_toolPeriod->getPeriodFirstDate($periodNext);
-        $dsNextEnd = $this->_toolPeriod->getPeriodLastDate($periodNext);
+        $periodNext = $this->hlpPeriod->getPeriodNext($periodEnd, $periodType);
+        $dsNextBegin = $this->hlpPeriod->getPeriodFirstDate($periodNext);
+        $dsNextEnd = $this->hlpPeriod->getPeriodLastDate($periodNext);
         /* check "right" bound according to now */
-        $periodNow = $this->_toolPeriod->getPeriodCurrentOld(time(), $periodType);
-        $dsNowEnd = $this->_toolPeriod->getPeriodLastDate($periodNow);
+        $periodNow = $this->hlpPeriod->getPeriodCurrent(time(), -1, $periodType); //
+        $dsNowEnd = $this->hlpPeriod->getPeriodLastDate($periodNow);
         if ($dsNextEnd < $dsNowEnd) {
             /* registry new period */
             /* create new period for given calculation type */
@@ -102,22 +103,22 @@ class PvBased
             $newPeriod->setCalcTypeId($calcTypeId);
             $newPeriod->setDstampBegin($dsNextBegin);
             $newPeriod->setDstampEnd($dsNextEnd);
-            $periodId = $this->_repoPeriod->create($newPeriod);
+            $periodId = $this->repoPeriod->create($newPeriod);
             $newPeriod->setId($periodId);
             /* create related calculation */
             $newCalc = new ECalculation();
             $newCalc->setPeriodId($periodId);
-            $dateStarted = $this->_toolDate->getUtcNowForDb();
+            $dateStarted = $this->hlpDate->getUtcNowForDb();
             $newCalc->setDateStarted($dateStarted);
             $newCalc->setState(Cfg::CALC_STATE_STARTED);
-            $calcId = $this->_repoCalc->create($newCalc);
+            $calcId = $this->repoCalc->create($newCalc);
             $newCalc->setId($calcId);
             $result->setPeriodData($newPeriod);
             $result->setCalcData($newCalc);
         } else {
             $msg = "New period can be registered in the past only (to register: $dsNextBegin-$dsNextEnd, "
                 . "current end: $dsNowEnd).";
-            $this->_logger->warning($msg);
+            $this->logger->warning($msg);
             $result->setErrorCode(ResponsePv::ERR_PERIOD_CAN_BE_REGISTERED_IN_PAST_ONLY);
         }
         return $result;
@@ -142,7 +143,7 @@ class PvBased
         \Praxigento\BonusBase\Repo\Entity\Data\Calculation $calcData = null
     ) {
         if (!$calcData) {
-            $this->_logger->error("There is no calculation data for existing period ($calcTypeCode).");
+            $this->logger->error("There is no calculation data for existing period ($calcTypeCode).");
             $result->setErrorCode(ResponsePv::ERR_NO_CALC_FOR_EXISTING_PERIOD);
         } else {
             $result = $this->_checkStateForExistingPeriod($result, $calcTypeId, $periodType, $periodData, $calcData);
@@ -165,29 +166,29 @@ class PvBased
         $calcTypeId
     ) {
         /* we should lookup for first PV transaction and calculate first period range */
-        $firstDate = $this->_repoService->getFirstDateForPvTransactions();
+        $firstDate = $this->repoService->getFirstDateForPvTransactions();
         if ($firstDate === false) {
-            $this->_logger->warning("There is no PV transactions yet. Nothing to do.");
+            $this->logger->warning("There is no PV transactions yet. Nothing to do.");
             $result->setErrorCode($result::ERR_HAS_NO_PV_TRANSACTIONS_YET);
         } else {
-            $this->_logger->info("First PV transaction was performed at '$firstDate'.");
-            $periodMonth = $this->_toolPeriod->getPeriodCurrentOld($firstDate, $periodType);
-            $dsBegin = $this->_toolPeriod->getPeriodFirstDate($periodMonth);
-            $dsEnd = $this->_toolPeriod->getPeriodLastDate($periodMonth);
+            $this->logger->info("First PV transaction was performed at '$firstDate'.");
+            $periodMonth = $this->hlpPeriod->getPeriodCurrent($firstDate, -1, $periodType);
+            $dsBegin = $this->hlpPeriod->getPeriodFirstDate($periodMonth);
+            $dsEnd = $this->hlpPeriod->getPeriodLastDate($periodMonth);
             /* create new period for given calculation type */
             $period = new EPeriod();
             $period->setCalcTypeId($calcTypeId);
             $period->setDstampBegin($dsBegin);
             $period->setDstampEnd($dsEnd);
-            $periodId = $this->_repoPeriod->create($period);
+            $periodId = $this->repoPeriod->create($period);
             $period->setId($periodId);
             /* create related calculation */
             $calc = new ECalculation();
             $calc->setPeriodId($periodId);
-            $dateStarted = $this->_toolDate->getUtcNowForDb();
+            $dateStarted = $this->hlpDate->getUtcNowForDb();
             $calc->setDateStarted($dateStarted);
             $calc->setState(Cfg::CALC_STATE_STARTED);
-            $calcId = $this->_repoCalc->create($calc);
+            $calcId = $this->repoCalc->create($calc);
             $calc->setId($calcId);
             /* place newly created objects into the response */
             $result->setPeriodData($period);
