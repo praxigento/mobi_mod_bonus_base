@@ -23,7 +23,7 @@ class PvBased
     protected $_repoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
     protected $_repoService;
-    /** @var \Praxigento\Core\Tool\IDate */
+    /** @var \Praxigento\Core\Api\Helper\Date */
     protected $_toolDate;
     /** @var \Praxigento\Core\Api\Helper\Period */
     protected $_toolPeriod;
@@ -33,7 +33,7 @@ class PvBased
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
-        \Praxigento\Core\Tool\IDate $toolDate,
+        \Praxigento\Core\Api\Helper\Date $toolDate,
         \Praxigento\Core\Api\Helper\Period $toolPeriod
 
     ) {

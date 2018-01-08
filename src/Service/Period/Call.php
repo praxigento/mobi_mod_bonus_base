@@ -22,7 +22,7 @@ class Call
     protected $_subDepended;
     /** @var \Praxigento\BonusBase\Service\Period\Sub\PvBased */
     protected $_subPvBased;
-    /** @var \Praxigento\Core\Tool\IDate */
+    /** @var \Praxigento\Core\Api\Helper\Date */
     protected $_toolDate;
     /** @var  \Praxigento\Core\Api\Helper\Period */
     protected $_toolPeriod;
@@ -38,7 +38,7 @@ class Call
         \Praxigento\BonusBase\Repo\Entity\Type\Calc $repoTypeCalc,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Api\Helper\Period $toolPeriod,
-        \Praxigento\Core\Tool\IDate $toolDate,
+        \Praxigento\Core\Api\Helper\Date $toolDate,
         \Praxigento\BonusBase\Service\Period\Sub\Depended $subDepended,
         \Praxigento\BonusBase\Service\Period\Sub\PvBased $subPvBased
     ) {

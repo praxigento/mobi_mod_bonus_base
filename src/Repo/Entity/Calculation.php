@@ -11,13 +11,13 @@ use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
 class Calculation
     extends \Praxigento\Core\App\Repo\Def\Entity
 {
-    /** @var \Praxigento\Core\Tool\IDate */
+    /** @var \Praxigento\Core\Api\Helper\Date */
     protected $toolDate;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\Core\App\Repo\IGeneric $repoGeneric,
-        \Praxigento\Core\Tool\IDate $toolDate
+        \Praxigento\Core\Api\Helper\Date $toolDate
     ) {
         parent::__construct(
             $resource,

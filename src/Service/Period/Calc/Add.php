@@ -12,7 +12,7 @@ use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
 class Add
     implements IAdd
 {
-    /** @var \Praxigento\Core\Tool\IDate */
+    /** @var \Praxigento\Core\Api\Helper\Date */
     protected $hlpDate;
     /** @var \Praxigento\Core\Api\Helper\Period */
     protected $hlpPeriod;
@@ -24,7 +24,7 @@ class Add
     protected $repoTypeCalc;
 
     public function __construct(
-        \Praxigento\Core\Tool\IDate $hlpDate,
+        \Praxigento\Core\Api\Helper\Date $hlpDate,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,

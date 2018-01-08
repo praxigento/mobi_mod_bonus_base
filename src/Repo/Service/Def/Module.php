@@ -22,14 +22,14 @@ class Module
     protected $_repoCalc;
     /** @var \Praxigento\BonusBase\Repo\Entity\Period */
     protected $_repoPeriod;
-    /** @var \Praxigento\Core\Tool\IDate */
+    /** @var \Praxigento\Core\Api\Helper\Date */
     protected $_toolDate;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
-        \Praxigento\Core\Tool\IDate $toolDate
+        \Praxigento\Core\Api\Helper\Date $toolDate
     ) {
         parent::__construct($resource);
         $this->_repoCalc = $repoCalc;
