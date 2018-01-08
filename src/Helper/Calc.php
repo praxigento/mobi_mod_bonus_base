@@ -10,11 +10,11 @@ namespace Praxigento\BonusBase\Helper;
  */
 class Calc
 {
-    /** @var \Praxigento\Core\Tool\IFormat */
+    /** @var \Praxigento\Core\Api\Helper\Format */
     private $hlpFormat;
 
     public function __construct(
-        \Praxigento\Core\Tool\IFormat $hlpFormat
+        \Praxigento\Core\Api\Helper\Format $hlpFormat
     )
     {
         $this->hlpFormat = $hlpFormat;
