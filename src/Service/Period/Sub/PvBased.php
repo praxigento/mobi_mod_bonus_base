@@ -14,7 +14,7 @@ use Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc as ResponsePv
  */
 class PvBased
 {
-    const DEF_PERIOD = \Praxigento\Core\Tool\IPeriod::TYPE_MONTH;
+    const DEF_PERIOD = \Praxigento\Core\Api\Helper\Period::TYPE_MONTH;
     /** @var \Psr\Log\LoggerInterface */
     protected $_logger;
     /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
@@ -25,7 +25,7 @@ class PvBased
     protected $_repoService;
     /** @var \Praxigento\Core\Tool\IDate */
     protected $_toolDate;
-    /** @var \Praxigento\Core\Tool\IPeriod */
+    /** @var \Praxigento\Core\Api\Helper\Period */
     protected $_toolPeriod;
 
     public function __construct(
@@ -34,7 +34,7 @@ class PvBased
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Tool\IDate $toolDate,
-        \Praxigento\Core\Tool\IPeriod $toolPeriod
+        \Praxigento\Core\Api\Helper\Period $toolPeriod
 
     ) {
         $this->_logger = $logger;
@@ -50,7 +50,7 @@ class PvBased
      *
      * @param \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result
      * @param int $calcTypeId
-     * @param string $periodType see \Praxigento\Core\Tool\IPeriod::TYPE_*
+     * @param string $periodType see \Praxigento\Core\Api\Helper\Period::TYPE_*
      * @param \Praxigento\BonusBase\Repo\Entity\Data\Period $periodData
      * @param \Praxigento\BonusBase\Repo\Entity\Data\Calculation $calcData
      * @return \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc
@@ -77,7 +77,7 @@ class PvBased
      *
      * @param \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result
      * @param int $calcTypeId
-     * @param string $periodType see \Praxigento\Core\Tool\IPeriod::TYPE_*
+     * @param string $periodType see \Praxigento\Core\Api\Helper\Period::TYPE_*
      * @param \Praxigento\BonusBase\Repo\Entity\Data\Period $periodData
      * @return \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc
      */
@@ -128,7 +128,7 @@ class PvBased
      * @param \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result
      * @param string $calcTypeCode
      * @param int $calcTypeId
-     * @param string $periodType see \Praxigento\Core\Tool\IPeriod::TYPE_*
+     * @param string $periodType see \Praxigento\Core\Api\Helper\Period::TYPE_*
      * @param \Praxigento\BonusBase\Repo\Entity\Data\Period|null $periodData
      * @param \Praxigento\BonusBase\Repo\Entity\Data\Calculation|null $calcData
      * @return \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc

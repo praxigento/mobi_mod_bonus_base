@@ -13,7 +13,7 @@ use Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder as QBGetCalc;
 class Basis
     implements IBasis
 {
-    /** @var \Praxigento\Core\Tool\IPeriod */
+    /** @var \Praxigento\Core\Api\Helper\Period */
     protected $hlpPeriod;
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
@@ -30,7 +30,7 @@ class Basis
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
-        \Praxigento\Core\Tool\IPeriod $hlpPeriod,
+        \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder $qbGetPeriod,
@@ -90,7 +90,7 @@ class Basis
         /* get working data from context */
         $calcTypeCode = $ctx->get(self::CTX_IN_CALC_CODE);
         $assetTypeCode = $ctx->get(self::CTX_IN_ASSET_TYPE_CODE);
-        $periodType = $ctx->get(self::CTX_IN_PERIOD_TYPE) ?? \Praxigento\Core\Tool\IPeriod::TYPE_MONTH;
+        $periodType = $ctx->get(self::CTX_IN_PERIOD_TYPE) ?? \Praxigento\Core\Api\Helper\Period::TYPE_MONTH;
 
         /**
          * perform processing

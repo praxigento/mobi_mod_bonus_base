@@ -14,7 +14,7 @@ class Add
 {
     /** @var \Praxigento\Core\Tool\IDate */
     protected $hlpDate;
-    /** @var \Praxigento\Core\Tool\IPeriod */
+    /** @var \Praxigento\Core\Api\Helper\Period */
     protected $hlpPeriod;
     /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
     protected $repoCalc;
@@ -25,7 +25,7 @@ class Add
 
     public function __construct(
         \Praxigento\Core\Tool\IDate $hlpDate,
-        \Praxigento\Core\Tool\IPeriod $hlpPeriod,
+        \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Entity\Type\Calc $repoTypeCalc
