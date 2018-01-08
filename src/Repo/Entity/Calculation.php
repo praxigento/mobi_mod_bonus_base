@@ -12,19 +12,19 @@ class Calculation
     extends \Praxigento\Core\App\Repo\Def\Entity
 {
     /** @var \Praxigento\Core\Api\Helper\Date */
-    protected $toolDate;
+    protected $hlpDate;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\Core\App\Repo\IGeneric $repoGeneric,
-        \Praxigento\Core\Api\Helper\Date $toolDate
+        \Praxigento\Core\Api\Helper\Date $hlpDate
     ) {
         parent::__construct(
             $resource,
             $repoGeneric,
             \Praxigento\BonusBase\Repo\Entity\Data\Calculation::class
         );
-        $this->toolDate = $toolDate;
+        $this->hlpDate = $hlpDate;
     }
 
     /**
@@ -36,7 +36,7 @@ class Calculation
     public function markComplete($calcId, $dateEnded = null)
     {
         if (is_null($dateEnded)) {
-            $dateEnded = $this->toolDate->getUtcNowForDb();
+            $dateEnded = $this->hlpDate->getUtcNowForDb();
         }
         $bind = [
             ECalculation::ATTR_DATE_ENDED => $dateEnded,

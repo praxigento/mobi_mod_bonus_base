@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\BonusBase\Repo\Service\Def;
 
 use Praxigento\Accounting\Repo\Entity\Data\Account as EAccount;
@@ -18,23 +19,23 @@ class Module
     extends \Praxigento\Core\App\Repo\Def\Db
     implements \Praxigento\BonusBase\Repo\Service\IModule
 {
-    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
-    protected $_repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
-    protected $_repoPeriod;
     /** @var \Praxigento\Core\Api\Helper\Date */
-    protected $_toolDate;
+    protected $hlpDate;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
+    protected $repoCalc;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
+    protected $repoPeriod;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
-        \Praxigento\Core\Api\Helper\Date $toolDate
+        \Praxigento\Core\Api\Helper\Date $hlpDate
     ) {
         parent::__construct($resource);
-        $this->_repoCalc = $repoCalc;
-        $this->_repoPeriod = $repoPeriod;
-        $this->_toolDate = $toolDate;
+        $this->repoCalc = $repoCalc;
+        $this->repoPeriod = $repoPeriod;
+        $this->hlpDate = $hlpDate;
     }
 
     public function getFirstDateForPvTransactions()
@@ -104,7 +105,7 @@ class Module
         $where = ECalculation::ATTR_PERIOD_ID . '=' . (int)$periodId;
         $limit = 1;
         $order = [ECalculation::ATTR_ID . ' ASC'];
-        $rs = $this->_repoCalc->get($where, $order, $limit);
+        $rs = $this->repoCalc->get($where, $order, $limit);
         if (is_array($rs) && count($rs)) {
             $data = reset($rs);
             $result = $data;
@@ -119,7 +120,7 @@ class Module
         $where = EPeriod::ATTR_CALC_TYPE_ID . '=' . (int)$calcTypeId;
         $order = [EPeriod::ATTR_DSTAMP_BEGIN . ' DESC'];
         /* get one only period with the biggest begin date stamp */
-        $rs = $this->_repoPeriod->get($where, $order, 1);
+        $rs = $this->repoPeriod->get($where, $order, 1);
         if (is_array($rs) && count($rs)) {
             $data = reset($rs);
             $result = $data;

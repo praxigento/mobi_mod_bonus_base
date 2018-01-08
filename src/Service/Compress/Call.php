@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\BonusBase\Service\Compress;
 
 use Praxigento\BonusBase\Repo\Entity\Data\Compress as ECompress;
@@ -21,17 +22,17 @@ class Call
     implements \Praxigento\BonusBase\Service\ICompress
 {
     /** @var  \Praxigento\Downline\Service\IMap */
-    protected $_callDownlineMap;
+    protected $callDownlineMap;
     /** @var   \Praxigento\Downline\Service\ISnap */
-    protected $_callDownlineSnap;
-    /** @var  \Praxigento\Core\App\Transaction\Database\IManager */
-    protected $_manTrans;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Compress */
-    protected $_repoBonusCompress;
+    protected $callDownlineSnap;
     /** @var  \Praxigento\Downline\Api\Helper\Downline */
-    protected $_toolDownlineTree;
+    protected $hlpDownlineTree;
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
+    /** @var  \Praxigento\Core\App\Transaction\Database\IManager */
+    protected $manTrans;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Compress */
+    protected $repoBonusCompress;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
@@ -40,14 +41,14 @@ class Call
         \Praxigento\BonusBase\Repo\Entity\Compress $repoBonusCompress,
         \Praxigento\Downline\Service\IMap $repoDownlineMap,
         \Praxigento\Downline\Service\ISnap $callDownlineSnap,
-        \Praxigento\Downline\Api\Helper\Downline $toolDownlineTree
+        \Praxigento\Downline\Api\Helper\Downline $hlpDownlineTree
     ) {
         parent::__construct($logger, $manObj);
-        $this->_manTrans = $manTrans;
-        $this->_repoBonusCompress = $repoBonusCompress;
-        $this->_callDownlineMap = $repoDownlineMap;
-        $this->_callDownlineSnap = $callDownlineSnap;
-        $this->_toolDownlineTree = $toolDownlineTree;
+        $this->manTrans = $manTrans;
+        $this->repoBonusCompress = $repoBonusCompress;
+        $this->callDownlineMap = $repoDownlineMap;
+        $this->callDownlineSnap = $callDownlineSnap;
+        $this->hlpDownlineTree = $hlpDownlineTree;
     }
 
     private function _mapById($tree)
@@ -55,7 +56,7 @@ class Call
         $req = new DownlineMapByIdRequest();
         $req->setDataToMap($tree);
         $req->setAsId(ESnap::ATTR_CUSTOMER_ID);
-        $resp = $this->_callDownlineMap->byId($req);
+        $resp = $this->callDownlineMap->byId($req);
         return $resp->getMapped();
     }
 
@@ -65,7 +66,7 @@ class Call
         $req->setAsCustomerId(ESnap::ATTR_CUSTOMER_ID);
         $req->setAsParentId(ESnap::ATTR_PARENT_ID);
         $req->setDataToMap($tree);
-        $resp = $this->_callDownlineMap->treeByTeams($req);
+        $resp = $this->callDownlineMap->treeByTeams($req);
         return $resp->getMapped();
     }
 
@@ -76,7 +77,7 @@ class Call
         $req->setAsCustomerId(ESnap::ATTR_CUSTOMER_ID);
         $req->setAsDepth(ESnap::ATTR_DEPTH);
         $req->setShouldReversed(true);
-        $resp = $this->_callDownlineMap->treeByDepth($req);
+        $resp = $this->callDownlineMap->treeByDepth($req);
         return $resp->getMapped();
     }
 
@@ -98,7 +99,7 @@ class Call
         if ($skipExpand) {
             $treeExpanded = $treeFlat;
         } else {
-            $treeExpanded = $this->_toolDownlineTree->expandMinimal($treeFlat, ESnap::ATTR_PARENT_ID);
+            $treeExpanded = $this->hlpDownlineTree->expandMinimal($treeFlat, ESnap::ATTR_PARENT_ID);
         }
         $mapById = $this->_mapById($treeExpanded);
         $mapDepth = $this->_mapByTreeDepthDesc($treeExpanded);
@@ -117,7 +118,7 @@ class Call
                         $this->logger->info("Customer #$custId ($ref) has own front team.");
                         /* Lookup for the closest qualified parent */
                         $path = $treeExpanded[$custId][ESnap::ATTR_PATH];
-                        $parents = $this->_toolDownlineTree->getParentsFromPathReversed($path);
+                        $parents = $this->hlpDownlineTree->getParentsFromPathReversed($path);
                         $foundParentId = null;
                         foreach ($parents as $newParentId) {
                             $parentData = $mapById[$newParentId];
@@ -146,7 +147,7 @@ class Call
         unset($mapTeams);
 
         /* save compressed tree */
-        $def = $this->_manTrans->begin();
+        $def = $this->manTrans->begin();
         try {
             foreach ($treeCompressed as $custId => $item) {
                 $data = [
@@ -154,11 +155,11 @@ class Call
                     ECompress::ATTR_CUSTOMER_ID => $custId,
                     ECompress::ATTR_PARENT_ID => $item[ESnap::ATTR_PARENT_ID]
                 ];
-                $this->_repoBonusCompress->create($data);
+                $this->repoBonusCompress->create($data);
             }
-            $this->_manTrans->commit($def);
+            $this->manTrans->commit($def);
         } finally {
-            $this->_manTrans->end($def);
+            $this->manTrans->end($def);
         }
 
         $result->markSucceed();

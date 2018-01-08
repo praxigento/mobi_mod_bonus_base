@@ -2,32 +2,33 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\BonusBase\Service\Period;
 
 class Call
     extends \Praxigento\Core\App\Service\Base\Call
     implements \Praxigento\BonusBase\Service\IPeriod
 {
-    /** @var  \Praxigento\Core\App\Transaction\Database\IManager */
-    protected $_manTrans;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
-    protected $_repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
-    protected $_repoPeriod;
-    /** @var \Praxigento\BonusBase\Repo\Service\IModule */
-    protected $_repoService;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Type\Calc */
-    protected $_repoTypeCalc;
-    /** @var  \Praxigento\BonusBase\Service\Period\Sub\Depended */
-    protected $_subDepended;
-    /** @var \Praxigento\BonusBase\Service\Period\Sub\PvBased */
-    protected $_subPvBased;
     /** @var \Praxigento\Core\Api\Helper\Date */
-    protected $_toolDate;
+    protected $hlpDate;
     /** @var  \Praxigento\Core\Api\Helper\Period */
-    protected $_toolPeriod;
+    protected $hlpPeriod;
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
+    /** @var  \Praxigento\Core\App\Transaction\Database\IManager */
+    protected $manTrans;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
+    protected $repoCalc;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
+    protected $repoPeriod;
+    /** @var \Praxigento\BonusBase\Repo\Service\IModule */
+    protected $repoService;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Type\Calc */
+    protected $repoTypeCalc;
+    /** @var  \Praxigento\BonusBase\Service\Period\Sub\Depended */
+    protected $subDepended;
+    /** @var \Praxigento\BonusBase\Service\Period\Sub\PvBased */
+    protected $subPvBased;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
@@ -37,21 +38,21 @@ class Call
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Entity\Type\Calc $repoTypeCalc,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
-        \Praxigento\Core\Api\Helper\Period $toolPeriod,
-        \Praxigento\Core\Api\Helper\Date $toolDate,
+        \Praxigento\Core\Api\Helper\Period $hlpPeriod,
+        \Praxigento\Core\Api\Helper\Date $hlpDate,
         \Praxigento\BonusBase\Service\Period\Sub\Depended $subDepended,
         \Praxigento\BonusBase\Service\Period\Sub\PvBased $subPvBased
     ) {
         parent::__construct($logger, $manObj);
-        $this->_manTrans = $manTrans;
-        $this->_repoCalc = $repoCalc;
-        $this->_repoPeriod = $repoPeriod;
-        $this->_repoTypeCalc = $repoTypeCalc;
-        $this->_repoService = $repoService;
-        $this->_toolPeriod = $toolPeriod;
-        $this->_toolDate = $toolDate;
-        $this->_subDepended = $subDepended;
-        $this->_subPvBased = $subPvBased;
+        $this->manTrans = $manTrans;
+        $this->repoCalc = $repoCalc;
+        $this->repoPeriod = $repoPeriod;
+        $this->repoTypeCalc = $repoTypeCalc;
+        $this->repoService = $repoService;
+        $this->hlpPeriod = $hlpPeriod;
+        $this->hlpDate = $hlpDate;
+        $this->subDepended = $subDepended;
+        $this->subPvBased = $subPvBased;
     }
 
     public function getLatest(Request\GetLatest $request)
@@ -63,15 +64,15 @@ class Call
         $this->logger->info("'Get latest calculation period' operation is started with $msgParams in bonus base module.");
         if (is_null($calcTypeId)) {
             /* get calculation type ID by type code */
-            $calcTypeId = $this->_repoTypeCalc->getIdByCode($calcTypeCode);
+            $calcTypeId = $this->repoTypeCalc->getIdByCode($calcTypeCode);
             $this->logger->info("There is only calculation type code ($calcTypeCode) in request, calculation type id = $calcTypeId.");
         }
-        $periodLatest = $this->_repoService->getLastPeriodByCalcType($calcTypeId);
+        $periodLatest = $this->repoService->getLastPeriodByCalcType($calcTypeId);
         if ($periodLatest) {
             $result->setPeriodData($periodLatest);
             /* add period calculations to result set */
             $periodId = $periodLatest->getId();
-            $calcLatest = $this->_repoService->getLastCalcForPeriodById($periodId);
+            $calcLatest = $this->repoService->getLastCalcForPeriodById($periodId);
             $result->setCalcData($calcLatest);
         }
         $result->markSucceed();

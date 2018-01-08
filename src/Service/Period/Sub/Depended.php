@@ -2,6 +2,7 @@
 /**
  * User: Alex Gusev <alex@flancer64.com>
  */
+
 namespace Praxigento\BonusBase\Service\Period\Sub;
 
 use Praxigento\BonusBase\Config as Cfg;
@@ -13,30 +14,30 @@ use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
  */
 class Depended
 {
-    /** @var \Psr\Log\LoggerInterface */
-    protected $_logger;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
-    protected $_repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
-    protected $_repoPeriod;
-    /** @var \Praxigento\BonusBase\Repo\Service\IModule */
-    protected $_repoService;
     /** @var \Praxigento\Core\Api\Helper\Date */
-    protected $_toolDate;
+    protected $hlpDate;
+    /** @var \Psr\Log\LoggerInterface */
+    protected $logger;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
+    protected $repoCalc;
+    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
+    protected $repoPeriod;
+    /** @var \Praxigento\BonusBase\Repo\Service\IModule */
+    protected $repoService;
 
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
-        \Praxigento\Core\Api\Helper\Date $toolDate
+        \Praxigento\Core\Api\Helper\Date $hlpDate
 
     ) {
-        $this->_logger = $logger;
-        $this->_repoCalc = $repoCalc;
-        $this->_repoPeriod = $repoPeriod;
-        $this->_repoService = $repoService;
-        $this->_toolDate = $toolDate;
+        $this->logger = $logger;
+        $this->repoCalc = $repoCalc;
+        $this->repoPeriod = $repoPeriod;
+        $this->repoService = $repoService;
+        $this->hlpDate = $hlpDate;
     }
 
     /**
@@ -57,7 +58,7 @@ class Depended
         $dependentDsBegin,
         $dependentDsEnd
     ) {
-        $dependentCalcData = $this->_repoService->getLastCalcForPeriodByDates(
+        $dependentCalcData = $this->repoService->getLastCalcForPeriodByDates(
             $dependentCalcTypeId,
             $dependentDsBegin,
             $dependentDsEnd
@@ -67,10 +68,10 @@ class Depended
             ($dependentCalcData->getState() == Cfg::CALC_STATE_COMPLETE)
         ) {
             /* complete dependent period for complete base period */
-            $this->_logger->warning("There is '$dependentCalcTypeCode' period with complete calculation. No more '$dependentCalcTypeCode' could be calculated.");
+            $this->logger->warning("There is '$dependentCalcTypeCode' period with complete calculation. No more '$dependentCalcTypeCode' could be calculated.");
         } else {
             /* incomplete dependent period for complete base period */
-            $this->_logger->warning("There is '$dependentCalcTypeCode' period without complete calculation. Continue calculation for this period.");
+            $this->logger->warning("There is '$dependentCalcTypeCode' period without complete calculation. Continue calculation for this period.");
             $result->setDependentCalcData($dependentCalcData);
         }
     }
@@ -104,7 +105,7 @@ class Depended
             ($dependentDsEnd == $baseDsEnd)
         ) {
             /* dependent period has the same begin/end as related base period, get calc data */
-            $this->_logger->info("There is base '$baseCalcTypeCode' period for dependent '$dependentCalcTypeCode' period ($dependentDsBegin-$dependentDsEnd).");
+            $this->logger->info("There is base '$baseCalcTypeCode' period for dependent '$dependentCalcTypeCode' period ($dependentDsBegin-$dependentDsEnd).");
             $this->_analyzeDependedCalc(
                 $result,
                 $dependentCalcTypeCode,
@@ -114,21 +115,21 @@ class Depended
             );
         } else {
             /* dependent period has different begin/end than related base period */
-            $this->_logger->warning("There is no period for '$dependentCalcTypeCode' calculation based on '$baseCalcTypeCode' ($baseDsBegin-$baseDsEnd). New period and related calculation will be created.");
+            $this->logger->warning("There is no period for '$dependentCalcTypeCode' calculation based on '$baseCalcTypeCode' ($baseDsBegin-$baseDsEnd). New period and related calculation will be created.");
             /* create new depended period & calc */
             $period = new EPeriod();
             $period->setCalcTypeId($dependentCalcTypeId);
             $period->setDstampBegin($baseDsBegin);
             $period->setDstampEnd($baseDsEnd);
-            $periodId = $this->_repoPeriod->create($period);
+            $periodId = $this->repoPeriod->create($period);
             $period->setId($periodId);
             /* create related calculation */
             $calc = new ECalculation();
             $calc->setPeriodId($periodId);
-            $dateStarted = $this->_toolDate->getUtcNowForDb();
+            $dateStarted = $this->hlpDate->getUtcNowForDb();
             $calc->setDateStarted($dateStarted);
             $calc->setState(Cfg::CALC_STATE_STARTED);
-            $calcId = $this->_repoCalc->create($calc);
+            $calcId = $this->repoCalc->create($calc);
             $calc->setId($calcId);
             /* place new objects into response */
             $result->setDependentPeriodData($period);
@@ -154,26 +155,26 @@ class Depended
         $dependentCalcTypeCode,
         $dependentCalcTypeId
     ) {
-        $dependPeriodData = $this->_repoService->getLastPeriodByCalcType($dependentCalcTypeId);
+        $dependPeriodData = $this->repoService->getLastPeriodByCalcType($dependentCalcTypeId);
         if (is_null($dependPeriodData)) {
             /* there is no dependent period, create new period and calc */
             $msg = "There is no period data for calculation '$dependentCalcTypeCode'."
                 . " New period and related calculation will be created.";
-            $this->_logger->warning($msg);
+            $this->logger->warning($msg);
             /* create new period for given calculation type */
             $period = new EPeriod();
             $period->setCalcTypeId($dependentCalcTypeId);
             $period->setDstampBegin($baseDsBegin);
             $period->setDstampEnd($baseDsEnd);
-            $periodId = $this->_repoPeriod->create($period);
+            $periodId = $this->repoPeriod->create($period);
             $period->setId($periodId);
             /* create related calculation */
             $calc = new ECalculation();
             $calc->setPeriodId($periodId);
-            $dateStarted = $this->_toolDate->getUtcNowForDb();
+            $dateStarted = $this->hlpDate->getUtcNowForDb();
             $calc->setDateStarted($dateStarted);
             $calc->setState(Cfg::CALC_STATE_STARTED);
-            $calcId = $this->_repoCalc->create($calc);
+            $calcId = $this->repoCalc->create($calc);
             $calc->setId($calcId);
             /* place newly created objects into the response */
             $result->setDependentPeriodData($period);
@@ -218,7 +219,7 @@ class Depended
         $dependentCalcTypeCode,
         $dependentCalcTypeId
     ) {
-        $baseCalcData = $this->_repoService->getLastCalcForPeriodById($basePeriodId);
+        $baseCalcData = $this->repoService->getLastCalcForPeriodById($basePeriodId);
         $result->setBaseCalcData($baseCalcData);
         /* get depended data for complete base calculation */
         if (
@@ -238,7 +239,7 @@ class Depended
             /* there is no complete Base Calculation */
             $msg = "There is no complete base '$baseCalcTypeCode' calculation for dependent "
                 . "'$dependentCalcTypeCode' calculation. New period could not be created.";
-            $this->_logger->warning($msg);
+            $this->logger->warning($msg);
         }
         return $result;
     }
