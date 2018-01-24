@@ -5,8 +5,6 @@
 
 namespace Praxigento\BonusBase\Service\Period\Calc\Get;
 
-use Praxigento\BonusBase\Api\Service\Period\Calc\Get\Dependent\Request as ARequest;
-use Praxigento\BonusBase\Api\Service\Period\Calc\Get\Dependent\Response as AResponse;
 use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalc;
 use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
 use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as ECalcType;
@@ -14,8 +12,11 @@ use Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder as QBGetLast;
 use Praxigento\BonusBase\Service\Period\Calc\IAdd as SCalcAdd;
 use Praxigento\BonusHybrid\Config as Cfg;
 
-class Dependent
-    implements \Praxigento\BonusBase\Api\Service\Period\Calc\Get\Dependent
+/**
+ * @deprecated use \Praxigento\BonusBase\Api\Service\Period\Calc\Get\Dependent
+ */
+class DependentOld
+    implements IDependent
 {
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
@@ -34,7 +35,8 @@ class Dependent
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder $qbGetPeriod,
         \Praxigento\BonusBase\Service\Period\Calc\IAdd $procCalcAdd
-    ) {
+    )
+    {
         $this->logger = $logger;
         $this->repoCalc = $repoCalc;
         $this->repoPeriod = $repoPeriod;
@@ -75,18 +77,18 @@ class Dependent
         return [$periodId, $calcId, $err];
     }
 
-    public function exec($request)
+    public function exec(\Praxigento\Core\Data $ctx)
     {
-        /** define local working data */
-        assert($request instanceof ARequest);
+        /* get working data from context */
+        $calcTypeCodeBase = $ctx->get(self::CTX_IN_BASE_TYPE_CODE);
+        $calcTypeCodeDep = $ctx->get(self::CTX_IN_DEP_TYPE_CODE);
+        $maxPeriodEnd = $ctx->get(self::CTX_IN_PERIOD_END);
+        $ignoreCompleteState = (bool)$ctx->get(self::CTX_IN_DEP_IGNORE_COMPLETE);
 
-        $calcTypeCodeBase = $request->getBaseCalcTypeCode();
-        $calcTypeCodeDep = $request->getDepCalcTypeCode();
-        $maxPeriodEnd = $request->getPeriodEnd();
-        $ignoreCompleteState = (bool)$request->getDepIgnoreComplete();
-
-        /** perform processing */
-        $result = new AResponse();
+        /**
+         * perform processing
+         */
+        $ctx->set(self::CTX_OUT_SUCCESS, false);
         $this->logger->info("'Dependent period' processing is started "
             . "(base: $calcTypeCodeBase; dep: $calcTypeCodeDep).");
         /* get the last period data for given calculation type */
@@ -104,7 +106,7 @@ class Dependent
                     /* there is no dependent period, registry new one */
                     $this->logger->info("There is no period data for calculation '$calcTypeCodeDep'. New period and related calculation will be created.");
                     list($depPeriodId, $depCalcId, $err) = $this->addPeriodCalc($baseDsBegin, $baseDsEnd, $calcTypeCodeDep);
-                    $this->populateResponse($result, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err);
+                    $this->populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err);
                 } else {
                     /* there is dependent period */
                     $depDsBegin = $periodLastDep[QBGetLast::A_DS_BEGIN];
@@ -122,7 +124,7 @@ class Dependent
                         ) {
                             /* complete dependent period for complete base period */
                             $this->logger->warning("There is '$calcTypeCodeDep' period with complete calculation. No more '$calcTypeCodeDep' could be calculated.");
-                            $result->setErrorCode(AResponse::ERR_DEP_CALC_COMPLETE);
+                            $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_DEP_CALC_COMPLETE);
                         } else {
                             /* incomplete dependent period (or state is ignored) for complete base period */
                             if (!$ignoreCompleteState) {
@@ -130,58 +132,54 @@ class Dependent
                             }
                             $depPeriodId = $periodLastDep[QBGetLast::A_PERIOD_ID];
                             $depCalcId = $periodLastDep[QBGetLast::A_CALC_ID];
-                            $this->populateResponse($result, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId);
+                            $this->populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId);
                         }
                     } else {
                         /* dependent period has different begin/end then related base period */
                         $this->logger->warning("There is no period for '$calcTypeCodeDep' calculation based on '$calcTypeCodeBase' ($baseDsBegin-$baseDsEnd). New period and related calculation will be created.");
                         list($depPeriodId, $depCalcId, $err) = $this->addPeriodCalc($baseDsBegin, $baseDsEnd, $calcTypeCodeDep);
-                        $this->populateResponse($result, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err);
+                        $this->populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err);
                     }
                 }
             } else {
                 $this->logger->warning("Base calculation ($calcTypeCodeBase) is not complete yet. "
                     . "'$calcTypeCodeDep' could not be started.");
-                $result->setErrorCode(AResponse::ERR_BASE_CALC_NOT_COMPLETE);
+                $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_BASE_CALC_NOT_COMPLETE);
             }
         } else {
             $this->logger->warning("There is no period for '$calcTypeCodeBase' calculation  yet. "
                 . "'$calcTypeCodeDep' could not be calculated.");
-            $result->setErrorCode(AResponse::ERR_BASE_CALC_NOT_EXIST);
+            $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_BASE_CALC_NOT_EXIST);
         }
 
         $this->logger->info("'Dependent period' processing is completed "
             . "(base: $calcTypeCodeBase; dep: $calcTypeCodeDep).");
-
-        /** compose result */
-
-        return $result;
     }
 
     /**
      * Populate execution context with result data if no error.
      *
-     * @param AResponse $resp
+     * @param \Praxigento\Core\Data $ctx
      * @param int $basePeriodId
      * @param int $baseCalcId
      * @param int $depPeriodId
      * @param int $depCalcId
      * @param bool $err error code from self::addPeriodCalc()
      */
-    private function populateResponse($resp, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err = null)
+    private function populateContext($ctx, $basePeriodId, $baseCalcId, $depPeriodId, $depCalcId, $err = null)
     {
         if (!$err) {
-            $resp->setErrorCode(AResponse::ERR_NO_ERROR);
+            $ctx->set(self::CTX_OUT_SUCCESS, true);
             $basePeriodData = $this->repoPeriod->getById($basePeriodId);
             $baseCalcData = $this->repoCalc->getById($baseCalcId);
             $depPeriodData = $this->repoPeriod->getById($depPeriodId);
             $depCalcData = $this->repoCalc->getById($depCalcId);
-            $resp->setBasePeriodData($basePeriodData);
-            $resp->setBaseCalcData($baseCalcData);
-            $resp->setDepPeriodData($depPeriodData);
-            $resp->setDepCalcData($depCalcData);
+            $ctx->set(self::CTX_OUT_BASE_PERIOD_DATA, $basePeriodData);
+            $ctx->set(self::CTX_OUT_BASE_CALC_DATA, $baseCalcData);
+            $ctx->set(self::CTX_OUT_DEP_PERIOD_DATA, $depPeriodData);
+            $ctx->set(self::CTX_OUT_DEP_CALC_DATA, $depCalcData);
         } else {
-            $resp->setErrorCode(AResponse::ERR_ADD_NEW_PERIOD);
+            $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_ADD_NEW_PERIOD);
         }
     }
 

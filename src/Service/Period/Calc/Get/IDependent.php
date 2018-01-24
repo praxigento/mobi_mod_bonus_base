@@ -9,6 +9,8 @@ namespace Praxigento\BonusBase\Service\Period\Calc\Get;
  * Get period for the next calculation in the chain dependent on the other calculation.
  *
  * This service registers new calculation if it is possible.
+ *
+ * @deprecated use \Praxigento\BonusBase\Api\Service\Period\Calc\Get\Dependent
  */
 interface IDependent
     extends \Praxigento\Core\App\Service\IProcess
