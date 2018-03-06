@@ -12,12 +12,11 @@ class QueryBuilder
     /**#@+ Tables aliases for external usage ('camelCase' naming) */
     const AS_BON_BASE_RANK = 'bbr';
     /**#@- */
-
+    const A_CODE = 'code';
     /**#@+
      * Aliases for data attributes.
      */
     const A_ID_RANK = 'id';
-    const A_CODE = 'code';
     const A_NOTE = 'note';
     /**#@- */
 
