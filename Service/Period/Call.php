@@ -13,9 +13,9 @@ class Call
     protected $hlpDate;
     /** @var  \Praxigento\Core\Api\Helper\Period */
     protected $hlpPeriod;
-    /** @var \Praxigento\Core\App\Api\Logger\Main */
+    /** @var \Praxigento\Core\Api\App\Logger\Main */
     protected $logger;
-    /** @var  \Praxigento\Core\App\Api\Repo\Transaction\Manager */
+    /** @var  \Praxigento\Core\Api\App\Repo\Transaction\Manager */
     protected $manTrans;
     /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
     protected $repoCalc;
@@ -31,9 +31,9 @@ class Call
     protected $subPvBased;
 
     public function __construct(
-        \Praxigento\Core\App\Api\Logger\Main $logger,
+        \Praxigento\Core\Api\App\Logger\Main $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
-        \Praxigento\Core\App\Api\Repo\Transaction\Manager $manTrans,
+        \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Entity\Type\Calc $repoTypeCalc,

@@ -16,7 +16,7 @@ class Depended
 {
     /** @var \Praxigento\Core\Api\Helper\Date */
     protected $hlpDate;
-    /** @var \Praxigento\Core\App\Api\Logger\Main */
+    /** @var \Praxigento\Core\Api\App\Logger\Main */
     protected $logger;
     /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
     protected $repoCalc;
@@ -26,7 +26,7 @@ class Depended
     protected $repoService;
 
     public function __construct(
-        \Praxigento\Core\App\Api\Logger\Main $logger,
+        \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
