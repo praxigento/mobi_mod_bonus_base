@@ -15,7 +15,7 @@ class Basis
 {
     /** @var \Praxigento\Core\Api\Helper\Period */
     protected $hlpPeriod;
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var \Praxigento\Core\App\Api\Logger\Main */
     protected $logger;
     /** @var \Praxigento\BonusBase\Service\Period\Calc\IAdd */
     protected $procCalcAdd;
@@ -29,7 +29,7 @@ class Basis
     protected $repoPeriod;
 
     public function __construct(
-        \Psr\Log\LoggerInterface $logger,
+        \Praxigento\Core\App\Api\Logger\Main $logger,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,

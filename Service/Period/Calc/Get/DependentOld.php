@@ -18,7 +18,7 @@ use Praxigento\BonusHybrid\Config as Cfg;
 class DependentOld
     implements IDependent
 {
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var \Praxigento\Core\App\Api\Logger\Main */
     protected $logger;
     /** @var \Praxigento\BonusBase\Service\Period\Calc\IAdd */
     protected $procCalcAdd;
@@ -30,7 +30,7 @@ class DependentOld
     protected $repoPeriod;
 
     public function __construct(
-        \Psr\Log\LoggerInterface $logger,
+        \Praxigento\Core\App\Api\Logger\Main $logger,
         \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
         \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder $qbGetPeriod,
