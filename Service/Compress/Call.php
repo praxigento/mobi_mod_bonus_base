@@ -29,7 +29,7 @@ class Call
     protected $hlpDownlineTree;
     /** @var \Psr\Log\LoggerInterface */
     protected $logger;
-    /** @var  \Praxigento\Core\App\Transaction\Database\IManager */
+    /** @var  \Praxigento\Core\App\Api\Repo\Transaction\Manager */
     protected $manTrans;
     /** @var \Praxigento\BonusBase\Repo\Entity\Compress */
     protected $repoBonusCompress;
@@ -37,7 +37,7 @@ class Call
     public function __construct(
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
-        \Praxigento\Core\App\Transaction\Database\IManager $manTrans,
+        \Praxigento\Core\App\Api\Repo\Transaction\Manager $manTrans,
         \Praxigento\BonusBase\Repo\Entity\Compress $repoBonusCompress,
         \Praxigento\Downline\Service\IMap $repoDownlineMap,
         \Praxigento\Downline\Service\ISnap $callDownlineSnap,
