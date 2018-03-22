@@ -6,8 +6,8 @@
 namespace Praxigento\BonusBase\Service\Compress;
 
 use Praxigento\BonusBase\Repo\Data\Compress as ECompress;
-use Praxigento\Downline\Repo\Entity\Data\Customer;
-use Praxigento\Downline\Repo\Entity\Data\Snap as ESnap;
+use Praxigento\Downline\Repo\Data\Customer;
+use Praxigento\Downline\Repo\Data\Snap as ESnap;
 use Praxigento\Downline\Service\Map\Request\ById as DownlineMapByIdRequest;
 use Praxigento\Downline\Service\Map\Request\TreeByDepth as DownlineMapTreeByDepthRequest;
 use Praxigento\Downline\Service\Map\Request\TreeByTeams as DownlineMapTreeByTeamsRequest;
