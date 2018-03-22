@@ -5,9 +5,9 @@
 
 namespace Praxigento\BonusBase\Repo\Service\Def;
 
-use Praxigento\Accounting\Repo\Entity\Data\Account as EAccount;
-use Praxigento\Accounting\Repo\Entity\Data\Transaction as ETransaction;
-use Praxigento\Accounting\Repo\Entity\Data\Type\Asset as ETypeAsset;
+use Praxigento\Accounting\Repo\Data\Account as EAccount;
+use Praxigento\Accounting\Repo\Data\Transaction as ETransaction;
+use Praxigento\Accounting\Repo\Data\Type\Asset as ETypeAsset;
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
 use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
