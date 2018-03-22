@@ -2,7 +2,7 @@
 
 namespace Praxigento\BonusBase\Ui\DataProvider\Grid\Type\Calc;
 
-use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as ETypeCalc;
+use Praxigento\BonusBase\Repo\Data\Type\Calc as ETypeCalc;
 
 class QueryBuilder
     extends \Praxigento\Core\App\Ui\DataProvider\Grid\Query\Builder

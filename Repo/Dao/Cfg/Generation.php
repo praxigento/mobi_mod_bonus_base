@@ -3,11 +3,11 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\BonusBase\Repo\Entity\Log;
+namespace Praxigento\BonusBase\Repo\Dao\Cfg;
 
-use Praxigento\BonusBase\Repo\Entity\Data\Log\Sales as Entity;
+use Praxigento\BonusBase\Repo\Data\Cfg\Generation as Entity;
 
-class Sales
+class Generation
     extends \Praxigento\Core\App\Repo\Def\Entity
 {
     public function __construct(

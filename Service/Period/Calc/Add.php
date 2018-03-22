@@ -6,8 +6,8 @@
 namespace Praxigento\BonusBase\Service\Period\Calc;
 
 use Praxigento\BonusBase\Config as Cfg;
-use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalc;
-use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
+use Praxigento\BonusBase\Repo\Data\Calculation as ECalc;
+use Praxigento\BonusBase\Repo\Data\Period as EPeriod;
 
 class Add
     implements IAdd
@@ -16,19 +16,19 @@ class Add
     protected $hlpDate;
     /** @var \Praxigento\Core\Api\Helper\Period */
     protected $hlpPeriod;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
     protected $repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Period */
     protected $repoPeriod;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Type\Calc */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Type\Calc */
     protected $repoTypeCalc;
 
     public function __construct(
         \Praxigento\Core\Api\Helper\Date $hlpDate,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
-        \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
-        \Praxigento\BonusBase\Repo\Entity\Type\Calc $repoTypeCalc
+        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
+        \Praxigento\BonusBase\Repo\Dao\Type\Calc $repoTypeCalc
     )
     {
         $this->hlpDate = $hlpDate;

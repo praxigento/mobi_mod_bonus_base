@@ -3,10 +3,10 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\BonusBase\Repo\Entity;
+namespace Praxigento\BonusBase\Repo\Dao;
 
-use Praxigento\BonusBase\Repo\Entity\Data\Level as ELevel;
-use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as ETypeCalc;
+use Praxigento\BonusBase\Repo\Data\Level as ELevel;
+use Praxigento\BonusBase\Repo\Data\Type\Calc as ETypeCalc;
 
 class Level
     extends \Praxigento\Core\App\Repo\Def\Entity
@@ -94,7 +94,7 @@ class Level
         $where = ELevel::ATTR_CALC_TYPE_ID . '=' . (int)$calcTypeId;
         $order = ELevel::ATTR_LEVEL . ' ASC';
         $rs = $this->get($where, $order);
-        /** @var \Praxigento\BonusBase\Repo\Entity\Data\Level $one */
+        /** @var \Praxigento\BonusBase\Repo\Data\Level $one */
         foreach ($rs as $one) {
             $level = $one->getLevel();
             $percent = $one->getPercent();

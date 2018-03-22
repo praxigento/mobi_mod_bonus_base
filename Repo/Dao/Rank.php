@@ -3,7 +3,7 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\BonusBase\Repo\Entity;
+namespace Praxigento\BonusBase\Repo\Dao;
 
 class Rank
     extends \Praxigento\Core\App\Repo\Entity\Type
@@ -15,7 +15,7 @@ class Rank
         parent::__construct(
             $resource,
             $repoGeneric,
-            \Praxigento\BonusBase\Repo\Entity\Data\Rank::class
+            \Praxigento\BonusBase\Repo\Data\Rank::class
         );
     }
 }

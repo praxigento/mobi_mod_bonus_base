@@ -1,6 +1,6 @@
 <?php
 
-namespace Praxigento\BonusBase\Repo\Entity\Data;
+namespace Praxigento\BonusBase\Repo\Data;
 
 /**
  *  Compressed Downline Tree for compression calculation.

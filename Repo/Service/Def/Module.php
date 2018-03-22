@@ -9,8 +9,8 @@ use Praxigento\Accounting\Repo\Data\Account as EAccount;
 use Praxigento\Accounting\Repo\Data\Transaction as ETransaction;
 use Praxigento\Accounting\Repo\Data\Type\Asset as ETypeAsset;
 use Praxigento\BonusBase\Config as Cfg;
-use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
-use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
+use Praxigento\BonusBase\Repo\Data\Calculation as ECalculation;
+use Praxigento\BonusBase\Repo\Data\Period as EPeriod;
 
 /**
  * @deprecated this class should be transformed into set of Query/Repo classes/methods.
@@ -21,15 +21,15 @@ class Module
 {
     /** @var \Praxigento\Core\Api\Helper\Date */
     protected $hlpDate;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
     protected $repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Period */
     protected $repoPeriod;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
+        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
         \Praxigento\Core\Api\Helper\Date $hlpDate
     ) {
         parent::__construct($resource);

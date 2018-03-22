@@ -6,8 +6,8 @@
 namespace Praxigento\BonusBase\Service\Period\Calc\Get;
 
 use Praxigento\BonusBase\Config as Cfg;
-use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalc;
-use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as ECalcType;
+use Praxigento\BonusBase\Repo\Data\Calculation as ECalc;
+use Praxigento\BonusBase\Repo\Data\Type\Calc as ECalcType;
 use Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder as QBGetCalc;
 
 class Basis
@@ -23,16 +23,16 @@ class Basis
     protected $qbGetFirstDate;
     /** @var \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder */
     protected $qbGetPeriod;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
     protected $repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Period */
     protected $repoPeriod;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
-        \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
+        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder $qbGetPeriod,
         \Praxigento\Accounting\Repo\Query\Trans\Get\FirstDate\ByAssetType\Builder $qbGetFirstDate,
         \Praxigento\BonusBase\Service\Period\Calc\IAdd $procCalcAdd

@@ -6,8 +6,8 @@
 namespace Praxigento\BonusBase\Service\Period\Sub;
 
 use Praxigento\BonusBase\Config as Cfg;
-use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
-use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
+use Praxigento\BonusBase\Repo\Data\Calculation as ECalculation;
+use Praxigento\BonusBase\Repo\Data\Period as EPeriod;
 use Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc as ResponsePv;
 
 /**
@@ -22,17 +22,17 @@ class PvBased
     private $hlpPeriod;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     private $logger;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
     private $repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Period */
     private $repoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
     private $repoService;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
-        \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
+        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Api\Helper\Date $hlpDate,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod
@@ -52,16 +52,16 @@ class PvBased
      * @param \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result
      * @param int $calcTypeId
      * @param string $periodType see \Praxigento\Core\Api\Helper\Period::TYPE_*
-     * @param \Praxigento\BonusBase\Repo\Entity\Data\Period $periodData
-     * @param \Praxigento\BonusBase\Repo\Entity\Data\Calculation $calcData
+     * @param \Praxigento\BonusBase\Repo\Data\Period $periodData
+     * @param \Praxigento\BonusBase\Repo\Data\Calculation $calcData
      * @return \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc
      */
     public function _checkStateForExistingPeriod(
         \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result,
         $calcTypeId,
         $periodType,
-        \Praxigento\BonusBase\Repo\Entity\Data\Period $periodData,
-        \Praxigento\BonusBase\Repo\Entity\Data\Calculation $calcData
+        \Praxigento\BonusBase\Repo\Data\Period $periodData,
+        \Praxigento\BonusBase\Repo\Data\Calculation $calcData
     ) {
         if ($calcData->getState() == Cfg::CALC_STATE_COMPLETE) {
             $this->logger->info("There is complete calculation for existing period. Create new period.");
@@ -79,14 +79,14 @@ class PvBased
      * @param \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result
      * @param int $calcTypeId
      * @param string $periodType see \Praxigento\Core\Api\Helper\Period::TYPE_*
-     * @param \Praxigento\BonusBase\Repo\Entity\Data\Period $periodData
+     * @param \Praxigento\BonusBase\Repo\Data\Period $periodData
      * @return \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc
      */
     public function _registryNextPeriod(
         \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc $result,
         $calcTypeId,
         $periodType,
-        \Praxigento\BonusBase\Repo\Entity\Data\Period $periodData
+        \Praxigento\BonusBase\Repo\Data\Period $periodData
     ) {
         $periodEnd = $periodData->getDstampEnd();
         /* calculate new period bounds */
@@ -130,8 +130,8 @@ class PvBased
      * @param string $calcTypeCode
      * @param int $calcTypeId
      * @param string $periodType see \Praxigento\Core\Api\Helper\Period::TYPE_*
-     * @param \Praxigento\BonusBase\Repo\Entity\Data\Period|null $periodData
-     * @param \Praxigento\BonusBase\Repo\Entity\Data\Calculation|null $calcData
+     * @param \Praxigento\BonusBase\Repo\Data\Period|null $periodData
+     * @param \Praxigento\BonusBase\Repo\Data\Calculation|null $calcData
      * @return \Praxigento\BonusBase\Service\Period\Response\GetForPvBasedCalc
      */
     public function checkExistingPeriod(
@@ -139,8 +139,8 @@ class PvBased
         $calcTypeCode,
         $calcTypeId,
         $periodType,
-        \Praxigento\BonusBase\Repo\Entity\Data\Period $periodData = null,
-        \Praxigento\BonusBase\Repo\Entity\Data\Calculation $calcData = null
+        \Praxigento\BonusBase\Repo\Data\Period $periodData = null,
+        \Praxigento\BonusBase\Repo\Data\Calculation $calcData = null
     ) {
         if (!$calcData) {
             $this->logger->error("There is no calculation data for existing period ($calcTypeCode).");

@@ -1,6 +1,6 @@
 <?php
 
-namespace Praxigento\BonusBase\Repo\Entity\Data\Type;
+namespace Praxigento\BonusBase\Repo\Data\Type;
 
 /**
  * User: Alex Gusev <alex@flancer64.com>

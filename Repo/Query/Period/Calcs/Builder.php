@@ -5,9 +5,9 @@
 
 namespace Praxigento\BonusBase\Repo\Query\Period\Calcs;
 
-use Praxigento\BonusBase\Repo\Entity\Data\Calculation as Calc;
-use Praxigento\BonusBase\Repo\Entity\Data\Period as Period;
-use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as CalcType;
+use Praxigento\BonusBase\Repo\Data\Calculation as Calc;
+use Praxigento\BonusBase\Repo\Data\Period as Period;
+use Praxigento\BonusBase\Repo\Data\Type\Calc as CalcType;
 
 /**
  * Build query to get periods with related calculations data.

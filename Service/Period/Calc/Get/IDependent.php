@@ -23,13 +23,13 @@ interface IDependent
     const CTX_IN_DEP_TYPE_CODE = 'in.depCalcTypeCode';
     /** string - (optional) datestamp for the last date of the period end to search (including) */
     const CTX_IN_PERIOD_END = 'in.periodEnd';
-    /** \Praxigento\BonusBase\Repo\Entity\Data\Calculation */
+    /** \Praxigento\BonusBase\Repo\Data\Calculation */
     const CTX_OUT_BASE_CALC_DATA = 'out.baseCalcData';
-    /** \Praxigento\BonusBase\Repo\Entity\Data\Period */
+    /** \Praxigento\BonusBase\Repo\Data\Period */
     const CTX_OUT_BASE_PERIOD_DATA = 'out.basePeriodData';
-    /** \Praxigento\BonusBase\Repo\Entity\Data\Calculation */
+    /** \Praxigento\BonusBase\Repo\Data\Calculation */
     const CTX_OUT_DEP_CALC_DATA = 'out.depCalcData';
-    /** \Praxigento\BonusBase\Repo\Entity\Data\Period */
+    /** \Praxigento\BonusBase\Repo\Data\Period */
     const CTX_OUT_DEP_PERIOD_DATA = 'out.depPeriodData';
     /** string - see self::ERR_... */
     const CTX_OUT_ERROR_CODE = 'out.errCode';

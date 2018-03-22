@@ -2,7 +2,7 @@
 
 namespace Praxigento\BonusBase\Ui\DataProvider\Grid\Rank;
 
-use Praxigento\BonusBase\Repo\Entity\Data\Rank as ERank;
+use Praxigento\BonusBase\Repo\Data\Rank as ERank;
 
 class QueryBuilder
     extends \Praxigento\Core\App\Ui\DataProvider\Grid\Query\Builder

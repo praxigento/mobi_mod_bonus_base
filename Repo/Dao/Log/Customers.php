@@ -3,9 +3,9 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\BonusBase\Repo\Entity\Log;
+namespace Praxigento\BonusBase\Repo\Dao\Log;
 
-use Praxigento\BonusBase\Repo\Entity\Data\Log\Customers as Entity;
+use Praxigento\BonusBase\Repo\Data\Log\Customers as Entity;
 
 class Customers
     extends \Praxigento\Core\App\Repo\Def\Entity

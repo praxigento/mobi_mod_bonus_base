@@ -24,7 +24,7 @@ interface IModule
      * @param string $dsBegin 'YYYYMMDD'
      * @param string $dsEnd 'YYYYMMDD'
      *
-     * @return \Praxigento\BonusBase\Repo\Entity\Data\Calculation|null
+     * @return \Praxigento\BonusBase\Repo\Data\Calculation|null
      */
     public function getLastCalcForPeriodByDates($calcTypeId, $dsBegin, $dsEnd);
 
@@ -32,7 +32,7 @@ interface IModule
      * Get the last calculation for period.
      *
      * @param int $periodId
-     * @return \Praxigento\BonusBase\Repo\Entity\Data\Calculation|null
+     * @return \Praxigento\BonusBase\Repo\Data\Calculation|null
      */
     public function getLastCalcForPeriodById($periodId);
 
@@ -40,7 +40,7 @@ interface IModule
      * Get the last period data by calculation type.
      *
      * @param int $calcTypeId
-     * @return \Praxigento\BonusBase\Repo\Entity\Data\Period|null
+     * @return \Praxigento\BonusBase\Repo\Data\Period|null
      */
     public function getLastPeriodByCalcType($calcTypeId);
 

@@ -6,8 +6,8 @@
 namespace Praxigento\BonusBase\Service\Period\Sub;
 
 use Praxigento\BonusBase\Config as Cfg;
-use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
-use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
+use Praxigento\BonusBase\Repo\Data\Calculation as ECalculation;
+use Praxigento\BonusBase\Repo\Data\Period as EPeriod;
 
 /**
  * Period service's internal code for depended calculations.
@@ -18,17 +18,17 @@ class Depended
     protected $hlpDate;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     protected $logger;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
     protected $repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Period */
     protected $repoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
     protected $repoService;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
-        \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
+        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Api\Helper\Date $hlpDate
 

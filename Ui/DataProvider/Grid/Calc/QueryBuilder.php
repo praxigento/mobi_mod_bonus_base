@@ -2,9 +2,9 @@
 
 namespace Praxigento\BonusBase\Ui\DataProvider\Grid\Calc;
 
-use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
-use Praxigento\BonusBase\Repo\Entity\Data\Period as EPeriod;
-use Praxigento\BonusBase\Repo\Entity\Data\Type\Calc as ETypeCalc;
+use Praxigento\BonusBase\Repo\Data\Calculation as ECalculation;
+use Praxigento\BonusBase\Repo\Data\Period as EPeriod;
+use Praxigento\BonusBase\Repo\Data\Type\Calc as ETypeCalc;
 
 class QueryBuilder
     extends \Praxigento\Core\App\Ui\DataProvider\Grid\Query\Builder

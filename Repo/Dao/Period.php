@@ -3,10 +3,10 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\BonusBase\Repo\Entity\Type;
+namespace Praxigento\BonusBase\Repo\Dao;
 
-class Calc
-    extends \Praxigento\Core\App\Repo\Entity\Type
+class Period
+    extends \Praxigento\Core\App\Repo\Def\Entity
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
@@ -15,7 +15,7 @@ class Calc
         parent::__construct(
             $resource,
             $repoGeneric,
-            \Praxigento\BonusBase\Repo\Entity\Data\Type\Calc::class
-        );
+            \Praxigento\BonusBase\Repo\Data\Period::class);
     }
+
 }

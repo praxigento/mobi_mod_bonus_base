@@ -3,11 +3,11 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\BonusBase\Repo\Entity\Log;
+namespace Praxigento\BonusBase\Repo\Dao\Log;
 
-use Praxigento\BonusBase\Repo\Entity\Data\Log\Rank as Entity;
+use Praxigento\BonusBase\Repo\Data\Log\Sales as Entity;
 
-class Rank
+class Sales
     extends \Praxigento\Core\App\Repo\Def\Entity
 {
     public function __construct(

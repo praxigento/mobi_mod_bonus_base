@@ -17,13 +17,13 @@ class Call
     protected $logger;
     /** @var  \Praxigento\Core\Api\App\Repo\Transaction\Manager */
     protected $manTrans;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Calculation */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
     protected $repoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Period */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Period */
     protected $repoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
     protected $repoService;
-    /** @var \Praxigento\BonusBase\Repo\Entity\Type\Calc */
+    /** @var \Praxigento\BonusBase\Repo\Dao\Type\Calc */
     protected $repoTypeCalc;
     /** @var  \Praxigento\BonusBase\Service\Period\Sub\Depended */
     protected $subDepended;
@@ -34,9 +34,9 @@ class Call
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
-        \Praxigento\BonusBase\Repo\Entity\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Entity\Period $repoPeriod,
-        \Praxigento\BonusBase\Repo\Entity\Type\Calc $repoTypeCalc,
+        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
+        \Praxigento\BonusBase\Repo\Dao\Type\Calc $repoTypeCalc,
         \Praxigento\BonusBase\Repo\Service\IModule $repoService,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\Core\Api\Helper\Date $hlpDate,

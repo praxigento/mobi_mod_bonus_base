@@ -3,9 +3,9 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\BonusBase\Repo\Entity;
+namespace Praxigento\BonusBase\Repo\Dao;
 
-use Praxigento\BonusBase\Repo\Entity\Data\Compress as Entity;
+use Praxigento\BonusBase\Repo\Data\Compress as Entity;
 
 class Compress
     extends \Praxigento\Core\App\Repo\Def\Entity

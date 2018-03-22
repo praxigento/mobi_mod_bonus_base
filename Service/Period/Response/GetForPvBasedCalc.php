@@ -5,10 +5,10 @@
 namespace Praxigento\BonusBase\Service\Period\Response;
 
 /**
- * @method \Praxigento\BonusBase\Repo\Entity\Data\Calculation getCalcData()
- * @method void setCalcData(\Praxigento\BonusBase\Repo\Entity\Data\Calculation | array $data)
- * @method \Praxigento\BonusBase\Repo\Entity\Data\Period getPeriodData()
- * @method void setPeriodData(\Praxigento\BonusBase\Repo\Entity\Data\Period | array $data)
+ * @method \Praxigento\BonusBase\Repo\Data\Calculation getCalcData()
+ * @method void setCalcData(\Praxigento\BonusBase\Repo\Data\Calculation | array $data)
+ * @method \Praxigento\BonusBase\Repo\Data\Period getPeriodData()
+ * @method void setPeriodData(\Praxigento\BonusBase\Repo\Data\Period | array $data)
  */
 class GetForPvBasedCalc extends \Praxigento\Core\App\Service\Base\Response
 {

@@ -3,10 +3,10 @@
  * User: Alex Gusev <alex@flancer64.com>
  */
 
-namespace Praxigento\BonusBase\Repo\Entity;
+namespace Praxigento\BonusBase\Repo\Dao;
 
 use Praxigento\BonusBase\Config as Cfg;
-use Praxigento\BonusBase\Repo\Entity\Data\Calculation as ECalculation;
+use Praxigento\BonusBase\Repo\Data\Calculation as ECalculation;
 
 class Calculation
     extends \Praxigento\Core\App\Repo\Def\Entity
@@ -22,7 +22,7 @@ class Calculation
         parent::__construct(
             $resource,
             $repoGeneric,
-            \Praxigento\BonusBase\Repo\Entity\Data\Calculation::class
+            \Praxigento\BonusBase\Repo\Data\Calculation::class
         );
         $this->hlpDate = $hlpDate;
     }
