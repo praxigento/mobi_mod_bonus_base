@@ -8,13 +8,13 @@ namespace Praxigento\BonusBase\Repo\Data\Log;
 class Sales
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_SALE_ORDER_ID = 'sale_order_id';
-    const ATTR_TRANS_ID = 'trans_id';
+    const A_SALE_ORDER_ID = 'sale_order_id';
+    const A_TRANS_ID = 'trans_id';
     const ENTITY_NAME = 'prxgt_bon_base_log_sales';
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_TRANS_ID, self::ATTR_SALE_ORDER_ID];
+        return [self::A_TRANS_ID, self::A_SALE_ORDER_ID];
     }
 
     /**
@@ -22,7 +22,7 @@ class Sales
      */
     public function getSaleOrderId()
     {
-        $result = parent::get(self::ATTR_SALE_ORDER_ID);
+        $result = parent::get(self::A_SALE_ORDER_ID);
         return $result;
     }
 
@@ -31,7 +31,7 @@ class Sales
      */
     public function getTransId()
     {
-        $result = parent::get(self::ATTR_TRANS_ID);
+        $result = parent::get(self::A_TRANS_ID);
         return $result;
     }
 
@@ -40,7 +40,7 @@ class Sales
      */
     public function setSaleOrderId($data)
     {
-        parent::set(self::ATTR_SALE_ORDER_ID, $data);
+        parent::set(self::A_SALE_ORDER_ID, $data);
     }
 
     /**
@@ -48,6 +48,6 @@ class Sales
      */
     public function setTransId($data)
     {
-        parent::set(self::ATTR_TRANS_ID, $data);
+        parent::set(self::A_TRANS_ID, $data);
     }
 }

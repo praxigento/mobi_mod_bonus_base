@@ -39,13 +39,13 @@ class Builder
     /** Columns aliases */
     const A_CALC_ID = 'calc_id';
     const A_CALC_STATE = 'calc_state';
-    const A_CALC_TYPE_CODE = CalcType::ATTR_CODE;
-    const A_CALC_TYPE_ID = Period::ATTR_CALC_TYPE_ID;
-    const A_CALC_TYPE_NOTE = CalcType::ATTR_NOTE;
-    const A_DATE_ENDED = Calc::ATTR_DATE_ENDED;
-    const A_DATE_STARTED = Calc::ATTR_DATE_STARTED;
-    const A_DS_BEGIN = Period::ATTR_DSTAMP_BEGIN;
-    const A_DS_END = Period::ATTR_DSTAMP_END;
+    const A_CALC_TYPE_CODE = CalcType::A_CODE;
+    const A_CALC_TYPE_ID = Period::A_CALC_TYPE_ID;
+    const A_CALC_TYPE_NOTE = CalcType::A_NOTE;
+    const A_DATE_ENDED = Calc::A_DATE_ENDED;
+    const A_DATE_STARTED = Calc::A_DATE_STARTED;
+    const A_DS_BEGIN = Period::A_DSTAMP_BEGIN;
+    const A_DS_END = Period::A_DSTAMP_END;
     const A_PERIOD_ID = 'period_id';
 
     public function build(\Magento\Framework\DB\Select $source = null)
@@ -59,30 +59,30 @@ class Builder
         /* select from prxgt_bon_base_period */
         $tbl = $this->resource->getTableName(Period::ENTITY_NAME);
         $cols = [
-            self::A_PERIOD_ID => Period::ATTR_ID,
-            self::A_CALC_TYPE_ID => Period::ATTR_CALC_TYPE_ID,
-            self::A_DS_BEGIN => Period::ATTR_DSTAMP_BEGIN,
-            self::A_DS_END => Period::ATTR_DSTAMP_END
+            self::A_PERIOD_ID => Period::A_ID,
+            self::A_CALC_TYPE_ID => Period::A_CALC_TYPE_ID,
+            self::A_DS_BEGIN => Period::A_DSTAMP_BEGIN,
+            self::A_DS_END => Period::A_DSTAMP_END
         ];
         $result->from([$asPeriod => $tbl], $cols);
 
         /* LEFT JOIN prxgt_bon_base_calc */
         $tbl = $this->resource->getTableName(Calc::ENTITY_NAME);
-        $on = $asCalc . '.' . Calc::ATTR_PERIOD_ID . '=' . $asPeriod . '.' . Period::ATTR_ID;
+        $on = $asCalc . '.' . Calc::A_PERIOD_ID . '=' . $asPeriod . '.' . Period::A_ID;
         $cols = [
-            self::A_DATE_STARTED => Calc::ATTR_DATE_STARTED,
-            self::A_DATE_ENDED => Calc::ATTR_DATE_ENDED,
-            self::A_CALC_ID => Calc::ATTR_ID,
-            self::A_CALC_STATE => Calc::ATTR_STATE
+            self::A_DATE_STARTED => Calc::A_DATE_STARTED,
+            self::A_DATE_ENDED => Calc::A_DATE_ENDED,
+            self::A_CALC_ID => Calc::A_ID,
+            self::A_CALC_STATE => Calc::A_STATE
         ];
         $result->joinLeft([$asCalc => $tbl], $on, $cols);
 
         /* LEFT JOIN prxgt_bon_base_type_calc */
         $tbl = $this->resource->getTableName(CalcType::ENTITY_NAME);
-        $on = $asType . '.' . CalcType::ATTR_ID . '=' . $asPeriod . '.' . Period::ATTR_CALC_TYPE_ID;
+        $on = $asType . '.' . CalcType::A_ID . '=' . $asPeriod . '.' . Period::A_CALC_TYPE_ID;
         $cols = [
-            self::A_CALC_TYPE_CODE => CalcType::ATTR_CODE,
-            self::A_CALC_TYPE_NOTE => CalcType::ATTR_NOTE
+            self::A_CALC_TYPE_CODE => CalcType::A_CODE,
+            self::A_CALC_TYPE_NOTE => CalcType::A_NOTE
         ];
         $result->joinLeft([$asType => $tbl], $on, $cols);
 

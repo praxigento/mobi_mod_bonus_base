@@ -8,13 +8,13 @@ namespace Praxigento\BonusBase\Repo\Data\Log;
 class Rank
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_RANK_REF = 'rank_ref';
-    const ATTR_TRANS_REF = 'trans_ref';
+    const A_RANK_REF = 'rank_ref';
+    const A_TRANS_REF = 'trans_ref';
     const ENTITY_NAME = 'prxgt_bon_base_log_rank';
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_TRANS_REF, self::ATTR_RANK_REF];
+        return [self::A_TRANS_REF, self::A_RANK_REF];
     }
 
     /**
@@ -22,7 +22,7 @@ class Rank
      */
     public function getRankRef()
     {
-        $result = parent::get(self::ATTR_RANK_REF);
+        $result = parent::get(self::A_RANK_REF);
         return $result;
     }
 
@@ -31,7 +31,7 @@ class Rank
      */
     public function getTransRef()
     {
-        $result = parent::get(self::ATTR_TRANS_REF);
+        $result = parent::get(self::A_TRANS_REF);
         return $result;
     }
 
@@ -40,7 +40,7 @@ class Rank
      */
     public function setRankRef($data)
     {
-        parent::set(self::ATTR_RANK_REF, $data);
+        parent::set(self::A_RANK_REF, $data);
     }
 
     /**
@@ -48,6 +48,6 @@ class Rank
      */
     public function setTransId($data)
     {
-        parent::set(self::ATTR_TRANS_REF, $data);
+        parent::set(self::A_TRANS_REF, $data);
     }
 }

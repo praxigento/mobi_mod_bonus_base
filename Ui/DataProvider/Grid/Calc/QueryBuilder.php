@@ -31,7 +31,7 @@ class QueryBuilder
      */
     public function getExpForPeriod()
     {
-        $value = 'SUBSTR(`' . self::AS_BON_BASE_PERIOD . '`.`' . EPeriod::ATTR_DSTAMP_BEGIN . '`, 1, 6)';
+        $value = 'SUBSTR(`' . self::AS_BON_BASE_PERIOD . '`.`' . EPeriod::A_DSTAMP_BEGIN . '`, 1, 6)';
         $result = new \Praxigento\Core\App\Repo\Query\Expression($value);
         return $result;
     }
@@ -41,11 +41,11 @@ class QueryBuilder
         if (is_null($this->mapper)) {
             $map = [
                 self::A_PERIOD > self::AS_BON_BASE_PERIOD . '.' . $this->getExpForPeriod(),
-                self::A_CALC_TYPE_CODE > self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::ATTR_CODE,
-                self::A_CALC_TYPE_ID > self::AS_BON_BASE_PERIOD . '.' . EPeriod::ATTR_CALC_TYPE_ID,
-                self::A_DATE_STARTED => self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_DATE_STARTED,
-                self::A_DATE_ENDED => self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_DATE_ENDED,
-                self::A_STATE => self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_STATE
+                self::A_CALC_TYPE_CODE > self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::A_CODE,
+                self::A_CALC_TYPE_ID > self::AS_BON_BASE_PERIOD . '.' . EPeriod::A_CALC_TYPE_ID,
+                self::A_DATE_STARTED => self::AS_BON_BASE_CALC . '.' . ECalculation::A_DATE_STARTED,
+                self::A_DATE_ENDED => self::AS_BON_BASE_CALC . '.' . ECalculation::A_DATE_ENDED,
+                self::A_STATE => self::AS_BON_BASE_CALC . '.' . ECalculation::A_STATE
             ];
             $this->mapper = new \Praxigento\Core\App\Repo\Query\Criteria\Def\Mapper($map);
         }
@@ -63,9 +63,9 @@ class QueryBuilder
         $tbl = $this->resource->getTableName(ECalculation::ENTITY_NAME);
         $as = $asCalc;
         $cols = [
-            self::A_DATE_STARTED => ECalculation::ATTR_DATE_STARTED,
-            self::A_DATE_ENDED => ECalculation::ATTR_DATE_ENDED,
-            self::A_STATE => ECalculation::ATTR_STATE
+            self::A_DATE_STARTED => ECalculation::A_DATE_STARTED,
+            self::A_DATE_ENDED => ECalculation::A_DATE_ENDED,
+            self::A_STATE => ECalculation::A_STATE
         ];
         $result->from([$as => $tbl], $cols);
 
@@ -76,9 +76,9 @@ class QueryBuilder
         $exp = $this->getExpForPeriod();
         $cols = [
             self::A_PERIOD => $exp,
-            self::A_CALC_TYPE_ID => EPeriod::ATTR_CALC_TYPE_ID
+            self::A_CALC_TYPE_ID => EPeriod::A_CALC_TYPE_ID
         ];
-        $cond = $as . '.' . EPeriod::ATTR_ID . '=' . $asCalc . '.' . ECalculation::ATTR_PERIOD_ID;
+        $cond = $as . '.' . EPeriod::A_ID . '=' . $asCalc . '.' . ECalculation::A_PERIOD_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* LEFT JOIN Type Calc*/
@@ -86,9 +86,9 @@ class QueryBuilder
         $tbl = $this->resource->getTableName(ETypeCalc::ENTITY_NAME);
         $as = $asTypeCalc;
         $cols = [
-            self::A_CALC_TYPE_CODE => ETypeCalc::ATTR_CODE
+            self::A_CALC_TYPE_CODE => ETypeCalc::A_CODE
         ];
-        $cond = $as . '.' . ETypeCalc::ATTR_ID . '=' . $asPeriod . '.' . EPeriod::ATTR_CALC_TYPE_ID;
+        $cond = $as . '.' . ETypeCalc::A_ID . '=' . $asPeriod . '.' . EPeriod::A_CALC_TYPE_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         return $result;
@@ -100,7 +100,7 @@ class QueryBuilder
         /** @var \Magento\Framework\DB\Select $result */
         $result = $this->getQueryItems();
         /* ... then replace "columns" part with own expression */
-        $value = 'COUNT(' . self::AS_BON_BASE_CALC . '.' . ECalculation::ATTR_ID . ')';
+        $value = 'COUNT(' . self::AS_BON_BASE_CALC . '.' . ECalculation::A_ID . ')';
 
         /**
          * See method \Magento\Framework\DB\Select\ColumnsRenderer::render:

@@ -9,10 +9,10 @@ namespace Praxigento\BonusBase\Repo\Data;
 class Compress
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_CALC_ID = 'calc_id';
-    const ATTR_CUSTOMER_ID = 'customer_id';
-    const ATTR_ID = 'id';
-    const ATTR_PARENT_ID = 'parent_id';
+    const A_CALC_ID = 'calc_id';
+    const A_CUSTOMER_ID = 'customer_id';
+    const A_ID = 'id';
+    const A_PARENT_ID = 'parent_id';
     const ENTITY_NAME = 'prxgt_bon_base_compress';
 
     /**
@@ -20,7 +20,7 @@ class Compress
      */
     public function getCalcId()
     {
-        $result = parent::get(self::ATTR_CALC_ID);
+        $result = parent::get(self::A_CALC_ID);
         return $result;
     }
 
@@ -29,7 +29,7 @@ class Compress
      */
     public function getCustomerId()
     {
-        $result = parent::get(self::ATTR_CUSTOMER_ID);
+        $result = parent::get(self::A_CUSTOMER_ID);
         return $result;
     }
 
@@ -38,7 +38,7 @@ class Compress
      */
     public function getId()
     {
-        $result = parent::get(self::ATTR_ID);
+        $result = parent::get(self::A_ID);
         return $result;
     }
 
@@ -47,13 +47,13 @@ class Compress
      */
     public function getParentId()
     {
-        $result = parent::get(self::ATTR_PARENT_ID);
+        $result = parent::get(self::A_PARENT_ID);
         return $result;
     }
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_ID];
+        return [self::A_ID];
     }
 
     /**
@@ -61,7 +61,7 @@ class Compress
      */
     public function setCalcId($data)
     {
-        parent::set(self::ATTR_CALC_ID, $data);
+        parent::set(self::A_CALC_ID, $data);
     }
 
     /**
@@ -69,7 +69,7 @@ class Compress
      */
     public function setCustomerId($data)
     {
-        parent::set(self::ATTR_CUSTOMER_ID, $data);
+        parent::set(self::A_CUSTOMER_ID, $data);
     }
 
     /**
@@ -77,7 +77,7 @@ class Compress
      */
     public function setId($data)
     {
-        parent::set(self::ATTR_ID, $data);
+        parent::set(self::A_ID, $data);
     }
 
     /**
@@ -85,6 +85,6 @@ class Compress
      */
     public function setParentId($data)
     {
-        parent::set(self::ATTR_PARENT_ID, $data);
+        parent::set(self::A_PARENT_ID, $data);
     }
 }

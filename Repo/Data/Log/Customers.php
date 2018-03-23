@@ -8,8 +8,8 @@ namespace Praxigento\BonusBase\Repo\Data\Log;
 class Customers
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_CUSTOMER_ID = 'customer_id';
-    const ATTR_TRANS_ID = 'trans_id';
+    const A_CUSTOMER_ID = 'customer_id';
+    const A_TRANS_ID = 'trans_id';
     const ENTITY_NAME = 'prxgt_bon_base_log_cust';
 
     /**
@@ -17,13 +17,13 @@ class Customers
      */
     public function getCustomerId()
     {
-        $result = parent::get(self::ATTR_CUSTOMER_ID);
+        $result = parent::get(self::A_CUSTOMER_ID);
         return $result;
     }
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_TRANS_ID];
+        return [self::A_TRANS_ID];
     }
 
     /**
@@ -31,7 +31,7 @@ class Customers
      */
     public function getTransId()
     {
-        $result = parent::get(self::ATTR_TRANS_ID);
+        $result = parent::get(self::A_TRANS_ID);
         return $result;
     }
 
@@ -40,7 +40,7 @@ class Customers
      */
     public function setCustomerId($data)
     {
-        parent::set(self::ATTR_CUSTOMER_ID, $data);
+        parent::set(self::A_CUSTOMER_ID, $data);
     }
 
     /**
@@ -48,6 +48,6 @@ class Customers
      */
     public function setTransId($data)
     {
-        parent::set(self::ATTR_TRANS_ID, $data);
+        parent::set(self::A_TRANS_ID, $data);
     }
 }

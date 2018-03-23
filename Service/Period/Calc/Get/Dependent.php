@@ -197,18 +197,18 @@ class Dependent
         $query = $this->qbGetPeriod->build();
         /* modify query to get the last calculation by type code */
         $bndTypeCode = 'code';
-        $where = QBGetLast::AS_CALC_TYPE . '.' . ECalcType::ATTR_CODE . "=:$bndTypeCode";
+        $where = QBGetLast::AS_CALC_TYPE . '.' . ECalcType::A_CODE . "=:$bndTypeCode";
         $bind = [$bndTypeCode => $calcCode];
         if ($maxPeriodEnd) {
             /* we should limit selection by period end */
             $bndEnd = 'end';
-            $whereLast = QBGetLast::AS_PERIOD . '.' . EPeriod::ATTR_DSTAMP_END . "<=:$bndEnd";
+            $whereLast = QBGetLast::AS_PERIOD . '.' . EPeriod::A_DSTAMP_END . "<=:$bndEnd";
             $where = "($where) AND ($whereLast)";
             $bind[$bndEnd] = $maxPeriodEnd;
         }
         $query->where($where);
         /* sort desc by calcId and limit results if there are more than one calculations for the period */
-        $query->order(QBGetLast::AS_CALC . '.' . ECalc::ATTR_ID . ' DESC');
+        $query->order(QBGetLast::AS_CALC . '.' . ECalc::A_ID . ' DESC');
         $query->limit(1);
 
         /* bind query parameters and get result set */

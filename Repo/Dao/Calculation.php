@@ -39,8 +39,8 @@ class Calculation
             $dateEnded = $this->hlpDate->getUtcNowForDb();
         }
         $bind = [
-            ECalculation::ATTR_DATE_ENDED => $dateEnded,
-            ECalculation::ATTR_STATE => Cfg::CALC_STATE_COMPLETE
+            ECalculation::A_DATE_ENDED => $dateEnded,
+            ECalculation::A_STATE => Cfg::CALC_STATE_COMPLETE
         ];
         $result = $this->updateById($calcId, $bind);
         return $result;

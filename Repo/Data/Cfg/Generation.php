@@ -11,10 +11,10 @@ namespace Praxigento\BonusBase\Repo\Data\Cfg;
 class Generation
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_CALC_TYPE_ID = 'calc_type_id';
-    const ATTR_GENERATION = 'generation';
-    const ATTR_PERCENT = 'percent';
-    const ATTR_RANK_ID = 'rank_id';
+    const A_CALC_TYPE_ID = 'calc_type_id';
+    const A_GENERATION = 'generation';
+    const A_PERCENT = 'percent';
+    const A_RANK_ID = 'rank_id';
     const ENTITY_NAME = 'prxgt_bon_base_cfg_gen';
 
     /**
@@ -22,7 +22,7 @@ class Generation
      */
     public function getCalcTypeId()
     {
-        $result = parent::get(self::ATTR_CALC_TYPE_ID);
+        $result = parent::get(self::A_CALC_TYPE_ID);
         return $result;
     }
 
@@ -31,7 +31,7 @@ class Generation
      */
     public function getGeneration()
     {
-        $result = parent::get(self::ATTR_GENERATION);
+        $result = parent::get(self::A_GENERATION);
         return $result;
     }
 
@@ -40,13 +40,13 @@ class Generation
      */
     public function getPercent()
     {
-        $result = parent::get(self::ATTR_PERCENT);
+        $result = parent::get(self::A_PERCENT);
         return $result;
     }
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_CALC_TYPE_ID, self::ATTR_RANK_ID, self::ATTR_GENERATION];
+        return [self::A_CALC_TYPE_ID, self::A_RANK_ID, self::A_GENERATION];
     }
 
     /**
@@ -54,7 +54,7 @@ class Generation
      */
     public function getRankId()
     {
-        $result = parent::get(self::ATTR_RANK_ID);
+        $result = parent::get(self::A_RANK_ID);
         return $result;
     }
 
@@ -63,7 +63,7 @@ class Generation
      */
     public function setCalcTypeId($data)
     {
-        parent::set(self::ATTR_CALC_TYPE_ID, $data);
+        parent::set(self::A_CALC_TYPE_ID, $data);
     }
 
     /**
@@ -71,7 +71,7 @@ class Generation
      */
     public function setGeneration($data)
     {
-        parent::set(self::ATTR_GENERATION, $data);
+        parent::set(self::A_GENERATION, $data);
     }
 
     /**
@@ -79,7 +79,7 @@ class Generation
      */
     public function setPercent($data)
     {
-        parent::set(self::ATTR_PERCENT, $data);
+        parent::set(self::A_PERCENT, $data);
     }
 
     /**
@@ -87,6 +87,6 @@ class Generation
      */
     public function setRankId($data)
     {
-        parent::set(self::ATTR_RANK_ID, $data);
+        parent::set(self::A_RANK_ID, $data);
     }
 }

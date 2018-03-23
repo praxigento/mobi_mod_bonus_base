@@ -56,26 +56,26 @@ class Level
         $as = $asLvl;
         $tbl = $tblLvl;
         $cols = [
-            ELevel::ATTR_LEVEL,
-            ELevel::ATTR_PERCENT
+            ELevel::A_LEVEL,
+            ELevel::A_PERCENT
         ];
         $query->from([$as => $tbl], $cols);
         /* JOIN prxgt_bon_base_type_calc */
         $as = $asType;
         $tbl = $tblType;
         $cols = [];
-        $cond = $as . '.' . ETypeCalc::ATTR_ID . '=' . $asLvl . '.' . ELevel::ATTR_CALC_TYPE_ID;
+        $cond = $as . '.' . ETypeCalc::A_ID . '=' . $asLvl . '.' . ELevel::A_CALC_TYPE_ID;
         $query->joinLeft([$as => $tbl], $cond, $cols);
         /* query tuning */
         $bndCode = 'code';
-        $query->where($asType . '.' . ETypeCalc::ATTR_CODE . '=:' . $bndCode);
-        $query->order($asLvl . '.' . ELevel::ATTR_LEVEL . ' ASC');
+        $query->where($asType . '.' . ETypeCalc::A_CODE . '=:' . $bndCode);
+        $query->order($asLvl . '.' . ELevel::A_LEVEL . ' ASC');
         /* perform query, parse result set */
         $bind = [$bndCode => $calcTypeCode];
         $rs = $this->conn->fetchAll($query, $bind);
         foreach ($rs as $one) {
-            $level = $one[ELevel::ATTR_LEVEL];
-            $percent = $one[ELevel::ATTR_PERCENT];
+            $level = $one[ELevel::A_LEVEL];
+            $percent = $one[ELevel::A_PERCENT];
             $result[$level] = $percent;
         }
         return $result;
@@ -91,8 +91,8 @@ class Level
     public function getByCalcTypeId($calcTypeId)
     {
         $result = [];
-        $where = ELevel::ATTR_CALC_TYPE_ID . '=' . (int)$calcTypeId;
-        $order = ELevel::ATTR_LEVEL . ' ASC';
+        $where = ELevel::A_CALC_TYPE_ID . '=' . (int)$calcTypeId;
+        $order = ELevel::A_LEVEL . ' ASC';
         $rs = $this->get($where, $order);
         /** @var \Praxigento\BonusBase\Repo\Data\Level $one */
         foreach ($rs as $one) {

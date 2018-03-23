@@ -187,10 +187,10 @@ class Basis
         $query = $this->qbGetPeriod->build();
         /* modify query to get the last calculation by type code */
         $bindTypeCode = 'code';
-        $whereType = $this->qbGetPeriod::AS_CALC_TYPE . '.' . ECalcType::ATTR_CODE . "=:$bindTypeCode";
+        $whereType = $this->qbGetPeriod::AS_CALC_TYPE . '.' . ECalcType::A_CODE . "=:$bindTypeCode";
         $query->where($whereType);
         /* sort desc by calcId and limit results if there are more than one calculations for the period */
-        $query->order($this->qbGetPeriod::AS_CALC . '.' . ECalc::ATTR_ID . ' DESC');
+        $query->order($this->qbGetPeriod::AS_CALC . '.' . ECalc::A_ID . ' DESC');
         $query->limit(1);
 
         /* bind query parameters and get result set */

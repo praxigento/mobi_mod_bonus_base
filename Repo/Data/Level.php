@@ -8,9 +8,9 @@ namespace Praxigento\BonusBase\Repo\Data;
 class Level
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_CALC_TYPE_ID = 'calc_type_id';
-    const ATTR_LEVEL = 'level';
-    const ATTR_PERCENT = 'percent';
+    const A_CALC_TYPE_ID = 'calc_type_id';
+    const A_LEVEL = 'level';
+    const A_PERCENT = 'percent';
     const ENTITY_NAME = 'prxgt_bon_base_level';
 
     /**
@@ -18,7 +18,7 @@ class Level
      */
     public function getCalcTypeId()
     {
-        $result = parent::get(self::ATTR_CALC_TYPE_ID);
+        $result = parent::get(self::A_CALC_TYPE_ID);
         return $result;
     }
 
@@ -27,7 +27,7 @@ class Level
      */
     public function getLevel()
     {
-        $result = parent::get(self::ATTR_LEVEL);
+        $result = parent::get(self::A_LEVEL);
         return $result;
     }
 
@@ -36,13 +36,13 @@ class Level
      */
     public function getPercent()
     {
-        $result = parent::get(self::ATTR_PERCENT);
+        $result = parent::get(self::A_PERCENT);
         return $result;
     }
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_CALC_TYPE_ID, self::ATTR_LEVEL];
+        return [self::A_CALC_TYPE_ID, self::A_LEVEL];
     }
 
     /**
@@ -50,7 +50,7 @@ class Level
      */
     public function setCalcTypeId($data)
     {
-        parent::set(self::ATTR_CALC_TYPE_ID, $data);
+        parent::set(self::A_CALC_TYPE_ID, $data);
     }
 
     /**
@@ -58,7 +58,7 @@ class Level
      */
     public function setLevel($data)
     {
-        parent::set(self::ATTR_LEVEL, $data);
+        parent::set(self::A_LEVEL, $data);
     }
 
     /**
@@ -66,7 +66,7 @@ class Level
      */
     public function setPercent($data)
     {
-        parent::set(self::ATTR_PERCENT, $data);
+        parent::set(self::A_PERCENT, $data);
     }
 
 }

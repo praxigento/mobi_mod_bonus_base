@@ -58,19 +58,19 @@ class Builder
         /* then add WHERE filters */
 
         /* get the last calculation by type code & state */
-        $whereType = self::AS_CALC_TYPE . '.' . ECalcType::ATTR_CODE . '=:' . self::BND_CODE;
-        $whereState = self::AS_CALC . '.' . ECalc::ATTR_STATE . '=:' . self::BND_STATE;
+        $whereType = self::AS_CALC_TYPE . '.' . ECalcType::A_CODE . '=:' . self::BND_CODE;
+        $whereState = self::AS_CALC . '.' . ECalc::A_STATE . '=:' . self::BND_STATE;
         $result->where("$whereType AND $whereState");
 
         /* add filter for periods by MAX date */
-        $whereDate = self::AS_PERIOD . '.' . EPeriod::ATTR_DSTAMP_END . '<=:' . self::BND_DATE;
+        $whereDate = self::AS_PERIOD . '.' . EPeriod::A_DSTAMP_END . '<=:' . self::BND_DATE;
         $result->where($whereDate);
 
         /*
             sort desc and limit results if there are more than one calculations with the same code&state
             for the period
         */
-        $result->order(self::AS_PERIOD . '.' . EPeriod::ATTR_DSTAMP_END . ' DESC');
+        $result->order(self::AS_PERIOD . '.' . EPeriod::A_DSTAMP_END . ' DESC');
         $result->limit(1);
 
 

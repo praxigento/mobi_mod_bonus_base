@@ -8,10 +8,10 @@ namespace Praxigento\BonusBase\Repo\Data;
 class Period
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_CALC_TYPE_ID = 'calc_type_id';
-    const ATTR_DSTAMP_BEGIN = 'dstamp_begin';
-    const ATTR_DSTAMP_END = 'dstamp_end';
-    const ATTR_ID = 'id';
+    const A_CALC_TYPE_ID = 'calc_type_id';
+    const A_DSTAMP_BEGIN = 'dstamp_begin';
+    const A_DSTAMP_END = 'dstamp_end';
+    const A_ID = 'id';
     const ENTITY_NAME = 'prxgt_bon_base_period';
 
     /**
@@ -19,7 +19,7 @@ class Period
      */
     public function getCalcTypeId()
     {
-        $result = parent::get(self::ATTR_CALC_TYPE_ID);
+        $result = parent::get(self::A_CALC_TYPE_ID);
         return $result;
     }
 
@@ -28,7 +28,7 @@ class Period
      */
     public function getDstampBegin()
     {
-        $result = parent::get(self::ATTR_DSTAMP_BEGIN);
+        $result = parent::get(self::A_DSTAMP_BEGIN);
         return $result;
     }
 
@@ -37,7 +37,7 @@ class Period
      */
     public function getDstampEnd()
     {
-        $result = parent::get(self::ATTR_DSTAMP_END);
+        $result = parent::get(self::A_DSTAMP_END);
         return $result;
     }
 
@@ -46,13 +46,13 @@ class Period
      */
     public function getId()
     {
-        $result = parent::get(self::ATTR_ID);
+        $result = parent::get(self::A_ID);
         return $result;
     }
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_ID];
+        return [self::A_ID];
     }
 
     /**
@@ -60,7 +60,7 @@ class Period
      */
     public function setCalcTypeId($data)
     {
-        parent::set(self::ATTR_CALC_TYPE_ID, $data);
+        parent::set(self::A_CALC_TYPE_ID, $data);
     }
 
     /**
@@ -68,7 +68,7 @@ class Period
      */
     public function setDstampBegin($data)
     {
-        parent::set(self::ATTR_DSTAMP_BEGIN, $data);
+        parent::set(self::A_DSTAMP_BEGIN, $data);
     }
 
     /**
@@ -76,7 +76,7 @@ class Period
      */
     public function setDstampEnd($data)
     {
-        parent::set(self::ATTR_DSTAMP_END, $data);
+        parent::set(self::A_DSTAMP_END, $data);
     }
 
     /**
@@ -84,6 +84,6 @@ class Period
      */
     public function setId($data)
     {
-        parent::set(self::ATTR_ID, $data);
+        parent::set(self::A_ID, $data);
     }
 }

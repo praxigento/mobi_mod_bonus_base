@@ -8,8 +8,8 @@ namespace Praxigento\BonusBase\Repo\Data\Log;
 class Opers
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_CALC_ID = 'calc_id';
-    const ATTR_OPER_ID = 'oper_id';
+    const A_CALC_ID = 'calc_id';
+    const A_OPER_ID = 'oper_id';
     const ENTITY_NAME = 'prxgt_bon_base_log_opers';
 
     /**
@@ -17,7 +17,7 @@ class Opers
      */
     public function getCalcId()
     {
-        $result = parent::get(self::ATTR_CALC_ID);
+        $result = parent::get(self::A_CALC_ID);
         return $result;
     }
 
@@ -26,13 +26,13 @@ class Opers
      */
     public function getOperId()
     {
-        $result = parent::get(self::ATTR_OPER_ID);
+        $result = parent::get(self::A_OPER_ID);
         return $result;
     }
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_CALC_ID, self::ATTR_OPER_ID];
+        return [self::A_CALC_ID, self::A_OPER_ID];
     }
 
     /**
@@ -40,7 +40,7 @@ class Opers
      */
     public function setCalcId($data)
     {
-        parent::set(self::ATTR_CALC_ID, $data);
+        parent::set(self::A_CALC_ID, $data);
     }
 
     /**
@@ -48,6 +48,6 @@ class Opers
      */
     public function setOperId($data)
     {
-        parent::set(self::ATTR_OPER_ID, $data);
+        parent::set(self::A_OPER_ID, $data);
     }
 }

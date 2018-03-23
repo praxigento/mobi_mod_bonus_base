@@ -24,9 +24,9 @@ class QueryBuilder
     {
         if (is_null($this->mapper)) {
             $map = [
-                self::A_ID_CALC> self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::ATTR_ID,
-                self::A_CODE => self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::ATTR_CODE,
-                self::A_NOTE => self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::ATTR_NOTE
+                self::A_ID_CALC> self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::A_ID,
+                self::A_CODE => self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::A_CODE,
+                self::A_NOTE => self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::A_NOTE
             ];
             $this->mapper = new \Praxigento\Core\App\Repo\Query\Criteria\Def\Mapper($map);
         }
@@ -44,9 +44,9 @@ class QueryBuilder
         $tbl = $this->resource->getTableName(ETypeCalc::ENTITY_NAME);
         $as = $asTypAsset;
         $cols = [
-            self::A_ID_CALC => ETypeCalc::ATTR_ID,
-            self::A_CODE => ETypeCalc::ATTR_CODE,
-            self::A_NOTE => ETypeCalc::ATTR_NOTE
+            self::A_ID_CALC => ETypeCalc::A_ID,
+            self::A_CODE => ETypeCalc::A_CODE,
+            self::A_NOTE => ETypeCalc::A_NOTE
         ];
         $result->from([$as => $tbl], $cols);
         return $result;
@@ -58,7 +58,7 @@ class QueryBuilder
         /** @var \Magento\Framework\DB\Select $result */
         $result = $this->getQueryItems();
         /* ... then replace "columns" part with own expression */
-        $value = 'COUNT(' . self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::ATTR_ID . ')';
+        $value = 'COUNT(' . self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::A_ID . ')';
 
         /**
          * See method \Magento\Framework\DB\Select\ColumnsRenderer::render:

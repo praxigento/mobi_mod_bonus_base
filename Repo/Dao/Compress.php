@@ -28,7 +28,7 @@ class Compress
       */
     public function getTreeByCalcId($calcId)
     {
-        $where = Entity::ATTR_CALC_ID . '=' . (int)$calcId;
+        $where = Entity::A_CALC_ID . '=' . (int)$calcId;
         $entities = $this->get($where);
         $result = [];
         foreach ($entities as $entity) {

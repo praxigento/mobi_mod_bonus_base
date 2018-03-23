@@ -48,18 +48,18 @@ class Module
         $tblType = $this->resource->getTableName(ETypeAsset::ENTITY_NAME);
         // SELECT FROM prxgt_acc_transaction pat
         $query = $this->conn->select();
-        $query->from([$asTrans => $tblTrans], [ETransaction::ATTR_DATE_APPLIED]);
+        $query->from([$asTrans => $tblTrans], [ETransaction::A_DATE_APPLIED]);
         // LEFT JOIN prxgt_acc_account paa ON paa.id = pat.debit_acc_id
-        $on = $asAcc . '.' . EAccount::ATTR_ID . '=' . $asTrans . '.' . ETransaction::ATTR_DEBIT_ACC_ID;
+        $on = $asAcc . '.' . EAccount::A_ID . '=' . $asTrans . '.' . ETransaction::A_DEBIT_ACC_ID;
         $query->joinLeft([$asAcc => $tblAcc], $on, null);
         // LEFT JOIN prxgt_acc_type_asset pata ON paa.asset_type_id = pata.id
-        $on = $asAcc . '.' . EAccount::ATTR_ASSET_TYPE_ID . '=' . $asType . '.' . ETypeAsset::ATTR_ID;
+        $on = $asAcc . '.' . EAccount::A_ASSET_TYPE_ID . '=' . $asType . '.' . ETypeAsset::A_ID;
         $query->joinLeft([$asType => $tblType], $on, null);
         // WHERE
-        $where = $asType . '.' . ETypeAsset::ATTR_CODE . '=' . $this->conn->quote(Cfg::CODE_TYPE_ASSET_PV);
+        $where = $asType . '.' . ETypeAsset::A_CODE . '=' . $this->conn->quote(Cfg::CODE_TYPE_ASSET_PV);
         $query->where($where);
         // ORDER & LIMIT
-        $query->order($asTrans . '.' . ETransaction::ATTR_DATE_APPLIED . ' ASC');
+        $query->order($asTrans . '.' . ETransaction::A_DATE_APPLIED . ' ASC');
         $query->limit(1);
         //
         $result = $this->conn->fetchOne($query);
@@ -78,17 +78,17 @@ class Module
         $query = $conn->select();
         $query->from([$asPeriod => $tblPeriod], []);
         // LEFT JOIN prxgt_bon_base_calc pbbc ON pbbp.id = pbbc.period_id
-        $on = $asPeriod . '.' . EPeriod::ATTR_ID . '=' . $asCalc . '.' . ECalculation::ATTR_PERIOD_ID;
+        $on = $asPeriod . '.' . EPeriod::A_ID . '=' . $asCalc . '.' . ECalculation::A_PERIOD_ID;
         $cols = '*';
         $query->joinLeft([$asCalc => $tblCalc], $on, $cols);
         // ORDER
-        $query->order(ECalculation::ATTR_ID . ' DESC');
+        $query->order(ECalculation::A_ID . ' DESC');
         // LIMIT
         $query->limit(1);
         // WHERE
-        $whereTypeId = $asPeriod . '.' . EPeriod::ATTR_CALC_TYPE_ID . '=' . (int)$calcTypeId;
-        $whereFrom = $asPeriod . '.' . EPeriod::ATTR_DSTAMP_BEGIN . '=' . $conn->quote($dsBegin);
-        $whereTo = $asPeriod . '.' . EPeriod::ATTR_DSTAMP_END . '=' . $conn->quote($dsEnd);
+        $whereTypeId = $asPeriod . '.' . EPeriod::A_CALC_TYPE_ID . '=' . (int)$calcTypeId;
+        $whereFrom = $asPeriod . '.' . EPeriod::A_DSTAMP_BEGIN . '=' . $conn->quote($dsBegin);
+        $whereTo = $asPeriod . '.' . EPeriod::A_DSTAMP_END . '=' . $conn->quote($dsEnd);
         $query->where("$whereTypeId AND $whereFrom AND $whereTo");
         //
         $rs = $conn->fetchAll($query);
@@ -102,9 +102,9 @@ class Module
     public function getLastCalcForPeriodById($periodId)
     {
         $result = null;
-        $where = ECalculation::ATTR_PERIOD_ID . '=' . (int)$periodId;
+        $where = ECalculation::A_PERIOD_ID . '=' . (int)$periodId;
         $limit = 1;
-        $order = [ECalculation::ATTR_ID . ' ASC'];
+        $order = [ECalculation::A_ID . ' ASC'];
         $rs = $this->repoCalc->get($where, $order, $limit);
         if (is_array($rs) && count($rs)) {
             $data = reset($rs);
@@ -117,8 +117,8 @@ class Module
     {
         $result = null;
         /* set WHERE and ORDER BY clauses */
-        $where = EPeriod::ATTR_CALC_TYPE_ID . '=' . (int)$calcTypeId;
-        $order = [EPeriod::ATTR_DSTAMP_BEGIN . ' DESC'];
+        $where = EPeriod::A_CALC_TYPE_ID . '=' . (int)$calcTypeId;
+        $order = [EPeriod::A_DSTAMP_BEGIN . ' DESC'];
         /* get one only period with the biggest begin date stamp */
         $rs = $this->repoPeriod->get($where, $order, 1);
         if (is_array($rs) && count($rs)) {

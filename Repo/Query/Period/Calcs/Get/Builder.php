@@ -50,10 +50,10 @@ class Builder
         $tbl = $this->resource->getTableName(EPeriod::ENTITY_NAME);
         $as = $asPeriod;
         $cols = [
-            self::A_PERIOD_ID => EPeriod::ATTR_ID,
-            self::A_CALC_TYPE_ID => EPeriod::ATTR_CALC_TYPE_ID,
-            self::A_PERIOD_BEGIN => EPeriod::ATTR_DSTAMP_BEGIN,
-            self::A_PERIOD_END => EPeriod::ATTR_DSTAMP_END
+            self::A_PERIOD_ID => EPeriod::A_ID,
+            self::A_CALC_TYPE_ID => EPeriod::A_CALC_TYPE_ID,
+            self::A_PERIOD_BEGIN => EPeriod::A_DSTAMP_BEGIN,
+            self::A_PERIOD_END => EPeriod::A_DSTAMP_END
         ];
         $result->from([$as => $tbl], $cols);
 
@@ -61,28 +61,28 @@ class Builder
         $tbl = $this->resource->getTableName(ECalc::ENTITY_NAME);
         $as = $asCalc;
         $cols = [
-            self::A_CALC_ID => ECalc::ATTR_ID,
-            self::A_CALC_DATE_START => ECalc::ATTR_DATE_STARTED,
-            self::A_CALC_DATE_END => ECalc::ATTR_DATE_ENDED,
-            self::A_CALC_STATE => ECalc::ATTR_STATE
+            self::A_CALC_ID => ECalc::A_ID,
+            self::A_CALC_DATE_START => ECalc::A_DATE_STARTED,
+            self::A_CALC_DATE_END => ECalc::A_DATE_ENDED,
+            self::A_CALC_STATE => ECalc::A_STATE
         ];
-        $cond = $as . '.' . ECalc::ATTR_PERIOD_ID . '=' . $asPeriod . '.' . EPeriod::ATTR_ID;
+        $cond = $as . '.' . ECalc::A_PERIOD_ID . '=' . $asPeriod . '.' . EPeriod::A_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* LEFT JOIN prxgt_bon_base_type_calc to get calculation type data */
         $tbl = $this->resource->getTableName(ECalcType::ENTITY_NAME);
         $as = $asType;
         $cols = [
-            self::A_CALC_TYPE_ID => ECalcType::ATTR_ID,
-            self::A_CALC_TYPE_CODE => ECalcType::ATTR_CODE
+            self::A_CALC_TYPE_ID => ECalcType::A_ID,
+            self::A_CALC_TYPE_CODE => ECalcType::A_CODE
         ];
-        $cond = $as . '.' . ECalcType::ATTR_ID . '=' . $asPeriod . '.' . EPeriod::ATTR_CALC_TYPE_ID;
+        $cond = $as . '.' . ECalcType::A_ID . '=' . $asPeriod . '.' . EPeriod::A_CALC_TYPE_ID;
         $result->joinLeft([$as => $tbl], $cond, $cols);
 
         /* query tuning */
-        $byBegin = "$asPeriod." . EPeriod::ATTR_DSTAMP_BEGIN . "=:" . self::BND_DATE_BEGIN;
-        $byEnd = "$asPeriod." . EPeriod::ATTR_DSTAMP_END . "=:" . self::BND_DATE_END;
-        $byState = "$asCalc." . ECalc::ATTR_STATE . "=:" . self::BND_STATE;
+        $byBegin = "$asPeriod." . EPeriod::A_DSTAMP_BEGIN . "=:" . self::BND_DATE_BEGIN;
+        $byEnd = "$asPeriod." . EPeriod::A_DSTAMP_END . "=:" . self::BND_DATE_END;
+        $byState = "$asCalc." . ECalc::A_STATE . "=:" . self::BND_STATE;
         $result->where("($byBegin) AND ($byEnd) AND ($byState)");
 
         return $result;

@@ -55,7 +55,7 @@ class Call
     {
         $req = new DownlineMapByIdRequest();
         $req->setDataToMap($tree);
-        $req->setAsId(ESnap::ATTR_CUSTOMER_ID);
+        $req->setAsId(ESnap::A_CUSTOMER_ID);
         $resp = $this->callDownlineMap->byId($req);
         return $resp->getMapped();
     }
@@ -63,8 +63,8 @@ class Call
     private function _mapByTeams($tree)
     {
         $req = new DownlineMapTreeByTeamsRequest();
-        $req->setAsCustomerId(ESnap::ATTR_CUSTOMER_ID);
-        $req->setAsParentId(ESnap::ATTR_PARENT_ID);
+        $req->setAsCustomerId(ESnap::A_CUSTOMER_ID);
+        $req->setAsParentId(ESnap::A_PARENT_ID);
         $req->setDataToMap($tree);
         $resp = $this->callDownlineMap->treeByTeams($req);
         return $resp->getMapped();
@@ -74,8 +74,8 @@ class Call
     {
         $req = new DownlineMapTreeByDepthRequest();
         $req->setDataToMap($tree);
-        $req->setAsCustomerId(ESnap::ATTR_CUSTOMER_ID);
-        $req->setAsDepth(ESnap::ATTR_DEPTH);
+        $req->setAsCustomerId(ESnap::A_CUSTOMER_ID);
+        $req->setAsDepth(ESnap::A_DEPTH);
         $req->setShouldReversed(true);
         $resp = $this->callDownlineMap->treeByDepth($req);
         return $resp->getMapped();
@@ -99,7 +99,7 @@ class Call
         if ($skipExpand) {
             $treeExpanded = $treeFlat;
         } else {
-            $treeExpanded = $this->hlpDownlineTree->expandMinimal($treeFlat, ESnap::ATTR_PARENT_ID);
+            $treeExpanded = $this->hlpDownlineTree->expandMinimal($treeFlat, ESnap::A_PARENT_ID);
         }
         $mapById = $this->_mapById($treeExpanded);
         $mapDepth = $this->_mapByTreeDepthDesc($treeExpanded);
@@ -108,7 +108,7 @@ class Call
         foreach ($mapDepth as $depth => $levelCustomers) {
             foreach ($levelCustomers as $custId) {
                 $custData = $mapById[$custId];
-                $ref = isset($custData[Customer::ATTR_MLM_ID]) ? $custData[Customer::ATTR_MLM_ID] : '';
+                $ref = isset($custData[Customer::A_MLM_ID]) ? $custData[Customer::A_MLM_ID] : '';
                 if ($qualifier->isQualified($custData)) {
                     $this->logger->info("Customer #$custId ($ref) is qualified and added to compressed tree.");
                     $treeCompressed[$custId] = $custData;
@@ -117,7 +117,7 @@ class Call
                     if (isset($mapTeams[$custId])) {
                         $this->logger->info("Customer #$custId ($ref) has own front team.");
                         /* Lookup for the closest qualified parent */
-                        $path = $treeExpanded[$custId][ESnap::ATTR_PATH];
+                        $path = $treeExpanded[$custId][ESnap::A_PATH];
                         $parents = $this->hlpDownlineTree->getParentsFromPathReversed($path);
                         $foundParentId = null;
                         foreach ($parents as $newParentId) {
@@ -132,7 +132,7 @@ class Call
                         foreach ($team as $memberId) {
                             if (isset($treeCompressed[$memberId])) {
                                 /* if null set customer own id to indicate root node */
-                                $treeCompressed[$memberId][ESnap::ATTR_PARENT_ID] = is_null($foundParentId)
+                                $treeCompressed[$memberId][ESnap::A_PARENT_ID] = is_null($foundParentId)
                                     ? $memberId
                                     : $foundParentId;
                             }
@@ -151,9 +151,9 @@ class Call
         try {
             foreach ($treeCompressed as $custId => $item) {
                 $data = [
-                    ECompress::ATTR_CALC_ID => $calcId,
-                    ECompress::ATTR_CUSTOMER_ID => $custId,
-                    ECompress::ATTR_PARENT_ID => $item[ESnap::ATTR_PARENT_ID]
+                    ECompress::A_CALC_ID => $calcId,
+                    ECompress::A_CUSTOMER_ID => $custId,
+                    ECompress::A_PARENT_ID => $item[ESnap::A_PARENT_ID]
                 ];
                 $this->repoBonusCompress->create($data);
             }

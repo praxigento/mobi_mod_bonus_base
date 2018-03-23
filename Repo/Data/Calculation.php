@@ -8,11 +8,11 @@ namespace Praxigento\BonusBase\Repo\Data;
 class Calculation
     extends \Praxigento\Core\App\Repo\Data\Entity\Base
 {
-    const ATTR_DATE_ENDED = 'date_ended';
-    const ATTR_DATE_STARTED = 'date_started';
-    const ATTR_ID = 'id';
-    const ATTR_PERIOD_ID = 'period_id';
-    const ATTR_STATE = 'state'; // see \Praxigento\BonusBase\Config::CALC_STATE_...
+    const A_DATE_ENDED = 'date_ended';
+    const A_DATE_STARTED = 'date_started';
+    const A_ID = 'id';
+    const A_PERIOD_ID = 'period_id';
+    const A_STATE = 'state'; // see \Praxigento\BonusBase\Config::CALC_STATE_...
     const ENTITY_NAME = 'prxgt_bon_base_calc';
 
     /**
@@ -20,7 +20,7 @@ class Calculation
      */
     public function getDateEnded()
     {
-        $result = parent::get(self::ATTR_DATE_ENDED);
+        $result = parent::get(self::A_DATE_ENDED);
         return $result;
     }
 
@@ -29,7 +29,7 @@ class Calculation
      */
     public function getDateStarted()
     {
-        $result = parent::get(self::ATTR_DATE_STARTED);
+        $result = parent::get(self::A_DATE_STARTED);
         return $result;
     }
 
@@ -38,7 +38,7 @@ class Calculation
      */
     public function getId()
     {
-        $result = parent::get(self::ATTR_ID);
+        $result = parent::get(self::A_ID);
         return $result;
     }
 
@@ -47,13 +47,13 @@ class Calculation
      */
     public function getPeriodId()
     {
-        $result = parent::get(self::ATTR_PERIOD_ID);
+        $result = parent::get(self::A_PERIOD_ID);
         return $result;
     }
 
     public static function getPrimaryKeyAttrs()
     {
-        return [self::ATTR_ID];
+        return [self::A_ID];
     }
 
     /**
@@ -61,7 +61,7 @@ class Calculation
      */
     public function getState()
     {
-        $result = parent::get(self::ATTR_STATE);
+        $result = parent::get(self::A_STATE);
         return $result;
     }
 
@@ -70,7 +70,7 @@ class Calculation
      */
     public function setDateEnded($data)
     {
-        parent::set(self::ATTR_DATE_ENDED, $data);
+        parent::set(self::A_DATE_ENDED, $data);
     }
 
     /**
@@ -78,7 +78,7 @@ class Calculation
      */
     public function setDateStarted($data)
     {
-        parent::set(self::ATTR_DATE_STARTED, $data);
+        parent::set(self::A_DATE_STARTED, $data);
     }
 
     /**
@@ -86,7 +86,7 @@ class Calculation
      */
     public function setId($data)
     {
-        parent::set(self::ATTR_ID, $data);
+        parent::set(self::A_ID, $data);
     }
 
     /**
@@ -94,7 +94,7 @@ class Calculation
      */
     public function setPeriodId($data)
     {
-        parent::set(self::ATTR_PERIOD_ID, $data);
+        parent::set(self::A_PERIOD_ID, $data);
     }
 
     /**
@@ -102,6 +102,6 @@ class Calculation
      */
     public function setState($data)
     {
-        parent::set(self::ATTR_STATE, $data);
+        parent::set(self::A_STATE, $data);
     }
 }
