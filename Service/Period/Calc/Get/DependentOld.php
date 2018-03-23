@@ -25,21 +25,21 @@ class DependentOld
     /** @var \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder */
     protected $qbGetPeriod;
     /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
-    protected $repoCalc;
+    protected $daoCalc;
     /** @var \Praxigento\BonusBase\Repo\Dao\Period */
-    protected $repoPeriod;
+    protected $daoPeriod;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
-        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
+        \Praxigento\BonusBase\Repo\Dao\Calculation $daoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $daoPeriod,
         \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder $qbGetPeriod,
         \Praxigento\BonusBase\Service\Period\Calc\IAdd $procCalcAdd
     )
     {
         $this->logger = $logger;
-        $this->repoCalc = $repoCalc;
-        $this->repoPeriod = $repoPeriod;
+        $this->daoCalc = $daoCalc;
+        $this->daoPeriod = $daoPeriod;
         $this->qbGetPeriod = $qbGetPeriod;
         $this->procCalcAdd = $procCalcAdd;
     }
@@ -170,10 +170,10 @@ class DependentOld
     {
         if (!$err) {
             $ctx->set(self::CTX_OUT_SUCCESS, true);
-            $basePeriodData = $this->repoPeriod->getById($basePeriodId);
-            $baseCalcData = $this->repoCalc->getById($baseCalcId);
-            $depPeriodData = $this->repoPeriod->getById($depPeriodId);
-            $depCalcData = $this->repoCalc->getById($depCalcId);
+            $basePeriodData = $this->daoPeriod->getById($basePeriodId);
+            $baseCalcData = $this->daoCalc->getById($baseCalcId);
+            $depPeriodData = $this->daoPeriod->getById($depPeriodId);
+            $depCalcData = $this->daoCalc->getById($depCalcId);
             $ctx->set(self::CTX_OUT_BASE_PERIOD_DATA, $basePeriodData);
             $ctx->set(self::CTX_OUT_BASE_CALC_DATA, $baseCalcData);
             $ctx->set(self::CTX_OUT_DEP_PERIOD_DATA, $depPeriodData);

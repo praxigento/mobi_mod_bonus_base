@@ -17,25 +17,25 @@ class Add
     /** @var \Praxigento\Core\Api\Helper\Period */
     protected $hlpPeriod;
     /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
-    protected $repoCalc;
+    protected $daoCalc;
     /** @var \Praxigento\BonusBase\Repo\Dao\Period */
-    protected $repoPeriod;
+    protected $daoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Dao\Type\Calc */
-    protected $repoTypeCalc;
+    protected $daoTypeCalc;
 
     public function __construct(
         \Praxigento\Core\Api\Helper\Date $hlpDate,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
-        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
-        \Praxigento\BonusBase\Repo\Dao\Type\Calc $repoTypeCalc
+        \Praxigento\BonusBase\Repo\Dao\Calculation $daoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $daoPeriod,
+        \Praxigento\BonusBase\Repo\Dao\Type\Calc $daoTypeCalc
     )
     {
         $this->hlpDate = $hlpDate;
         $this->hlpPeriod = $hlpPeriod;
-        $this->repoCalc = $repoCalc;
-        $this->repoPeriod = $repoPeriod;
-        $this->repoTypeCalc = $repoTypeCalc;
+        $this->daoCalc = $daoCalc;
+        $this->daoPeriod = $daoPeriod;
+        $this->daoTypeCalc = $daoTypeCalc;
     }
 
     public function exec(\Praxigento\Core\Data $ctx)
@@ -53,20 +53,20 @@ class Add
         $dsToday = $this->hlpPeriod->getPeriodCurrent();
         if ($dsEnd <= $dsToday) {
             /* the end of the new period is not in the future */
-            $calcTypeId = $this->repoTypeCalc->getIdByCode($calcTypeCode);
+            $calcTypeId = $this->daoTypeCalc->getIdByCode($calcTypeCode);
             /* registry new period */
             $period = new EPeriod();
             $period->setCalcTypeId($calcTypeId);
             $period->setDstampBegin($dsBegin);
             $period->setDstampEnd($dsEnd);
-            $periodId = $this->repoPeriod->create($period);
+            $periodId = $this->daoPeriod->create($period);
             /* registry new calculation for the period */
             $dateStarted = $this->hlpDate->getUtcNowForDb();
             $calc = new ECalc();
             $calc->setPeriodId($periodId);
             $calc->setDateStarted($dateStarted);
             $calc->setState(Cfg::CALC_STATE_STARTED);
-            $calcId = $this->repoCalc->create($calc);
+            $calcId = $this->daoCalc->create($calc);
 
             /* put result data into context */
             $ctx->set(self::CTX_OUT_PERIOD_ID, $periodId);

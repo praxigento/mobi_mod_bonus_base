@@ -22,19 +22,19 @@ class Module
     /** @var \Praxigento\Core\Api\Helper\Date */
     protected $hlpDate;
     /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
-    protected $repoCalc;
+    protected $daoCalc;
     /** @var \Praxigento\BonusBase\Repo\Dao\Period */
-    protected $repoPeriod;
+    protected $daoPeriod;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
+        \Praxigento\BonusBase\Repo\Dao\Calculation $daoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $daoPeriod,
         \Praxigento\Core\Api\Helper\Date $hlpDate
     ) {
         parent::__construct($resource);
-        $this->repoCalc = $repoCalc;
-        $this->repoPeriod = $repoPeriod;
+        $this->daoCalc = $daoCalc;
+        $this->daoPeriod = $daoPeriod;
         $this->hlpDate = $hlpDate;
     }
 
@@ -105,7 +105,7 @@ class Module
         $where = ECalculation::A_PERIOD_ID . '=' . (int)$periodId;
         $limit = 1;
         $order = [ECalculation::A_ID . ' ASC'];
-        $rs = $this->repoCalc->get($where, $order, $limit);
+        $rs = $this->daoCalc->get($where, $order, $limit);
         if (is_array($rs) && count($rs)) {
             $data = reset($rs);
             $result = $data;
@@ -120,7 +120,7 @@ class Module
         $where = EPeriod::A_CALC_TYPE_ID . '=' . (int)$calcTypeId;
         $order = [EPeriod::A_DSTAMP_BEGIN . ' DESC'];
         /* get one only period with the biggest begin date stamp */
-        $rs = $this->repoPeriod->get($where, $order, 1);
+        $rs = $this->daoPeriod->get($where, $order, 1);
         if (is_array($rs) && count($rs)) {
             $data = reset($rs);
             $result = $data;

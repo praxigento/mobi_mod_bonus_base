@@ -18,13 +18,13 @@ class Call
     /** @var  \Praxigento\Core\Api\App\Repo\Transaction\Manager */
     protected $manTrans;
     /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
-    protected $repoCalc;
+    protected $daoCalc;
     /** @var \Praxigento\BonusBase\Repo\Dao\Period */
-    protected $repoPeriod;
+    protected $daoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
-    protected $repoService;
+    protected $daoService;
     /** @var \Praxigento\BonusBase\Repo\Dao\Type\Calc */
-    protected $repoTypeCalc;
+    protected $daoTypeCalc;
     /** @var  \Praxigento\BonusBase\Service\Period\Sub\Depended */
     protected $subDepended;
     /** @var \Praxigento\BonusBase\Service\Period\Sub\PvBased */
@@ -34,10 +34,10 @@ class Call
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
-        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
-        \Praxigento\BonusBase\Repo\Dao\Type\Calc $repoTypeCalc,
-        \Praxigento\BonusBase\Repo\Service\IModule $repoService,
+        \Praxigento\BonusBase\Repo\Dao\Calculation $daoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $daoPeriod,
+        \Praxigento\BonusBase\Repo\Dao\Type\Calc $daoTypeCalc,
+        \Praxigento\BonusBase\Repo\Service\IModule $daoService,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
         \Praxigento\Core\Api\Helper\Date $hlpDate,
         \Praxigento\BonusBase\Service\Period\Sub\Depended $subDepended,
@@ -45,10 +45,10 @@ class Call
     ) {
         parent::__construct($logger, $manObj);
         $this->manTrans = $manTrans;
-        $this->repoCalc = $repoCalc;
-        $this->repoPeriod = $repoPeriod;
-        $this->repoTypeCalc = $repoTypeCalc;
-        $this->repoService = $repoService;
+        $this->daoCalc = $daoCalc;
+        $this->daoPeriod = $daoPeriod;
+        $this->daoTypeCalc = $daoTypeCalc;
+        $this->daoService = $daoService;
         $this->hlpPeriod = $hlpPeriod;
         $this->hlpDate = $hlpDate;
         $this->subDepended = $subDepended;
@@ -64,15 +64,15 @@ class Call
         $this->logger->info("'Get latest calculation period' operation is started with $msgParams in bonus base module.");
         if (is_null($calcTypeId)) {
             /* get calculation type ID by type code */
-            $calcTypeId = $this->repoTypeCalc->getIdByCode($calcTypeCode);
+            $calcTypeId = $this->daoTypeCalc->getIdByCode($calcTypeCode);
             $this->logger->info("There is only calculation type code ($calcTypeCode) in request, calculation type id = $calcTypeId.");
         }
-        $periodLatest = $this->repoService->getLastPeriodByCalcType($calcTypeId);
+        $periodLatest = $this->daoService->getLastPeriodByCalcType($calcTypeId);
         if ($periodLatest) {
             $result->setPeriodData($periodLatest);
             /* add period calculations to result set */
             $periodId = $periodLatest->getId();
-            $calcLatest = $this->repoService->getLastCalcForPeriodById($periodId);
+            $calcLatest = $this->daoService->getLastCalcForPeriodById($periodId);
             $result->setCalcData($calcLatest);
         }
         $result->markSucceed();

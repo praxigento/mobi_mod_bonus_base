@@ -19,24 +19,24 @@ class Depended
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     protected $logger;
     /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
-    protected $repoCalc;
+    protected $daoCalc;
     /** @var \Praxigento\BonusBase\Repo\Dao\Period */
-    protected $repoPeriod;
+    protected $daoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
-    protected $repoService;
+    protected $daoService;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
-        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
-        \Praxigento\BonusBase\Repo\Service\IModule $repoService,
+        \Praxigento\BonusBase\Repo\Dao\Calculation $daoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $daoPeriod,
+        \Praxigento\BonusBase\Repo\Service\IModule $daoService,
         \Praxigento\Core\Api\Helper\Date $hlpDate
 
     ) {
         $this->logger = $logger;
-        $this->repoCalc = $repoCalc;
-        $this->repoPeriod = $repoPeriod;
-        $this->repoService = $repoService;
+        $this->daoCalc = $daoCalc;
+        $this->daoPeriod = $daoPeriod;
+        $this->daoService = $daoService;
         $this->hlpDate = $hlpDate;
     }
 
@@ -58,7 +58,7 @@ class Depended
         $dependentDsBegin,
         $dependentDsEnd
     ) {
-        $dependentCalcData = $this->repoService->getLastCalcForPeriodByDates(
+        $dependentCalcData = $this->daoService->getLastCalcForPeriodByDates(
             $dependentCalcTypeId,
             $dependentDsBegin,
             $dependentDsEnd
@@ -121,7 +121,7 @@ class Depended
             $period->setCalcTypeId($dependentCalcTypeId);
             $period->setDstampBegin($baseDsBegin);
             $period->setDstampEnd($baseDsEnd);
-            $periodId = $this->repoPeriod->create($period);
+            $periodId = $this->daoPeriod->create($period);
             $period->setId($periodId);
             /* create related calculation */
             $calc = new ECalculation();
@@ -129,7 +129,7 @@ class Depended
             $dateStarted = $this->hlpDate->getUtcNowForDb();
             $calc->setDateStarted($dateStarted);
             $calc->setState(Cfg::CALC_STATE_STARTED);
-            $calcId = $this->repoCalc->create($calc);
+            $calcId = $this->daoCalc->create($calc);
             $calc->setId($calcId);
             /* place new objects into response */
             $result->setDependentPeriodData($period);
@@ -155,7 +155,7 @@ class Depended
         $dependentCalcTypeCode,
         $dependentCalcTypeId
     ) {
-        $dependPeriodData = $this->repoService->getLastPeriodByCalcType($dependentCalcTypeId);
+        $dependPeriodData = $this->daoService->getLastPeriodByCalcType($dependentCalcTypeId);
         if (is_null($dependPeriodData)) {
             /* there is no dependent period, create new period and calc */
             $msg = "There is no period data for calculation '$dependentCalcTypeCode'."
@@ -166,7 +166,7 @@ class Depended
             $period->setCalcTypeId($dependentCalcTypeId);
             $period->setDstampBegin($baseDsBegin);
             $period->setDstampEnd($baseDsEnd);
-            $periodId = $this->repoPeriod->create($period);
+            $periodId = $this->daoPeriod->create($period);
             $period->setId($periodId);
             /* create related calculation */
             $calc = new ECalculation();
@@ -174,7 +174,7 @@ class Depended
             $dateStarted = $this->hlpDate->getUtcNowForDb();
             $calc->setDateStarted($dateStarted);
             $calc->setState(Cfg::CALC_STATE_STARTED);
-            $calcId = $this->repoCalc->create($calc);
+            $calcId = $this->daoCalc->create($calc);
             $calc->setId($calcId);
             /* place newly created objects into the response */
             $result->setDependentPeriodData($period);
@@ -219,7 +219,7 @@ class Depended
         $dependentCalcTypeCode,
         $dependentCalcTypeId
     ) {
-        $baseCalcData = $this->repoService->getLastCalcForPeriodById($basePeriodId);
+        $baseCalcData = $this->daoService->getLastCalcForPeriodById($basePeriodId);
         $result->setBaseCalcData($baseCalcData);
         /* get depended data for complete base calculation */
         if (

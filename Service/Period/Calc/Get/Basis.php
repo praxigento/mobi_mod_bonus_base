@@ -24,15 +24,15 @@ class Basis
     /** @var \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder */
     protected $qbGetPeriod;
     /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
-    protected $repoCalc;
+    protected $daoCalc;
     /** @var \Praxigento\BonusBase\Repo\Dao\Period */
-    protected $repoPeriod;
+    protected $daoPeriod;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod,
-        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
+        \Praxigento\BonusBase\Repo\Dao\Calculation $daoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $daoPeriod,
         \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder $qbGetPeriod,
         \Praxigento\Accounting\Repo\Query\Trans\Get\FirstDate\ByAssetType\Builder $qbGetFirstDate,
         \Praxigento\BonusBase\Service\Period\Calc\IAdd $procCalcAdd
@@ -40,8 +40,8 @@ class Basis
     {
         $this->logger = $logger;
         $this->hlpPeriod = $hlpPeriod;
-        $this->repoCalc = $repoCalc;
-        $this->repoPeriod = $repoPeriod;
+        $this->daoCalc = $daoCalc;
+        $this->daoPeriod = $daoPeriod;
         $this->qbGetPeriod = $qbGetPeriod;
         $this->qbGetFirstDate = $qbGetFirstDate;
         $this->procCalcAdd = $procCalcAdd;
@@ -152,8 +152,8 @@ class Basis
         $ctx->set(self::CTX_OUT_CALC_ID, $calcId);
         $ctx->set(self::CTX_OUT_SUCCESS, true);
         if ($loadData) {
-            $periodData = $this->repoPeriod->getById($periodId);
-            $calcData = $this->repoCalc->getById($calcId);
+            $periodData = $this->daoPeriod->getById($periodId);
+            $calcData = $this->daoCalc->getById($calcId);
             $ctx->set(self::CTX_OUT_PERIOD_DATA, $periodData);
             $ctx->set(self::CTX_OUT_CALC_DATA, $calcData);
         }

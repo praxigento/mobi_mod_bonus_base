@@ -11,18 +11,18 @@ class Rank
     /** @var array cached IDs accessed by code */
     protected $cachedIds = [];
     /** @var \Praxigento\BonusBase\Repo\Dao\Rank */
-    protected $repoRank;
+    protected $daoRank;
 
     public function __construct(
-        \Praxigento\BonusBase\Repo\Dao\Rank $repoRank
+        \Praxigento\BonusBase\Repo\Dao\Rank $daoRank
     ) {
-        $this->repoRank = $repoRank;
+        $this->daoRank = $daoRank;
     }
 
     public function getIdByCode($rankCode)
     {
         if (!isset($this->cachedIds[$rankCode])) {
-            $this->cachedIds[$rankCode] = $this->repoRank->getIdByCode($rankCode);
+            $this->cachedIds[$rankCode] = $this->daoRank->getIdByCode($rankCode);
         }
         return $this->cachedIds[$rankCode];
     }

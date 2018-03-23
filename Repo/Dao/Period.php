@@ -10,11 +10,11 @@ class Period
 {
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\Core\App\Repo\IGeneric $repoGeneric
+        \Praxigento\Core\App\Repo\IGeneric $daoGeneric
     ) {
         parent::__construct(
             $resource,
-            $repoGeneric,
+            $daoGeneric,
             \Praxigento\BonusBase\Repo\Data\Period::class);
     }
 

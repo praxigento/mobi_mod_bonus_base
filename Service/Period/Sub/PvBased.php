@@ -23,25 +23,25 @@ class PvBased
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     private $logger;
     /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
-    private $repoCalc;
+    private $daoCalc;
     /** @var \Praxigento\BonusBase\Repo\Dao\Period */
-    private $repoPeriod;
+    private $daoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
-    private $repoService;
+    private $daoService;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
-        \Praxigento\BonusBase\Repo\Dao\Calculation $repoCalc,
-        \Praxigento\BonusBase\Repo\Dao\Period $repoPeriod,
-        \Praxigento\BonusBase\Repo\Service\IModule $repoService,
+        \Praxigento\BonusBase\Repo\Dao\Calculation $daoCalc,
+        \Praxigento\BonusBase\Repo\Dao\Period $daoPeriod,
+        \Praxigento\BonusBase\Repo\Service\IModule $daoService,
         \Praxigento\Core\Api\Helper\Date $hlpDate,
         \Praxigento\Core\Api\Helper\Period $hlpPeriod
 
     ) {
         $this->logger = $logger;
-        $this->repoCalc = $repoCalc;
-        $this->repoPeriod = $repoPeriod;
-        $this->repoService = $repoService;
+        $this->daoCalc = $daoCalc;
+        $this->daoPeriod = $daoPeriod;
+        $this->daoService = $daoService;
         $this->hlpDate = $hlpDate;
         $this->hlpPeriod = $hlpPeriod;
     }
@@ -103,7 +103,7 @@ class PvBased
             $newPeriod->setCalcTypeId($calcTypeId);
             $newPeriod->setDstampBegin($dsNextBegin);
             $newPeriod->setDstampEnd($dsNextEnd);
-            $periodId = $this->repoPeriod->create($newPeriod);
+            $periodId = $this->daoPeriod->create($newPeriod);
             $newPeriod->setId($periodId);
             /* create related calculation */
             $newCalc = new ECalculation();
@@ -111,7 +111,7 @@ class PvBased
             $dateStarted = $this->hlpDate->getUtcNowForDb();
             $newCalc->setDateStarted($dateStarted);
             $newCalc->setState(Cfg::CALC_STATE_STARTED);
-            $calcId = $this->repoCalc->create($newCalc);
+            $calcId = $this->daoCalc->create($newCalc);
             $newCalc->setId($calcId);
             $result->setPeriodData($newPeriod);
             $result->setCalcData($newCalc);
@@ -166,7 +166,7 @@ class PvBased
         $calcTypeId
     ) {
         /* we should lookup for first PV transaction and calculate first period range */
-        $firstDate = $this->repoService->getFirstDateForPvTransactions();
+        $firstDate = $this->daoService->getFirstDateForPvTransactions();
         if ($firstDate === false) {
             $this->logger->warning("There is no PV transactions yet. Nothing to do.");
             $result->setErrorCode($result::ERR_HAS_NO_PV_TRANSACTIONS_YET);
@@ -180,7 +180,7 @@ class PvBased
             $period->setCalcTypeId($calcTypeId);
             $period->setDstampBegin($dsBegin);
             $period->setDstampEnd($dsEnd);
-            $periodId = $this->repoPeriod->create($period);
+            $periodId = $this->daoPeriod->create($period);
             $period->setId($periodId);
             /* create related calculation */
             $calc = new ECalculation();
@@ -188,7 +188,7 @@ class PvBased
             $dateStarted = $this->hlpDate->getUtcNowForDb();
             $calc->setDateStarted($dateStarted);
             $calc->setState(Cfg::CALC_STATE_STARTED);
-            $calcId = $this->repoCalc->create($calc);
+            $calcId = $this->daoCalc->create($calc);
             $calc->setId($calcId);
             /* place newly created objects into the response */
             $result->setPeriodData($period);

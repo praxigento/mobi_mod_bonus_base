@@ -32,21 +32,21 @@ class Call
     /** @var  \Praxigento\Core\Api\App\Repo\Transaction\Manager */
     protected $manTrans;
     /** @var \Praxigento\BonusBase\Repo\Dao\Compress */
-    protected $repoBonusCompress;
+    protected $daoBonusCompress;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
-        \Praxigento\BonusBase\Repo\Dao\Compress $repoBonusCompress,
-        \Praxigento\Downline\Service\IMap $repoDownlineMap,
+        \Praxigento\BonusBase\Repo\Dao\Compress $daoBonusCompress,
+        \Praxigento\Downline\Service\IMap $daoDownlineMap,
         \Praxigento\Downline\Service\ISnap $callDownlineSnap,
         \Praxigento\Downline\Api\Helper\Downline $hlpDownlineTree
     ) {
         parent::__construct($logger, $manObj);
         $this->manTrans = $manTrans;
-        $this->repoBonusCompress = $repoBonusCompress;
-        $this->callDownlineMap = $repoDownlineMap;
+        $this->daoBonusCompress = $daoBonusCompress;
+        $this->callDownlineMap = $daoDownlineMap;
         $this->callDownlineSnap = $callDownlineSnap;
         $this->hlpDownlineTree = $hlpDownlineTree;
     }
@@ -155,7 +155,7 @@ class Call
                     ECompress::A_CUSTOMER_ID => $custId,
                     ECompress::A_PARENT_ID => $item[ESnap::A_PARENT_ID]
                 ];
-                $this->repoBonusCompress->create($data);
+                $this->daoBonusCompress->create($data);
             }
             $this->manTrans->commit($def);
         } finally {
