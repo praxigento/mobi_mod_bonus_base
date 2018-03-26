@@ -1,8 +1,8 @@
 {
-  "name": "praxigento/mobi_mod_mage2_bonus_base",
+  "name": "praxigento/mobi_mod_bonus_base",
   "description": "MOBI: Praxigento_BonusBase module.",
   "type": "magento2-module",
-  "homepage": "https://github.com/praxigento/mobi_mod_mage2_bonus_base",
+  "homepage": "https://github.com/praxigento/mobi_mod_bonus_base",
   "license": "MIT",
   "authors": [
     {
@@ -19,7 +19,7 @@
     }
   },
   "require": {
-    "praxigento/mobi_mod_mage2_pv": "dev-master",
-    "praxigento/mobi_mod_mage2_wallet": "dev-master"
+    "praxigento/mobi_mod_pv": "dev-master",
+    "praxigento/mobi_mod_wallet": "dev-master"
   }
 }
