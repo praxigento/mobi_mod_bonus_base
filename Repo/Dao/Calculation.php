@@ -30,14 +30,12 @@ class Calculation
     /**
      * Mark calculation as complete.
      *
-     * @param $calcId
-     * @param string $dateEnded timestamp to be added to DB.
+     * @param int $calcId
+     * @return int|void
      */
-    public function markComplete($calcId, $dateEnded = null)
+    public function markComplete($calcId)
     {
-        if (is_null($dateEnded)) {
-            $dateEnded = $this->hlpDate->getUtcNowForDb();
-        }
+        $dateEnded = $this->hlpDate->getUtcNowForDb();
         $bind = [
             ECalculation::A_DATE_ENDED => $dateEnded,
             ECalculation::A_STATE => Cfg::CALC_STATE_COMPLETE
