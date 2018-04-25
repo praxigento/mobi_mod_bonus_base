@@ -9,14 +9,14 @@ use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Repo\Data\Calculation as ECalculation;
 
 class Calculation
-    extends \Praxigento\Core\App\Repo\Def\Entity
+    extends \Praxigento\Core\App\Repo\Dao
 {
     /** @var \Praxigento\Core\Api\Helper\Date */
     protected $hlpDate;
 
     public function __construct(
         \Magento\Framework\App\ResourceConnection $resource,
-        \Praxigento\Core\App\Repo\IGeneric $daoGeneric,
+        \Praxigento\Core\Api\App\Repo\Generic $daoGeneric,
         \Praxigento\Core\Api\Helper\Date $hlpDate
     ) {
         parent::__construct(
