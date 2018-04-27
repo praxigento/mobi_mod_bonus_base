@@ -16,7 +16,7 @@ namespace Praxigento\BonusBase\Api\Service\Period\Calc\Get\Dependent;
  * @method void setPeriodEnd(string $data)
  */
 class Request
-    extends \Praxigento\Core\App\Service\Base\Request
+    extends \Praxigento\Core\App\Service\Request
 {
     /** code of the calculation type to load/register */
     const BASE_CALC_TYPE_CODE = 'baseCalcTypeCode';

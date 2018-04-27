@@ -16,7 +16,7 @@ namespace Praxigento\BonusBase\Api\Service\Period\Calc\Get\Dependent;
  * @method void setDepPeriodData(\Praxigento\BonusBase\Repo\Data\Period $data)
  */
 class Response
-    extends \Praxigento\Core\App\Service\Base\Response
+    extends \Praxigento\Core\App\Service\Response
 {
     /** \Praxigento\BonusBase\Repo\Data\Calculation */
     const BASE_CALC_DATA = 'baseCalcData';

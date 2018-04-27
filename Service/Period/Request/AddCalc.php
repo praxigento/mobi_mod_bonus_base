@@ -13,6 +13,6 @@ namespace Praxigento\BonusBase\Service\Period\Request;
  * @method void setDateStampEnd(string $data)
  */
 class AddCalc
-    extends \Praxigento\Core\App\Service\Base\Request
+    extends \Praxigento\Core\App\Service\Request
 {
 }

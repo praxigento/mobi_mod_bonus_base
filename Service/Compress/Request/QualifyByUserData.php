@@ -16,6 +16,6 @@ use Praxigento\BonusBase\Tool\IQualifyUser;
  * @method bool getSkipTreeExpand() 'true' if FlatTree has depth & path info
  * @method void setSkipTreeExpand(bool $data)
  */
-class QualifyByUserData extends \Praxigento\Core\App\Service\Base\Request {
+class QualifyByUserData extends \Praxigento\Core\App\Service\Request {
 
 }

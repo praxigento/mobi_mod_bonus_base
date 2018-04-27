@@ -10,7 +10,7 @@ namespace Praxigento\BonusBase\Service\Period\Response;
  * @method \Praxigento\BonusBase\Repo\Data\Period getPeriodData()
  * @method void setPeriodData(\Praxigento\BonusBase\Repo\Data\Period | array $data)
  */
-class GetForPvBasedCalc extends \Praxigento\Core\App\Service\Base\Response
+class GetForPvBasedCalc extends \Praxigento\Core\App\Service\Response
 {
     const ERR_HAS_NO_PV_TRANSACTIONS_YET = 'HAS_NO_PV_TRANSACTIONS_YET';
     const ERR_NO_CALC_FOR_EXISTING_PERIOD = 'NO_CALC_FOR_EXISTING_PERIOD';

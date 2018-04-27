@@ -4,6 +4,6 @@
  */
 namespace Praxigento\BonusBase\Service\Compress\Response;
 
-class QualifyByUserData extends \Praxigento\Core\App\Service\Base\Response {
+class QualifyByUserData extends \Praxigento\Core\App\Service\Response {
 
 }
