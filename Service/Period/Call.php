@@ -6,33 +6,31 @@
 namespace Praxigento\BonusBase\Service\Period;
 
 class Call
-    extends \Praxigento\Core\App\Service\Base\Call
     implements \Praxigento\BonusBase\Service\IPeriod
 {
     /** @var \Praxigento\Core\Api\Helper\Date */
-    protected $hlpDate;
+    private $hlpDate;
     /** @var  \Praxigento\Core\Api\Helper\Period */
-    protected $hlpPeriod;
+    private $hlpPeriod;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
-    protected $logger;
+    private $logger;
     /** @var  \Praxigento\Core\Api\App\Repo\Transaction\Manager */
-    protected $manTrans;
+    private $manTrans;
     /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
-    protected $daoCalc;
+    private $daoCalc;
     /** @var \Praxigento\BonusBase\Repo\Dao\Period */
-    protected $daoPeriod;
+    private $daoPeriod;
     /** @var \Praxigento\BonusBase\Repo\Service\IModule */
-    protected $daoService;
+    private $daoService;
     /** @var \Praxigento\BonusBase\Repo\Dao\Type\Calc */
-    protected $daoTypeCalc;
+    private $daoTypeCalc;
     /** @var  \Praxigento\BonusBase\Service\Period\Sub\Depended */
-    protected $subDepended;
+    private $subDepended;
     /** @var \Praxigento\BonusBase\Service\Period\Sub\PvBased */
-    protected $subPvBased;
+    private $subPvBased;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
-        \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\BonusBase\Repo\Dao\Calculation $daoCalc,
         \Praxigento\BonusBase\Repo\Dao\Period $daoPeriod,
@@ -43,7 +41,7 @@ class Call
         \Praxigento\BonusBase\Service\Period\Sub\Depended $subDepended,
         \Praxigento\BonusBase\Service\Period\Sub\PvBased $subPvBased
     ) {
-        parent::__construct($logger, $manObj);
+        $this->logger = $logger;
         $this->manTrans = $manTrans;
         $this->daoCalc = $daoCalc;
         $this->daoPeriod = $daoPeriod;

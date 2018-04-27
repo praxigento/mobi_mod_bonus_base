@@ -18,32 +18,30 @@ use Praxigento\Downline\Service\Map\Request\TreeByTeams as DownlineMapTreeByTeam
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Call
-    extends \Praxigento\Core\App\Service\Base\Call
     implements \Praxigento\BonusBase\Service\ICompress
 {
     /** @var  \Praxigento\Downline\Service\IMap */
-    protected $callDownlineMap;
+    private $callDownlineMap;
     /** @var   \Praxigento\Downline\Service\ISnap */
-    protected $callDownlineSnap;
+    private $callDownlineSnap;
     /** @var  \Praxigento\Downline\Api\Helper\Downline */
-    protected $hlpDownlineTree;
+    private $hlpDownlineTree;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
-    protected $logger;
+    private $logger;
     /** @var  \Praxigento\Core\Api\App\Repo\Transaction\Manager */
-    protected $manTrans;
+    private $manTrans;
     /** @var \Praxigento\BonusBase\Repo\Dao\Compress */
-    protected $daoBonusCompress;
+    private $daoBonusCompress;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
-        \Magento\Framework\ObjectManagerInterface $manObj,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\BonusBase\Repo\Dao\Compress $daoBonusCompress,
         \Praxigento\Downline\Service\IMap $daoDownlineMap,
         \Praxigento\Downline\Service\ISnap $callDownlineSnap,
         \Praxigento\Downline\Api\Helper\Downline $hlpDownlineTree
     ) {
-        parent::__construct($logger, $manObj);
+        $this->logger = $logger;
         $this->manTrans = $manTrans;
         $this->daoBonusCompress = $daoBonusCompress;
         $this->callDownlineMap = $daoDownlineMap;
