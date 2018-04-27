@@ -11,7 +11,7 @@ namespace Praxigento\BonusBase\Service\Period\Calc\Get;
  * This service registers new calculation if it is possible.
  */
 interface IBasis
-    extends \Praxigento\Core\App\Service\IProcess
+    extends \Praxigento\Core\Api\App\Service\Process
 {
     const CTX_IN_ASSET_TYPE_CODE = 'in.assetTypeCode';
     const CTX_IN_CALC_CODE = 'in.calcCode';

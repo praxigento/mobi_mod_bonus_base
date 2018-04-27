@@ -13,7 +13,7 @@ namespace Praxigento\BonusBase\Service\Period\Calc\Get;
  * @deprecated use \Praxigento\BonusBase\Api\Service\Period\Calc\Get\Dependent
  */
 interface IDependent
-    extends \Praxigento\Core\App\Service\IProcess
+    extends \Praxigento\Core\Api\App\Service\Process
 {
     /** string code of the calculation type to load/register */
     const CTX_IN_BASE_TYPE_CODE = 'in.baseCalcTypeCode';
