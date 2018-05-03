@@ -4,15 +4,15 @@
     <!-- ******* -->
     <!-- Helpers -->
     <!-- ******* -->
-    <preference for="\Praxigento\BonusBase\Helper\IRank"
-            type="\Praxigento\BonusBase\Helper\Rank"/>
+    <preference for="Praxigento\BonusBase\Helper\IRank"
+            type="Praxigento\BonusBase\Helper\Rank"/>
 
 
     <!-- **** -->
     <!-- Repo -->
     <!-- **** -->
-    <preference for="\Praxigento\BonusBase\Repo\Service\IModule"
-            type="\Praxigento\BonusBase\Repo\Service\Def\Module"/>
+    <preference for="Praxigento\BonusBase\Repo\Service\IModule"
+            type="Praxigento\BonusBase\Repo\Service\Def\Module"/>
 
     <!-- ******** -->
     <!-- Services -->
@@ -21,14 +21,14 @@
             type="Praxigento\BonusBase\Service\Compress\Call"/>
     <preference for="Praxigento\BonusBase\Service\IPeriod"
                 type="Praxigento\BonusBase\Service\Period\Call"/>
-    <preference for="\Praxigento\BonusBase\Service\Period\Calc\IAdd"
-                type="\Praxigento\BonusBase\Service\Period\Calc\Add"/>
-    <preference for="\Praxigento\BonusBase\Service\Period\Calc\Get\IBasis"
-                type="\Praxigento\BonusBase\Service\Period\Calc\Get\Basis"/>
-    <preference for="\Praxigento\BonusBase\Service\Period\Calc\Get\IDependent"
-                type="\Praxigento\BonusBase\Service\Period\Calc\Get\DependentOld"/>
-    <preference for="\Praxigento\BonusBase\Api\Service\Period\Calc\Get\Dependent"
-                type="\Praxigento\BonusBase\Service\Period\Calc\Get\Dependent"/>
+    <preference for="Praxigento\BonusBase\Service\Period\Calc\IAdd"
+                type="Praxigento\BonusBase\Service\Period\Calc\Add"/>
+    <preference for="Praxigento\BonusBase\Service\Period\Calc\Get\IBasis"
+                type="Praxigento\BonusBase\Service\Period\Calc\Get\Basis"/>
+    <preference for="Praxigento\BonusBase\Service\Period\Calc\Get\IDependent"
+                type="Praxigento\BonusBase\Service\Period\Calc\Get\DependentOld"/>
+    <preference for="Praxigento\BonusBase\Api\Service\Period\Calc\Get\Dependent"
+                type="Praxigento\BonusBase\Service\Period\Calc\Get\Dependent"/>
 
     <!-- ***** -->
     <!-- Tools -->
