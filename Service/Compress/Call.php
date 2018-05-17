@@ -21,11 +21,11 @@ class Call
     implements \Praxigento\BonusBase\Service\ICompress
 {
     /** @var  \Praxigento\Downline\Service\IMap */
-    private $callDownlineMap;
+    private $daoDownlineMap;
     /** @var   \Praxigento\Downline\Service\ISnap */
-    private $callDownlineSnap;
-    /** @var  \Praxigento\Downline\Api\Helper\Downline */
-    private $hlpDownlineTree;
+    private $servDownlineSnap;
+    /** @var  \Praxigento\Downline\Api\Helper\Tree */
+    private $hlpTree;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     private $logger;
     /** @var  \Praxigento\Core\Api\App\Repo\Transaction\Manager */
@@ -38,15 +38,15 @@ class Call
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\BonusBase\Repo\Dao\Compress $daoBonusCompress,
         \Praxigento\Downline\Service\IMap $daoDownlineMap,
-        \Praxigento\Downline\Service\ISnap $callDownlineSnap,
-        \Praxigento\Downline\Api\Helper\Downline $hlpDownlineTree
+        \Praxigento\Downline\Service\ISnap $servDownlineSnap,
+        \Praxigento\Downline\Api\Helper\Tree $hlpTree
     ) {
         $this->logger = $logger;
         $this->manTrans = $manTrans;
         $this->daoBonusCompress = $daoBonusCompress;
-        $this->callDownlineMap = $daoDownlineMap;
-        $this->callDownlineSnap = $callDownlineSnap;
-        $this->hlpDownlineTree = $hlpDownlineTree;
+        $this->daoDownlineMap = $daoDownlineMap;
+        $this->servDownlineSnap = $servDownlineSnap;
+        $this->hlpTree = $hlpTree;
     }
 
     private function _mapById($tree)
@@ -54,7 +54,7 @@ class Call
         $req = new DownlineMapByIdRequest();
         $req->setDataToMap($tree);
         $req->setAsId(ESnap::A_CUSTOMER_ID);
-        $resp = $this->callDownlineMap->byId($req);
+        $resp = $this->daoDownlineMap->byId($req);
         return $resp->getMapped();
     }
 
@@ -64,7 +64,7 @@ class Call
         $req->setAsCustomerId(ESnap::A_CUSTOMER_ID);
         $req->setAsParentId(ESnap::A_PARENT_ID);
         $req->setDataToMap($tree);
-        $resp = $this->callDownlineMap->treeByTeams($req);
+        $resp = $this->daoDownlineMap->treeByTeams($req);
         return $resp->getMapped();
     }
 
@@ -75,7 +75,7 @@ class Call
         $req->setAsCustomerId(ESnap::A_CUSTOMER_ID);
         $req->setAsDepth(ESnap::A_DEPTH);
         $req->setShouldReversed(true);
-        $resp = $this->callDownlineMap->treeByDepth($req);
+        $resp = $this->daoDownlineMap->treeByDepth($req);
         return $resp->getMapped();
     }
 
@@ -97,7 +97,7 @@ class Call
         if ($skipExpand) {
             $treeExpanded = $treeFlat;
         } else {
-            $treeExpanded = $this->hlpDownlineTree->expandMinimal($treeFlat, ESnap::A_PARENT_ID);
+            $treeExpanded = $this->hlpTree->expandMinimal($treeFlat, ESnap::A_PARENT_ID);
         }
         $mapById = $this->_mapById($treeExpanded);
         $mapDepth = $this->_mapByTreeDepthDesc($treeExpanded);
@@ -116,7 +116,7 @@ class Call
                         $this->logger->info("Customer #$custId ($ref) has own front team.");
                         /* Lookup for the closest qualified parent */
                         $path = $treeExpanded[$custId][ESnap::A_PATH];
-                        $parents = $this->hlpDownlineTree->getParentsFromPathReversed($path);
+                        $parents = $this->hlpTree->getParentsFromPathReversed($path);
                         $foundParentId = null;
                         foreach ($parents as $newParentId) {
                             $parentData = $mapById[$newParentId];
