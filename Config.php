@@ -25,7 +25,6 @@ class Config extends \Praxigento\Core\Config
     const CODE_TYPE_ASSET_WALLET = WalletCfg::CODE_TYPE_ASSET_WALLET;
     const DEF_MAX_DATESTAMP = '29991231';
     const MENU_BONUS_CALC = 'bonus_calc';
-    const MENU_BONUS_OVERVIEW = 'bonus_overview';
     const MENU_BONUS_PERIOD = 'bonus_period';
     const MENU_BONUS_RANK = 'bonus_rank';
     const MENU_BONUS_TYPE_CALC = 'bonus_type_calc';
