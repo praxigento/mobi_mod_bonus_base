@@ -23,6 +23,7 @@ class Config extends \Praxigento\Core\Config
 
     const CODE_TYPE_ASSET_PV = PvCfg::CODE_TYPE_ASSET_PV;
     const CODE_TYPE_ASSET_WALLET = WalletCfg::CODE_TYPE_ASSET_WALLET;
+    const CODE_TYPE_OPER_PV_SALE_PAID = PvCfg::CODE_TYPE_OPER_PV_SALE_PAID;
     const DEF_MAX_DATESTAMP = '29991231';
     const MENU_BONUS_CALC = 'bonus_calc';
     const MENU_BONUS_PERIOD = 'bonus_period';
