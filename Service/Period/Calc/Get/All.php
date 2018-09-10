@@ -10,6 +10,7 @@ use Praxigento\BonusBase\Api\Service\Period\Calc\Get\All\Response as AResponse;
 use Praxigento\BonusBase\Repo\Data\Calculation as ECalc;
 use Praxigento\BonusBase\Repo\Data\Period as EPeriod;
 use Praxigento\BonusBase\Repo\Query\Period\Calcs\Get\Builder as QBCalcsGet;
+use Praxigento\Core\Api\Helper\Period as HPeriod;
 
 class All
     implements \Praxigento\BonusBase\Api\Service\Period\Calc\Get\All
@@ -32,8 +33,11 @@ class All
         /** define local working data */
         assert($request instanceof ARequest);
         $period = $request->getPeriod();
-
+        if (!$period) {
+            $period = $this->hlpPeriod->getPeriodCurrent(null, 0, HPeriod::TYPE_MONTH);
+        }
         /** perform processing */
+
         $dsBegin = $this->hlpPeriod->getPeriodFirstDate($period);
         $dsEnd = $this->hlpPeriod->getPeriodLastDate($period);
         $query = $this->qbCalcsGet->build();
