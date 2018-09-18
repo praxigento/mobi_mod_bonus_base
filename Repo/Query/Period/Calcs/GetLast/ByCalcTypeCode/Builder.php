@@ -16,7 +16,7 @@ use Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder as QBBase;
  * TODO: should we extends \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder here ?
  */
 class Builder
-    extends \Praxigento\Core\App\Repo\Query\Def\Builder
+    extends \Praxigento\Core\App\Repo\Query\Builder
 {
     /** Tables aliases for external usage ('camelCase' naming) */
     const AS_CALC = QBBase::AS_CALC;
