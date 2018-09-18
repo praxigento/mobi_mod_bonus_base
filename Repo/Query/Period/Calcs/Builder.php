@@ -26,7 +26,7 @@ use Praxigento\BonusBase\Repo\Data\Type\Calc as CalcType;
  * LEFT JOIN `prxgt_bon_base_calc` AS `calc`
  * ON calc.period_id = prd.id
  * LEFT JOIN `prxgt_bon_base_type_calc` AS `cType`
- * ON cType.id = cType.calc_type_id
+ * ON `cType`.id = `prd`.calc_type_id
  */
 class Builder
     extends \Praxigento\Core\App\Repo\Query\Builder
