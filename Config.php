@@ -10,7 +10,8 @@ namespace Praxigento\BonusBase;
 use Praxigento\Pv\Config as PvCfg;
 use Praxigento\Wallet\Config as WalletCfg;
 
-class Config extends \Praxigento\Core\Config
+class Config
+    extends \Praxigento\Accounting\Config
 {
     const ACL_BONUS_ADMIN = 'admin_bonus';
     const ACL_BONUS_CALC = self::ACL_BONUS_ADMIN;
