@@ -61,11 +61,14 @@ class All
                 $key = $one[QBCalcsGet::A_CALC_TYPE_CODE];
                 $calcs[$key] = $calcData;
             }
-            /* get period data from the last array item */
+            /* get period data from the first array item */
             $periodData = new EPeriod();
-            $periodData->setId($one[QBCalcsGet::A_PERIOD_ID]);
-            $periodData->setDstampBegin($one[QBCalcsGet::A_PERIOD_BEGIN]);
-            $periodData->setDstampEnd($one[QBCalcsGet::A_PERIOD_END]);
+            $one = reset($rs);
+            if (is_array($one)) {
+                $periodData->setId($one[QBCalcsGet::A_PERIOD_ID]);
+                $periodData->setDstampBegin($one[QBCalcsGet::A_PERIOD_BEGIN]);
+                $periodData->setDstampEnd($one[QBCalcsGet::A_PERIOD_END]);
+            }
         }
 
         /** compose result */
