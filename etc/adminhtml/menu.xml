@@ -2,24 +2,70 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
+
+        <!-- Left pane menu item "Bonus" -->
         <add id="Praxigento_BonusBase::bonus"
-                title="Bonus" translate="title" module="Praxigento_BonusBase"
-                sortOrder="32"
-                resource="Praxigento_BonusBase::admin_bonus"/>
+             title="Bonus"
+             translate="title"
+             module="Praxigento_BonusBase"
+             sortOrder="32"
+             resource="Praxigento_BonusBase::admin_bonus"/>
+
+        <!-- "Grids" groups separator -->
+        <add id="Praxigento_BonusBase::bonus_grids"
+             title="Grids"
+             translate="title"
+             module="Praxigento_BonusBase"
+             sortOrder="1000"
+             parent="Praxigento_BonusBase::bonus"
+             resource="Praxigento_BonusBase::admin_bonus"/>
+
+        <!-- "Codifiers" groups separator -->
+        <add id="Praxigento_BonusBase::bonus_types"
+             title="Codifiers"
+             translate="title"
+             module="Praxigento_BonusBase"
+             sortOrder="2000"
+             parent="Praxigento_BonusBase::bonus"
+             resource="Praxigento_BonusBase::admin_bonus"/>
+
+        <!-- "Actions" groups separator -->
+        <add id="Praxigento_BonusBase::bonus_actions"
+             title="Actions"
+             translate="title"
+             module="Praxigento_BonusBase"
+             sortOrder="3000"
+             parent="Praxigento_BonusBase::bonus"
+             resource="Praxigento_BonusBase::admin_bonus"/>
+
+        <!-- "Codifiers" group items -->
         <add id="Praxigento_BonusBase::bonus_calc"
-                title="Calcs" translate="title" module="Praxigento_BonusBase"
-                sortOrder="100" parent="Praxigento_BonusBase::bonus"
-                action="bonus/calc"
-                resource="Praxigento_BonusBase::admin_bonus"/>
+             title="Calcs"
+             translate="title"
+             module="Praxigento_BonusBase"
+             sortOrder="100"
+             parent="Praxigento_BonusBase::bonus_types"
+             action="bonus/calc"
+             resource="Praxigento_BonusBase::admin_bonus"/>
+
         <add id="Praxigento_BonusBase::bonus_rank"
-                title="Ranks" translate="title" module="Praxigento_BonusBase"
-                sortOrder="300" parent="Praxigento_BonusBase::bonus"
-                action="bonus/rank"
-                resource="Praxigento_BonusBase::admin_bonus"/>
+             title="Ranks"
+             translate="title"
+             module="Praxigento_BonusBase"
+             sortOrder="300"
+             parent="Praxigento_BonusBase::bonus_types"
+             action="bonus/rank"
+             resource="Praxigento_BonusBase::admin_bonus"/>
+
         <add id="Praxigento_BonusBase::bonus_type_calc"
-                title="Types" translate="title" module="Praxigento_BonusBase"
-                sortOrder="400" parent="Praxigento_BonusBase::bonus"
-                action="bonus/type_calc"
-                resource="Praxigento_BonusBase::admin_bonus"/>
+             title="Types"
+             translate="title"
+             module="Praxigento_BonusBase"
+             sortOrder="400"
+             parent="Praxigento_BonusBase::bonus_types"
+             action="bonus/type_calc"
+             resource="Praxigento_BonusBase::admin_bonus"/>
+
+
     </menu>
 </config>
