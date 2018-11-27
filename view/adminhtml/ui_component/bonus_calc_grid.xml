@@ -47,7 +47,8 @@
     <!-- **************************************************** -->
     <columns name="bonus_calc_columns">
 
-        <column name="period">
+        <column name="period"
+                component="Praxigento_Core/js/grid/columns/integer">
             <settings>
                 <dataType>number</dataType>
                 <filter>text</filter>
@@ -63,7 +64,8 @@
             </settings>
         </column>
 
-        <column name="calcTypeId">
+        <column name="calcTypeId"
+                component="Praxigento_Core/js/grid/columns/integer">
             <settings>
                 <dataType>number</dataType>
                 <filter>text</filter>
