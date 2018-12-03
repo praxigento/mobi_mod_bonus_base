@@ -20,32 +20,28 @@ use Praxigento\Downline\Service\Map\Request\TreeByTeams as DownlineMapTreeByTeam
 class Call
     implements \Praxigento\BonusBase\Service\ICompress
 {
+    /** @var \Praxigento\BonusBase\Repo\Dao\Compress */
+    private $daoBonusCompress;
     /** @var  \Praxigento\Downline\Service\IMap */
     private $daoDownlineMap;
-    /** @var   \Praxigento\Downline\Service\ISnap */
-    private $servDownlineSnap;
     /** @var  \Praxigento\Downline\Api\Helper\Tree */
     private $hlpTree;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
     private $logger;
     /** @var  \Praxigento\Core\Api\App\Repo\Transaction\Manager */
     private $manTrans;
-    /** @var \Praxigento\BonusBase\Repo\Dao\Compress */
-    private $daoBonusCompress;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
         \Praxigento\Core\Api\App\Repo\Transaction\Manager $manTrans,
         \Praxigento\BonusBase\Repo\Dao\Compress $daoBonusCompress,
         \Praxigento\Downline\Service\IMap $daoDownlineMap,
-        \Praxigento\Downline\Service\ISnap $servDownlineSnap,
         \Praxigento\Downline\Api\Helper\Tree $hlpTree
     ) {
         $this->logger = $logger;
         $this->manTrans = $manTrans;
         $this->daoBonusCompress = $daoBonusCompress;
         $this->daoDownlineMap = $daoDownlineMap;
-        $this->servDownlineSnap = $servDownlineSnap;
         $this->hlpTree = $hlpTree;
     }
 
