@@ -18,11 +18,13 @@ class QueryBuilder
     /**#@+
      * Aliases for data attributes.
      */
+    const A_CALC_ID = 'calcId';
     const A_CALC_TYPE_CODE = 'calcTypeCode';
     const A_CALC_TYPE_ID = 'calcTypeId';
     const A_DATE_ENDED = 'dateEnded';
     const A_DATE_STARTED = 'dateStarted';
     const A_PERIOD = 'period';
+    const A_PERIOD_ID = 'periodId';
     const A_STATE = 'state';
     /**#@- */
 
@@ -40,11 +42,13 @@ class QueryBuilder
     {
         if (is_null($this->mapper)) {
             $map = [
-                self::A_PERIOD > self::AS_BON_BASE_PERIOD . '.' . $this->getExpForPeriod(),
-                self::A_CALC_TYPE_CODE > self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::A_CODE,
-                self::A_CALC_TYPE_ID > self::AS_BON_BASE_PERIOD . '.' . EPeriod::A_CALC_TYPE_ID,
-                self::A_DATE_STARTED => self::AS_BON_BASE_CALC . '.' . ECalculation::A_DATE_STARTED,
+                self::A_CALC_ID => self::AS_BON_BASE_CALC . '.' . ECalculation::A_ID,
+                self::A_CALC_TYPE_CODE => self::AS_BON_BASE_TYPE_CALC . '.' . ETypeCalc::A_CODE,
+                self::A_CALC_TYPE_ID => self::AS_BON_BASE_PERIOD . '.' . EPeriod::A_CALC_TYPE_ID,
                 self::A_DATE_ENDED => self::AS_BON_BASE_CALC . '.' . ECalculation::A_DATE_ENDED,
+                self::A_DATE_STARTED => self::AS_BON_BASE_CALC . '.' . ECalculation::A_DATE_STARTED,
+                self::A_PERIOD => $this->getExpForPeriod(),
+                self::A_PERIOD_ID => self::AS_BON_BASE_CALC . '.' . ECalculation::A_PERIOD_ID,
                 self::A_STATE => self::AS_BON_BASE_CALC . '.' . ECalculation::A_STATE
             ];
             $this->mapper = new \Praxigento\Core\App\Repo\Query\Criteria\Def\Mapper($map);
@@ -59,12 +63,14 @@ class QueryBuilder
         /* define tables aliases for internal usage (in this method) */
         $asCalc = self::AS_BON_BASE_CALC;
 
-        /* SELECT FROM prxgt_acc_type_asset */
+        /* SELECT FROM prxgt_bon_base_calc */
         $tbl = $this->resource->getTableName(ECalculation::ENTITY_NAME);
         $as = $asCalc;
         $cols = [
-            self::A_DATE_STARTED => ECalculation::A_DATE_STARTED,
+            self::A_CALC_ID => ECalculation::A_ID,
             self::A_DATE_ENDED => ECalculation::A_DATE_ENDED,
+            self::A_DATE_STARTED => ECalculation::A_DATE_STARTED,
+            self::A_PERIOD_ID => ECalculation::A_PERIOD_ID,
             self::A_STATE => ECalculation::A_STATE
         ];
         $result->from([$as => $tbl], $cols);

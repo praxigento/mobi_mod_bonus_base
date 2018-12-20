@@ -56,6 +56,24 @@
             </settings>
         </column>
 
+        <column name="periodId"
+                component="Praxigento_Core/js/grid/columns/integer">
+            <settings>
+                <dataType>number</dataType>
+                <filter>text</filter>
+                <label translate="true">Period ID</label>
+            </settings>
+        </column>
+
+        <column name="calcId"
+                component="Praxigento_Core/js/grid/columns/integer">
+            <settings>
+                <dataType>number</dataType>
+                <filter>text</filter>
+                <label translate="true">Calc. ID</label>
+            </settings>
+        </column>
+
         <column name="calcTypeCode">
             <settings>
                 <dataType>text</dataType>
