@@ -48,7 +48,7 @@
     <columns name="bonus_calc_columns">
 
         <column name="id"
-                component="Praxigento_Core/js/grid/columns/integer">
+                component="Praxigento_Core/js/grid/column/integer">
             <settings>
                 <dataType>number</dataType>
                 <filter>text</filter>
