@@ -49,7 +49,7 @@ class Call
     {
         $req = new DownlineMapByIdRequest();
         $req->setDataToMap($tree);
-        $req->setAsId(ESnap::A_CUSTOMER_ID);
+        $req->setAsId(ESnap::A_CUSTOMER_REF);
         $resp = $this->daoDownlineMap->byId($req);
         return $resp->getMapped();
     }
@@ -57,8 +57,8 @@ class Call
     private function _mapByTeams($tree)
     {
         $req = new DownlineMapTreeByTeamsRequest();
-        $req->setAsCustomerId(ESnap::A_CUSTOMER_ID);
-        $req->setAsParentId(ESnap::A_PARENT_ID);
+        $req->setAsCustomerId(ESnap::A_CUSTOMER_REF);
+        $req->setAsParentId(ESnap::A_PARENT_REF);
         $req->setDataToMap($tree);
         $resp = $this->daoDownlineMap->treeByTeams($req);
         return $resp->getMapped();
@@ -68,7 +68,7 @@ class Call
     {
         $req = new DownlineMapTreeByDepthRequest();
         $req->setDataToMap($tree);
-        $req->setAsCustomerId(ESnap::A_CUSTOMER_ID);
+        $req->setAsCustomerId(ESnap::A_CUSTOMER_REF);
         $req->setAsDepth(ESnap::A_DEPTH);
         $req->setShouldReversed(true);
         $resp = $this->daoDownlineMap->treeByDepth($req);
@@ -93,7 +93,7 @@ class Call
         if ($skipExpand) {
             $treeExpanded = $treeFlat;
         } else {
-            $treeExpanded = $this->hlpTree->expandMinimal($treeFlat, ESnap::A_PARENT_ID);
+            $treeExpanded = $this->hlpTree->expandMinimal($treeFlat, ESnap::A_PARENT_REF);
         }
         $mapById = $this->_mapById($treeExpanded);
         $mapDepth = $this->_mapByTreeDepthDesc($treeExpanded);
@@ -126,7 +126,7 @@ class Call
                         foreach ($team as $memberId) {
                             if (isset($treeCompressed[$memberId])) {
                                 /* if null set customer own id to indicate root node */
-                                $treeCompressed[$memberId][ESnap::A_PARENT_ID] = is_null($foundParentId)
+                                $treeCompressed[$memberId][ESnap::A_PARENT_REF] = is_null($foundParentId)
                                     ? $memberId
                                     : $foundParentId;
                             }
@@ -147,7 +147,7 @@ class Call
                 $data = [
                     ECompress::A_CALC_ID => $calcId,
                     ECompress::A_CUSTOMER_ID => $custId,
-                    ECompress::A_PARENT_ID => $item[ESnap::A_PARENT_ID]
+                    ECompress::A_PARENT_ID => $item[ESnap::A_PARENT_REF]
                 ];
                 $this->daoBonusCompress->create($data);
             }
