@@ -82,6 +82,8 @@ class Last
             $period->setDstampBegin($entry[QCalcs::A_DS_BEGIN]);
             $period->setDstampEnd($entry[QCalcs::A_DS_BEGIN]);
             $result->setPeriod($period);
+
+            $result->markSucceed();
         }
 
         /** compose result */
