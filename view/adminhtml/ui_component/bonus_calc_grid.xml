@@ -99,19 +99,23 @@
             </settings>
         </column>
 
-        <column name="dateStarted">
+        <column name="dateStarted"
+                class="Magento\Ui\Component\Listing\Columns\Date"
+                component="Magento_Ui/js/grid/columns/date">
             <settings>
-                <dataType>text</dataType>
-                <filter>text</filter>
+                <dataType>date</dataType>
+                <filter>dateRange</filter>
                 <label translate="true">Started at</label>
                 <sorting>desc</sorting>
             </settings>
         </column>
 
-        <column name="dateEnded">
+        <column name="dateEnded"
+                class="Magento\Ui\Component\Listing\Columns\Date"
+                component="Magento_Ui/js/grid/columns/date">
             <settings>
-                <dataType>text</dataType>
-                <filter>text</filter>
+                <dataType>date</dataType>
+                <filter>dateRange</filter>
                 <label translate="true">Ended at</label>
             </settings>
         </column>
