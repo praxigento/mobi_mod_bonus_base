@@ -5,14 +5,19 @@
 
 namespace Praxigento\BonusBase\Service\Period\Calc\Get;
 
+use Praxigento\BonusBase\Api\Service\Period\Calc\Get\Basis\Response as AResponse;
 use Praxigento\BonusBase\Config as Cfg;
 use Praxigento\BonusBase\Repo\Data\Calculation as ECalc;
 use Praxigento\BonusBase\Repo\Data\Type\Calc as ECalcType;
 use Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder as QBGetCalc;
 
 class Basis
-    implements IBasis
+    implements \Praxigento\BonusBase\Api\Service\Period\Calc\Get\Basis
 {
+    /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
+    protected $daoCalc;
+    /** @var \Praxigento\BonusBase\Repo\Dao\Period */
+    protected $daoPeriod;
     /** @var \Praxigento\Core\Api\Helper\Period */
     protected $hlpPeriod;
     /** @var \Praxigento\Core\Api\App\Logger\Main */
@@ -23,10 +28,6 @@ class Basis
     protected $qbGetFirstDate;
     /** @var \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder */
     protected $qbGetPeriod;
-    /** @var \Praxigento\BonusBase\Repo\Dao\Calculation */
-    protected $daoCalc;
-    /** @var \Praxigento\BonusBase\Repo\Dao\Period */
-    protected $daoPeriod;
 
     public function __construct(
         \Praxigento\Core\Api\App\Logger\Main $logger,
@@ -36,8 +37,7 @@ class Basis
         \Praxigento\BonusBase\Repo\Query\Period\Calcs\Builder $qbGetPeriod,
         \Praxigento\Accounting\Repo\Query\Trans\Get\FirstDate\ByAssetType\Builder $qbGetFirstDate,
         \Praxigento\BonusBase\Service\Period\Calc\IAdd $procCalcAdd
-    )
-    {
+    ) {
         $this->logger = $logger;
         $this->hlpPeriod = $hlpPeriod;
         $this->daoCalc = $daoCalc;
@@ -85,17 +85,17 @@ class Basis
         return [$periodId, $calcId, $err];
     }
 
-    public function exec(\Praxigento\Core\Data $ctx)
+    public function execute($req)
     {
+        $result = new \Praxigento\BonusBase\Api\Service\Period\Calc\Get\Basis\Response();
         /* get working data from context */
-        $calcTypeCode = $ctx->get(self::CTX_IN_CALC_CODE);
-        $assetTypeCode = $ctx->get(self::CTX_IN_ASSET_TYPE_CODE);
-        $periodType = $ctx->get(self::CTX_IN_PERIOD_TYPE) ?? \Praxigento\Core\Api\Helper\Period::TYPE_MONTH;
+        $calcTypeCode = $req->getCalcCode();
+        $assetTypeCode = $req->getAssetTypeCode();
+        $periodType = $req->getPeriodType() ?? \Praxigento\Core\Api\Helper\Period::TYPE_MONTH;
 
         /**
          * perform processing
          */
-        $ctx->set(self::CTX_OUT_SUCCESS, false);
         $this->logger->info("'Get basis period calculation' processing is started ($calcTypeCode).");
         /* get the last period data for given calculation type */
         $periodLast = $this->queryLastPeriod($calcTypeCode);
@@ -105,13 +105,13 @@ class Basis
             $dateFirst = $this->queryFirstDate($assetTypeCode);
             if ($dateFirst === false) {
                 $this->logger->info("There is no '$assetTypeCode' transactions yet. Nothing to do.");
-                $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_NO_TRANS_YET);
+                $result->setErrorCode(AResponse::ERR_NO_TRANS_YET);
             } else {
                 $this->logger->info("First '$assetTypeCode' transaction was performed at '$dateFirst'.");
                 list($periodId, $calcId, $err) = $this->addPeriodCalc($dateFirst, $periodType, $calcTypeCode);
                 /* put result data into context */
                 if (!$err) {
-                    $this->populateContext($ctx, $periodId, $calcId);
+                    $this->populateResponse($result, $periodId, $calcId);
                 }
             }
         } else {
@@ -122,7 +122,7 @@ class Basis
                 . "(#$calcId:$calcState) for type $calcTypeCode.");
             if ($calcState != Cfg::CALC_STATE_COMPLETE) {
                 /* calculation is not complete for the period */
-                $ctx->set(self::CTX_OUT_ERROR_CODE, self::ERR_CALC_NOT_COMPLETE);
+                $result->setErrorCode(AResponse::ERR_CALC_NOT_COMPLETE);
             } else {
                 /* there is complete calculation for the last period, start new period if it is possible */
                 $periodEnd = $periodLast[QBGetCalc::A_DS_END];
@@ -130,33 +130,28 @@ class Basis
                 list($periodId, $calcId, $err) = $this->addPeriodCalc($dateNext, $periodType, $calcTypeCode);
                 /* put result data into context */
                 if (!$err) {
-                    $this->populateContext($ctx, $periodId, $calcId);
+                    $this->populateResponse($result, $periodId, $calcId);
                 }
             }
         }
         $this->logger->info("'Get basis period calculation' processing is completed ($calcTypeCode).");
+        return $result;
     }
 
     /**
-     * Populate execution context with result data if no error.
+     * Populate service response with result data if no error.
      *
-     * @param \Praxigento\Core\Data $ctx
+     * @param \Praxigento\BonusBase\Api\Service\Period\Calc\Get\Basis\Response $response
      * @param int $periodId
      * @param int $calcId
      */
-    private function populateContext($ctx, $periodId, $calcId)
+    private function populateResponse($response, $periodId, $calcId)
     {
-        $loadData = $ctx->get(self::CTX_IN_LOAD_DATA) ?? true;
-
-        $ctx->set(self::CTX_OUT_PERIOD_ID, $periodId);
-        $ctx->set(self::CTX_OUT_CALC_ID, $calcId);
-        $ctx->set(self::CTX_OUT_SUCCESS, true);
-        if ($loadData) {
-            $periodData = $this->daoPeriod->getById($periodId);
-            $calcData = $this->daoCalc->getById($calcId);
-            $ctx->set(self::CTX_OUT_PERIOD_DATA, $periodData);
-            $ctx->set(self::CTX_OUT_CALC_DATA, $calcData);
-        }
+        $periodData = $this->daoPeriod->getById($periodId);
+        $calcData = $this->daoCalc->getById($calcId);
+        $response->setPeriodData($periodData);
+        $response->setCalcData($calcData);
+        $response->setErrorCode(AResponse::ERR_NO_ERROR);
     }
 
     /**

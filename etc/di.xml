@@ -29,7 +29,7 @@
     <!-- ******** -->
     <preference for="Praxigento\BonusBase\Service\Period\Calc\IAdd"
                 type="Praxigento\BonusBase\Service\Period\Calc\Add"/>
-    <preference for="Praxigento\BonusBase\Service\Period\Calc\Get\IBasis"
+    <preference for="Praxigento\BonusBase\Api\Service\Period\Calc\Get\Basis"
                 type="Praxigento\BonusBase\Service\Period\Calc\Get\Basis"/>
 
 
